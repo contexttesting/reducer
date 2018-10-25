@@ -1,48 +1,26 @@
-const NOTIFY = () => {}
-const run = async (notify = NOTIFY, hasFocused) => {
-  notify('ok')
-}
+export { default as run } from './lib/run'
+export { default as reducer } from './lib/reducer'
 
+/* documentary types/context.xml */
 /**
- * Run all tests in sequence, one by one.
- * This also runs only selected tests, e.g., !test
- * @param {Test[]} tests An array with tests to reduce
- * @param {Config} config Options for the reducer.
- * @param {boolean} [config.onlyFocused=false] Run only focused tests. Default `false`.
- * @param {function} config.notify The notify function to be passed to run method.
- * @param {Test} config.Test The constructor of the Test class.
+ * @typedef {Object} Context A context made with a constructor.
+ * @prop {() => void} [_init] A function to initialise the context.
+ * @prop {() => void} [_destroy] A function to destroy the context.
+ *
+ * @typedef {{new(...args: any[]): Context}} ContextConstructor A function or class or object that makes a context
  */
-const reducer = async (tests, config) => {
-  const {
-    onlyFocused = false,
-    notify = NOTIFY,
-    Test,
-  } = config
-  const newState = await tests.reduce(async (acc, test) => {
-    const accRes = await acc
-    let res
-    if (!onlyFocused) {
-      res = await run(notify)
-    } else if (test instanceof Test && test.isFocused) {
-      res = await run(notify)
-    // a test suite
-    } else if (test.isSelfFocused) {
-      res = await run(notify, test.hasFocused)
-    } else if (test.hasFocused) {
-      res = await run(notify, true)
-    }
-    return [...accRes, res]
-  }, [])
-
-  return newState
-}
-
-export default reducer
 
 /* documentary types/reducer.xml */
 /**
  * @typedef {Object} Config Options for the reducer.
  * @prop {boolean} [onlyFocused=false] Run only focused tests. Default `false`.
  * @prop {function} notify The notify function to be passed to run method.
- * @prop {Test} Test The constructor of the Test class.
+ */
+
+/* documentary types/run.xml */
+/**
+ * @typedef {Object} Run Options for the run function.
+ * @prop {ContextConstructor[]} [context] Any context constructors for the test to be evaluated.
+ * @prop {number} [timeout=null] The timeout for the test, context evaluation and destruction. Default `null`.
+ * @prop {function} fn The test function to run.
  */

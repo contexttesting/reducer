@@ -2,7 +2,7 @@ import runTest from './run'
 import { dumpResult } from '.'
 
 /**
- * Run the test.
+ * Run the test (wrapped around notify)
  * @param {{ name: string, context: ContextConstructor, fn: function, timeout?: number }} param1
  * @param {function} notify - notify function
  */
@@ -74,17 +74,7 @@ export default reducer
 
 /* documentary types/context.xml */
 /**
- * @typedef {Object} Context A context made with a constructor.
- * @prop {() => void} [_init] A function to initialise the context.
- * @prop {() => void} [_destroy] A function to destroy the context.
- *
- * @typedef {{new(...args: any[]): Context}} ContextConstructor A function or class or object that makes a context
- */
-
-/* documentary types/reducer.xml */
-/**
- * @typedef {Object} Config Options for the reducer.
- * @prop {boolean} [onlyFocused=false] Run only focused tests. Default `false`.
- * @prop {function} notify The notify function to be passed to run method.
- * @prop {Test} Test The constructor of the Test class.
+ * @typedef {import('..').Context} Context A context made with a constructor.
+ * @typedef {import('..').Config} Config Options for the reducer.
+ * @typedef {import('..').ContextConstructor} ContextConstructor A function or class or object that makes a context
  */
