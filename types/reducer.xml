@@ -6,8 +6,5 @@
     <prop type="function" name="notify">
       The notify function to be passed to run method.
     </prop>
-    <prop type="Test" name="Test">
-      The constructor of the Test class.
-    </prop>
   </type>
 </types>

@@ -7,4 +7,6 @@
       A function to destroy the context.
     </prop>
   </type>
+  <type type="{new(...args: any[]): Context}" name="ContextConstructor" desc="A function or class or object that makes a context">
+  </type>
 </types>
