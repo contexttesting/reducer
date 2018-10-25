@@ -1,0 +1,13 @@
+<types>
+  <type name="Run" desc="Options for the run function.">
+    <prop opt type="ContextConstructor[]" name="context">
+      Any context constructors for the test to be evaluated.
+    </prop>
+    <prop number name="timeout" default="null">
+      The timeout for the test, context evaluation and destruction.
+    </prop>
+    <prop type="function" name="fn">
+      The test function to run.
+    </prop>
+  </type>
+</types>
