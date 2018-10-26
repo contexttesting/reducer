@@ -2,7 +2,7 @@
 
 %NPM: @zoroaster/reducer%
 
-`@zoroaster/reducer` is The test suite reducer to run each test and see whether it passes or fails.
+`@zoroaster/reducer` is the test suite reducer to run each test and see whether it passes or fails.
 
 ```sh
 yarn add -E @zoroaster/reducer

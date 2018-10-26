@@ -63,4 +63,5 @@ export default reducer
  * @typedef {import('@zoroaster/types').Context} Context
  * @typedef {import('@zoroaster/types').ContextConstructor} ContextConstructor
  * @typedef {import('../../types').Test} Test
+ * @typedef {import('../../types').Config} Config
  */

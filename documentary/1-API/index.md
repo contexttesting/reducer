@@ -1,25 +1,36 @@
 ## API
 
-The package is available by importing its default function:
+The package is available by importing its default reducer and the `runTest` function:
 
 ```js
-import reducer from '@zoroaster/reducer'
+import reducer, { runTest } from '@zoroaster/reducer'
 ```
 
 %~%
 
 ```## reducer
 [
-  ["arg1", "string"],
-  ["arg2?", "boolean"]
+  ["tests", "Test[]"],
+  ["config?", "Config"]
 ]
 ```
 
-Call this function to get the result you want.
+Runs the tests in the array if necessary and returns a new array.
 
-%TYPEDEF types/index.xml%
+%TYPEDEF types/reducer.xml%
+%TYPEDEF types/test.xml%
 
-%EXAMPLE: example/example.js, ../src => @zoroaster/reducer%
-%FORK example example/example%
+%~%
+
+```## runTest
+[
+  ["config", "RunTest"]
+]
+```
+
+Asynchronously runs the test within a time-out limit. Evaluates the contexts beforehand and destroys them after.
+
+%TYPEDEF types/reducer.xml%
+%TYPEDEF types/run-test.xml%
 
 %~%
