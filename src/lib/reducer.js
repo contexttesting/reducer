@@ -14,8 +14,8 @@ async function run({
     type: 'test-start',
   })
   const res = await runTest({
-    context,
     fn,
+    context,
     timeout,
   })
   const { error } = res
@@ -38,8 +38,21 @@ const NOTIFY = () => {}
  * @param {Config} config Options for the reducer.
  * @param {boolean} [config.onlyFocused=false] Run only focused tests. Default `false`.
  * @param {function} config.notify The notify function to be passed to run method.
+ * @example
+ *
+ * // The test type
+ * type Test = {
+ *   context?: (new (...args: any[]) => Context)[];
+ *   timeout?: number;
+ *   name: number;
+ *   isFocused?: boolean;
+ *   isTest?: boolean;
+ *   isSelfFocused?: boolean;
+ *   hasFocused?: boolean;
+ *   fn: Function;
+ * }
  */
-const reducer = async (tests, config) => {
+const reducer = async (tests, config = {}) => {
   const {
     onlyFocused = false,
     notify = NOTIFY,
@@ -47,7 +60,7 @@ const reducer = async (tests, config) => {
   const newState = await tests.reduce(async (acc, {
     context, fn, name, timeout, isFocused,
     // test:
-    isTest,
+    isTest = true,
     // ts:
     isSelfFocused, hasFocused,
   }) => {
@@ -64,7 +77,7 @@ const reducer = async (tests, config) => {
     } else if (hasFocused) {
       res = await run(notify, true)
     }
-    return [...accRes, res]
+    return res ? [...accRes, res] : accRes
   }, [])
 
   return newState
@@ -76,5 +89,6 @@ export default reducer
 /**
  * @typedef {import('..').Context} Context A context made with a constructor.
  * @typedef {import('..').Config} Config Options for the reducer.
+ * @typedef {import('..').Test} Test The test.
  * @typedef {import('..').ContextConstructor} ContextConstructor A function or class or object that makes a context
  */

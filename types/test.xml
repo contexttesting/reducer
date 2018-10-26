@@ -1,0 +1,34 @@
+<types>
+  <type name="Test" desc="The test type as used by the reducer.">
+    <prop opt type="ContextConstructor[]" name="context">
+      Any context constructors for the test to be evaluated.
+    </prop>
+    <prop number name="timeout" default="null">
+      The timeout for the test, context evaluation and destruction.
+    </prop>
+    <prop number name="name">
+      The name of the test.
+    </prop>
+    <prop boolean name="isFocused" default="false">
+      If the test is focused.
+    </prop>
+    <prop boolean name="isTest" default="true">
+      If it is a test and not a test suite.
+    </prop>
+    <prop opt boolean name="isSelfFocused">
+      The property of the test suite such that it is focused.
+    </prop>
+    <prop opt boolean name="hasFocused">
+      Whether the test suite has focused tests.
+    </prop>
+    <prop type="function" name="fn">
+      The test function to run.
+    </prop>
+  </type>
+</types>
+
+context, fn, name, timeout, isFocused,
+    // test:
+    isTest,
+    // ts:
+    isSelfFocused, hasFocused,

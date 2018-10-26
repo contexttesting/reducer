@@ -12,11 +12,12 @@
     "lint": "eslint .",
     "doc": "NODE_DEBUG=doc doc documentary -o README.md",
     "b": "alamode src -o build -s",
-    "d": "yarn-s d1 d2 d3",
+    "d": "yarn-s d1 d2 d3, d4, d5",
     "d1": "NODE_DEBUG=doc doc src/lib/reducer.js -g",
     "d2": "NODE_DEBUG=doc doc src/lib/index.js -g",
     "d3": "NODE_DEBUG=doc doc src/lib/run.js -g",
     "d4": "NODE_DEBUG=doc doc src/index.js -g",
+    "d5": "NODE_DEBUG=doc doc test/context/index.js -g",
     "build": "yarn-s d b doc",
     "rec": "NODE_DEBUG=appshot appshot -T 23 -a Terminal -y 150 -f",
     "e": "node example",
@@ -40,11 +41,11 @@
   },
   "homepage": "https://github.com/contexttesting/reducer#readme",
   "devDependencies": {
-    "alamode": "1.5.1",
+    "alamode": "1.6.0",
     "documentary": "1.20.1",
     "eslint-config-artdeco": "1.0.1",
     "yarn-s": "1.1.0",
-    "zoroaster": "3.5.2"
+    "zoroaster": "3.6.4"
   },
   "dependencies": {
     "promto": "1.0.1"

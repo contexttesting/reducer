@@ -1,24 +1,23 @@
 import { equal, ok } from 'zoroaster/assert'
-import Context from '../context'
+import * as C from '../context'
 import Private from '../context/Private'
 
-const C = { c1: 123, c2: 456, name: 'test' }
-const CONTEXT = [Private, C, 'RES', Context]
+const CONTEXT = [Private, { ...C }]
 
-/** @type {Object.<string, (api: Private, r0: C, r: 'RES-test', c: Context)>} */
+/** @type {Object.<string, (api: Private, r0: C)>} */
 const T = {
   context: CONTEXT,
   'is a function'({ run }) {
     equal(typeof run, 'function')
   },
-  async 'runs a test function with contexts'({ run }, { c1, c2, name }) {
+  async 'runs a test function with contexts'({ run }, { c1, c2, NAME }) {
     const { result } = await run({
       /**
        * @param {c1} _c1
        * @param {c2} _c2
        */
       fn(_c1, _c2) {
-        return `${_c1}-${name}-${_c2}`
+        return `${_c1}-${NAME}-${_c2}`
       },
       context: [c1, c2],
     })
@@ -35,28 +34,23 @@ const T = {
     const msg = `Test has timed out after ${timeout}ms`
     equal(message, msg)
   },
-  async 'runs a test'({ run }) {
-    const { error, result, finished, started } = await run({
-      fn() {},
-    })
-    equal(error, null)
-    equal(result, null)
+  async 'runs a test'({ run }, { test }) {
+    const { error, result, finished, started } = await run(test)
+    ok(error === null)
+    ok(result === undefined)
     ok(finished)
     ok(started)
   },
-  async 'saves result of a test'({ run }, { name }) {
-    const { result } = await run({
-      fn() { return name },
-    })
-    equal(result, result)
+  async 'saves result of a test'({ run }, { test }) {
+    const F = 'F'
+    const { result } = await run({ ...test, fn: () => F })
+    equal(result, F)
   },
-  async 'runs a test with an error'({ run }, { name }) {
-    const { error, result } = await run({
-      fn() { throw new Error(name) },
-    })
+  async 'runs a test with an error'({ run }, { test }) {
+    const E = new Error('Test')
+    const { result, error } = await run({ ...test, fn: () => { throw E } })
     equal(result, null)
-    ok(error)
-    equal(error.message, name)
+    equal(error, E)
   },
   // async 'gets a link to the fixture'({ FIXTURE }) {
   //   const res = await reducer({
