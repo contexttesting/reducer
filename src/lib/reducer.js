@@ -60,7 +60,7 @@ const reducer = async (tests, config = {}) => {
 export default reducer
 
 /**
- * @typedef {import('..').Context} Context
- * @typedef {import('..').ContextConstructor} ContextConstructor
- * @typedef {import('..').Test} Test
+ * @typedef {import('@zoroaster/types').Context} Context
+ * @typedef {import('@zoroaster/types').ContextConstructor} ContextConstructor
+ * @typedef {import('../../types').Test} Test
  */
