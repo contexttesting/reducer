@@ -1,3 +1,4 @@
+process.env.ALAMODE_ENV == 'test-build' && console.log('> test %s', require('path').relative('', __filename))
 const runTest = require('./run');
 const { dumpResult } = require('.');
 

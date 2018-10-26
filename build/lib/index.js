@@ -1,3 +1,4 @@
+process.env.ALAMODE_ENV == 'test-build' && console.log('> test %s', require('path').relative('', __filename))
 const { EOL } = require('os');
 let cleanStack = require('@artdeco/clean-stack'); if (cleanStack && cleanStack.__esModule) cleanStack = cleanStack.default;
 

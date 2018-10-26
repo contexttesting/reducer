@@ -1,8 +1,9 @@
 import { equal, ok } from 'zoroaster/assert'
-import * as C from '../context'
-import Private from '../context/Private'
+import * as C from '../../context'
+import Private from '../../context/Private'
 
 const CONTEXT = [Private, { ...C }]
+return
 
 /** @type {Object.<string, (api: Private, r0: C)>} */
 const T = {
@@ -60,4 +61,4 @@ const T = {
   // },
 }
 
-export default T
+// export default T

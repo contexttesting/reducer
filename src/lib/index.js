@@ -1,3 +1,4 @@
+process.env.ALAMODE_ENV == 'test-build' && console.log('> test %s', require('path').relative('', __filename))
 import { EOL } from 'os'
 import cleanStack from '@artdeco/clean-stack'
 
