@@ -20,7 +20,11 @@ const runTest = async (options) => {
       evaluatedContexts = await (timeout ? promto(e, timeout, 'Evaluate context') : e)
     }
     const r = fn(...evaluatedContexts)
-    result = await (timeout ? promto(r, timeout, 'Test') : r)
+    if (r instanceof Promise) {
+      result = await (timeout ? promto(r, timeout, 'Test') : r)
+    } else {
+      result = r
+    }
   } catch (err) {
     error = err
   }

@@ -31,6 +31,16 @@ const T = {
     const msg = `Test has timed out after ${timeout}ms`
     equal(message, msg)
   },
+  async 'runs sync test with a timeout'({ runTest }) {
+    const timeout = 100
+    const OK = 'ok'
+    const fn = () => OK
+    const { result, error } = await runTest({
+      fn, timeout,
+    })
+    if (error) throw error
+    equal(result, OK)
+  },
   async 'runs a test'({ runTest }, { test }) {
     const { error, result, finished, started } = await runTest(test)
     ok(error === null)
