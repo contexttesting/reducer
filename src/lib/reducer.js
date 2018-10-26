@@ -1,36 +1,5 @@
 process.env.ALAMODE_ENV == 'test-build' && console.log('> test %s', require('path').relative('', __filename))
-import runTest from './run'
-import { dumpResult } from '.'
-
-/**
- * Run the test (wrapped around notify)
- * @param {{ name: string, context: ContextConstructor, fn: function, timeout?: number }} param1
- * @param {function} notify - notify function
- */
-async function _run({
-  name, context, fn, timeout,
-}, notify = NOTIFY) {
-  notify({
-    name,
-    type: 'test-start',
-  })
-  const res = await runTest({
-    fn,
-    context,
-    timeout,
-  })
-  const { error } = res
-  notify({
-    // test,
-    name,
-    error,
-    type: 'test-end',
-    result: dumpResult({ error, name }),
-  })
-  return res
-}
-
-const NOTIFY = () => {}
+import runTest from './run-test'
 
 /**
  * Run all tests in sequence, one by one.
@@ -56,7 +25,7 @@ const NOTIFY = () => {}
 const reducer = async (tests, config = {}) => {
   const {
     onlyFocused = false,
-    notify = NOTIFY,
+    notify,
   } = config
   const newState = await tests.reduce(async (acc, {
     context, name, timeout,
@@ -69,9 +38,9 @@ const reducer = async (tests, config = {}) => {
     let res
     const t = { name, context, fn, timeout }
     if (!onlyFocused) {
-      res = await _run(t, notify)
+      res = await runTest(t, notify)
     } else if (isTest && isFocused) {
-      res = await _run(t, notify)
+      res = await runTest(t, notify)
     // a test suite (not tested)
     } else if (isSelfFocused) {
       console.warn('not implemented')
@@ -92,8 +61,22 @@ export default reducer
 
 /* documentary types/context.xml */
 /**
- * @typedef {import('..').Context} Context A context made with a constructor.
- * @typedef {import('..').Config} Config Options for the reducer.
- * @typedef {import('..').Test} Test The test.
- * @typedef {import('..').ContextConstructor} ContextConstructor A function or class or object that makes a context
+ * @typedef {Object} Context A context made with a constructor.
+ * @prop {() => void} [_init] A function to initialise the context.
+ * @prop {() => void} [_destroy] A function to destroy the context.
+ *
+ * @typedef {{new(...args: any[]): Context}} ContextConstructor A function or class or object that makes a context
+ */
+
+/* documentary types/test.xml */
+/**
+ * @typedef {Object} Test The test type as used by the reducer.
+ * @prop {ContextConstructor[]} [context] Any context constructors for the test to be evaluated.
+ * @prop {number} [timeout=null] The timeout for the test, context evaluation and destruction. Default `null`.
+ * @prop {number} name The name of the test.
+ * @prop {boolean} [isFocused=false] If the test is focused. Default `false`.
+ * @prop {boolean} [isTest=true] If it is a test and not a test suite. Default `true`.
+ * @prop {boolean} [isSelfFocused] The property of the test suite such that it is focused.
+ * @prop {boolean} [hasFocused] Whether the test suite has focused tests.
+ * @prop {function} fn The test function to run.
  */

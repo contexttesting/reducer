@@ -7,7 +7,7 @@ const { dumpResult } = require('.');
  * @param {{ name: string, context: ContextConstructor, fn: function, timeout?: number }} param1
  * @param {function} notify - notify function
  */
-async function run({
+async function _run({
   name, context, fn, timeout,
 }, notify = NOTIFY) {
   notify({
@@ -59,24 +59,28 @@ const reducer = async (tests, config = {}) => {
     notify = NOTIFY,
   } = config
   const newState = await tests.reduce(async (acc, {
-    context, fn, name, timeout, isFocused,
+    context, name, timeout,
     // test:
-    isTest = true,
+    isTest = true, isFocused, fn,
     // ts:
     isSelfFocused, hasFocused,
   }) => {
     const accRes = await acc
     let res
-    const t = { context, fn, name, timeout, isFocused }
+    const t = { name, context, fn, timeout }
     if (!onlyFocused) {
-      res = await run(t, notify)
+      res = await _run(t, notify)
     } else if (isTest && isFocused) {
-      res = await run(t, notify)
-    // a test suite
+      res = await _run(t, notify)
+    // a test suite (not tested)
     } else if (isSelfFocused) {
-      res = await run(notify, hasFocused)
+      console.warn('not implemented')
+      return acc
+      // res = await _testSuiteRun(notify, hasFocused)
     } else if (hasFocused) {
-      res = await run(notify, true)
+      console.warn('not implemented')
+      return acc
+      // res = await _testSuiteRun(notify, true)
     }
     return res ? [...accRes, res] : accRes
   }, [])

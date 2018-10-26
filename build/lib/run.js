@@ -1,12 +1,12 @@
 let promto = require('promto'); if (promto && promto.__esModule) promto = promto.default;
 const { _evaluateContexts, destroyContexts } = require('.');
 
-/**
- * Create a promise for a test function.
- * @param {function} fn function to execute
- * @param {object[]} ctx Contexts to pass as arguments in order
- * @return {Promise} A promise to execute function.
- */
+// /**
+//  * Create a promise for a test function.
+//  * @param {function} fn function to execute
+//  * @param {object[]} ctx Contexts to pass as arguments in order
+//  * @return {Promise} A promise to execute function.
+//  */
 // async function createTestPromise(fn, contexts) {
 //   const res = await
 //   return res
@@ -19,7 +19,7 @@ const { _evaluateContexts, destroyContexts } = require('.');
  * @param {number} [options.timeout=null] The timeout for the test, context evaluation and destruction. Default `null`.
  * @param {function} options.fn The test function to run.
  */
-async function run(options) {
+const run = async (options) => {
   const { context, timeout = null, fn } = options
   const started = new Date()
   let error = null, result = null, destroyResult = null
