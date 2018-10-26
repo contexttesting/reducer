@@ -22,37 +22,35 @@ const runTest = require('./run-test');
  *   fn: Function;
  * }
  */
-const reducer = async (tests, config = {}) => {
+const reducer = async (tests = {}, config = {}) => {
   const {
     onlyFocused = false,
-    notify,
+    // notify,
   } = config
-  const newState = await tests.reduce(async (acc, {
-    context, name, timeout,
-    // test:
-    isTest = true, isFocused, fn,
-    // ts:
-    isSelfFocused, hasFocused,
-  }) => {
+  const newState = await Object.keys(tests).reduce(async (acc, key) => {
+    const val = tests[key]
+    const {
+      context, name, timeout,
+      // test:
+      isTest = true, isFocused, fn,
+      // ts:
+      isSelfFocused, hasFocused, tests: ts,
+    } = val
     const accRes = await acc
     let res
     const t = { name, context, fn, timeout }
-    if (!onlyFocused) {
-      res = await runTest(t, notify)
-    } else if (isTest && isFocused) {
-      res = await runTest(t, notify)
-    // a test suite (not tested)
-    } else if (isSelfFocused) {
-      console.warn('not implemented')
-      return acc
-      // res = await _testSuiteRun(notify, hasFocused)
-    } else if (hasFocused) {
-      console.warn('not implemented')
-      return acc
-      // res = await _testSuiteRun(notify, true)
+    const run = isTest
+      ? runTest.bind(null, t)
+      : reducer.bind(null, ts, { onlyFocused: hasFocused })
+
+    if (!onlyFocused || isFocused) {
+      res = await run()
+    } else if (isSelfFocused || hasFocused) { // test suite
+      res = await run()
     }
-    return res ? [...accRes, res] : accRes
-  }, [])
+    if (res) accRes[key] = res
+    return accRes
+  }, {})
 
   return newState
 }
