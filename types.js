@@ -1,14 +1,4 @@
-export { default as reducer } from './lib/reducer'
-export { default as runTest } from './lib/run-test'
-
-/* documentary types/context.xml */
-/**
- * @typedef {Object} Context A context made with a constructor.
- * @prop {() => void} [_init] A function to initialise the context.
- * @prop {() => void} [_destroy] A function to destroy the context.
- *
- * @typedef {{new(...args: any[]): Context}} ContextConstructor A function or class or object that makes a context
- */
+export {}
 
 /* documentary types/reducer.xml */
 /**
@@ -17,9 +7,9 @@ export { default as runTest } from './lib/run-test'
  * @prop {function} notify The notify function to be passed to run method.
  */
 
-/* documentary types/run.xml */
+/* documentary types/run-test.xml */
 /**
- * @typedef {Object} Run Options for the run function.
+ * @typedef {Object} RunTest Options for the runTest function.
  * @prop {ContextConstructor[]} [context] Any context constructors for the test to be evaluated.
  * @prop {number} [timeout=null] The timeout for the test, context evaluation and destruction. Default `null`.
  * @prop {function} fn The test function to run.
@@ -36,4 +26,9 @@ export { default as runTest } from './lib/run-test'
  * @prop {boolean} [isSelfFocused] The property of the test suite such that it is focused.
  * @prop {boolean} [hasFocused] Whether the test suite has focused tests.
  * @prop {function} fn The test function to run.
+ */
+
+/**
+ * @typedef {import('@zoroaster/types').Context} Context
+ * @typedef {import('@zoroaster/types').ContextConstructor} ContextConstructor
  */

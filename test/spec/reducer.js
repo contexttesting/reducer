@@ -1,4 +1,4 @@
-import { equal, deepEqual } from 'zoroaster/assert'
+import { deepEqual } from 'zoroaster/assert'
 import * as C from '../context'
 import Private from '../context/Private'
 
@@ -7,9 +7,6 @@ const CONTEXT = [Private, { ...C }]
 /** @type {Object.<string, (api: Private, r0: C)>} */
 const T = {
   context: CONTEXT,
-  'is a function'({ run }) {
-    equal(typeof run, 'function')
-  },
   async 'reduces a single test'({ reducer }, { assertDates, deleteDates, test }) {
     const res = await reducer([test])
     assertDates(res)

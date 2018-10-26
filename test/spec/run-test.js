@@ -1,18 +1,14 @@
 import { equal, ok } from 'zoroaster/assert'
-import * as C from '../../context'
-import Private from '../../context/Private'
+import * as C from '../context'
+import Private from '../context/Private'
 
 const CONTEXT = [Private, { ...C }]
-return
 
 /** @type {Object.<string, (api: Private, r0: C)>} */
 const T = {
   context: CONTEXT,
-  'is a function'({ run }) {
-    equal(typeof run, 'function')
-  },
-  async 'runs a test function with contexts'({ run }, { c1, c2, NAME }) {
-    const { result } = await run({
+  async 'runs a test function with contexts'({ runTest }, { c1, c2, NAME }) {
+    const { result } = await runTest({
       /**
        * @param {c1} _c1
        * @param {c2} _c2
@@ -24,32 +20,32 @@ const T = {
     })
     equal(result, '123-test-456')
   },
-  async 'fails test after specified timeout'({ run }) {
+  async 'fails test after specified timeout'({ runTest }) {
     const timeout = 100
     const fn = async () => {
       await new Promise(r => setTimeout(r, timeout + 100))
     }
-    const { error: { message } } = await run({
+    const { error: { message } } = await runTest({
       fn, timeout,
     })
     const msg = `Test has timed out after ${timeout}ms`
     equal(message, msg)
   },
-  async 'runs a test'({ run }, { test }) {
-    const { error, result, finished, started } = await run(test)
+  async 'runs a test'({ runTest }, { test }) {
+    const { error, result, finished, started } = await runTest(test)
     ok(error === null)
     ok(result === undefined)
     ok(finished)
     ok(started)
   },
-  async 'saves result of a test'({ run }, { test }) {
+  async 'saves result of a test'({ runTest }, { test }) {
     const F = 'F'
-    const { result } = await run({ ...test, fn: () => F })
+    const { result } = await runTest({ ...test, fn: () => F })
     equal(result, F)
   },
-  async 'runs a test with an error'({ run }, { test }) {
+  async 'runs a test with an error'({ runTest }, { test }) {
     const E = new Error('Test')
-    const { result, error } = await run({ ...test, fn: () => { throw E } })
+    const { result, error } = await runTest({ ...test, fn: () => { throw E } })
     equal(result, null)
     equal(error, E)
   },
@@ -61,4 +57,4 @@ const T = {
   // },
 }
 
-// export default T
+export default T

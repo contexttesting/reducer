@@ -1,10 +1,5 @@
 process.env.ALAMODE_ENV == 'test-build' && console.log('> test %s', require('path').relative('', __filename))
-const { EOL } = require('os');
-let cleanStack = require('@artdeco/clean-stack'); if (cleanStack && cleanStack.__esModule) cleanStack = cleanStack.default;
 
-       function indent(str, padding) {
-  return str.replace(/^(?!\s*$)/mg, padding)
-}
 /**
  * Evaluate a context or contexts in parallel.
  * @param {ContextConstructor[]} [contexts=[]] The context constructors (class, function, object).
@@ -82,50 +77,7 @@ let cleanStack = require('@artdeco/clean-stack'); if (cleanStack && cleanStack._
  */
 
 
-       function dumpResult({ error, name }) {
-  if (error === null) {
-    return `${TICK} ${name}`
-  } else {
-    return `${CROSS} ${name}` + EOL
-      + indent(filterStack({ error, name }), ' | ')
-  }
-}
-
-       function getPadding(level) {
-  return Array
-    .from({ length: level * 2 })
-    .join(' ')
-}
-
-/**
- * Get clean stack for a test, without Node internals
- * @param {Test} test - test
- */
-       function filterStack({ error, name }) {
-  if (!error) {
-    throw new Error('cannot filter stack when a test does not have an error')
-  }
-  const splitStack = error.stack.split('\n') // break stack by \n and not EOL intentionally because Node uses \n
-  // node 4 will print: at test_suite.test2
-  // node 6 will print: at test2
-  const regex = new RegExp(`at (.+\\.)?${name}`)
-  const resIndex = splitStack.findIndex(element => regex.test(element)) + 1
-  const joinedStack = splitStack.slice(0, resIndex).join('\n')
-  const stack = joinedStack ? joinedStack : cleanStack(error.stack) // use clean stack for async errors
-  return stack.replace(/\n/g, EOL)
-}
-
-
-const TICK = '\x1b[32m \u2713 \x1b[0m'
-const CROSS = '\x1b[31m \u2717 \x1b[0m'
-
-
-
-module.exports.indent = indent
 module.exports._evaluateContexts = _evaluateContexts
 module.exports.evaluateContext = evaluateContext
 module.exports.destroyContexts = destroyContexts
 module.exports.isFunction = isFunction
-module.exports.dumpResult = dumpResult
-module.exports.getPadding = getPadding
-module.exports.filterStack = filterStack

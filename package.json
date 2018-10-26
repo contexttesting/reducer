@@ -18,13 +18,16 @@
     "d3": "NODE_DEBUG=doc doc src/lib/run.js -g",
     "d4": "NODE_DEBUG=doc doc src/index.js -g",
     "d5": "NODE_DEBUG=doc doc test/context/index.js -g",
+    "d6": "NODE_DEBUG=doc doc types.js -g",
     "build": "yarn-s d b doc",
     "rec": "NODE_DEBUG=appshot appshot -T 23 -a Terminal -y 150 -f",
     "e": "node example",
     "example/": "yarn e example/example.js"
   },
   "files": [
-    "build"
+    "build",
+    "types",
+    "types.js"
   ],
   "repository": {
     "type": "git",

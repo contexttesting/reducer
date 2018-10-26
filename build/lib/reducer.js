@@ -1,36 +1,5 @@
 process.env.ALAMODE_ENV == 'test-build' && console.log('> test %s', require('path').relative('', __filename))
-const runTest = require('./run');
-const { dumpResult } = require('.');
-
-/**
- * Run the test (wrapped around notify)
- * @param {{ name: string, context: ContextConstructor, fn: function, timeout?: number }} param1
- * @param {function} notify - notify function
- */
-async function _run({
-  name, context, fn, timeout,
-}, notify = NOTIFY) {
-  notify({
-    name,
-    type: 'test-start',
-  })
-  const res = await runTest({
-    fn,
-    context,
-    timeout,
-  })
-  const { error } = res
-  notify({
-    // test,
-    name,
-    error,
-    type: 'test-end',
-    result: dumpResult({ error, name }),
-  })
-  return res
-}
-
-const NOTIFY = () => {}
+const runTest = require('./run-test');
 
 /**
  * Run all tests in sequence, one by one.
@@ -56,7 +25,7 @@ const NOTIFY = () => {}
 const reducer = async (tests, config = {}) => {
   const {
     onlyFocused = false,
-    notify = NOTIFY,
+    notify,
   } = config
   const newState = await tests.reduce(async (acc, {
     context, name, timeout,
@@ -69,9 +38,9 @@ const reducer = async (tests, config = {}) => {
     let res
     const t = { name, context, fn, timeout }
     if (!onlyFocused) {
-      res = await _run(t, notify)
+      res = await runTest(t, notify)
     } else if (isTest && isFocused) {
-      res = await _run(t, notify)
+      res = await runTest(t, notify)
     // a test suite (not tested)
     } else if (isSelfFocused) {
       console.warn('not implemented')
@@ -90,10 +59,8 @@ const reducer = async (tests, config = {}) => {
 
 module.exports=reducer
 
-/* documentary types/context.xml */
 /**
- * @typedef {import('..').Context} Context A context made with a constructor.
- * @typedef {import('..').Config} Config Options for the reducer.
- * @typedef {import('..').Test} Test The test.
- * @typedef {import('..').ContextConstructor} ContextConstructor A function or class or object that makes a context
+ * @typedef {import('..').Context} Context
+ * @typedef {import('..').ContextConstructor} ContextConstructor
+ * @typedef {import('..').Test} Test
  */

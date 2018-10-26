@@ -1,28 +1,16 @@
 let promto = require('promto'); if (promto && promto.__esModule) promto = promto.default;
 const { _evaluateContexts, destroyContexts } = require('.');
 
-// /**
-//  * Create a promise for a test function.
-//  * @param {function} fn function to execute
-//  * @param {object[]} ctx Contexts to pass as arguments in order
-//  * @return {Promise} A promise to execute function.
-//  */
-// async function createTestPromise(fn, contexts) {
-//   const res = await
-//   return res
-// }
-
 /**
- * Asynchronously runs the test
- * @param {Run} options Options for the run function.
- * @param {ContextConstructor[]} [options.context] Any context constructors for the test to be evaluated.
- * @param {number} [options.timeout=null] The timeout for the test, context evaluation and destruction. Default `null`.
- * @param {function} options.fn The test function to run.
+ * Asynchronously runs the test within a timeout limit. Evaluates the contexts beforehand and destroys them after.
+ * @param {RunTest} options Options such as context, timeout and fn.
  */
-const run = async (options) => {
+const runTest = async (options) => {
   const { context, timeout = null, fn } = options
   const started = new Date()
-  let error = null, result = null, destroyResult = null
+  /** @type {Error|null} */
+  let error = null
+  let result = null, destroyResult = null
 
   /** @type {Context[]} */
   let evaluatedContexts = []
@@ -52,9 +40,9 @@ const run = async (options) => {
   }
 }
 
-module.exports=run
+module.exports=runTest
 
 
 /**
- * @typedef {import('..').Run} Run Options for the run function.
+ * @typedef {import('../../types').RunTest} RunTest Options for the runTest function.
  */

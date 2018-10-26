@@ -1,5 +1,5 @@
 <types>
-  <type name="Run" desc="Options for the run function.">
+  <type name="RunTest" desc="Options for the runTest function.">
     <prop opt type="ContextConstructor[]" name="context">
       Any context constructors for the test to be evaluated.
     </prop>

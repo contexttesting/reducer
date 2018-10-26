@@ -1,34 +1,48 @@
-import run from './run'
-import { dumpResult } from '.'
-
-const NOTIFY = () => {}
+import promto from 'promto'
+import { _evaluateContexts, destroyContexts } from '.'
 
 /**
- * Run the test (wrapped around notify)
- * @param {{ name: string, context: ContextConstructor, fn: function, timeout?: number }} param1
- * @param {function} notify - notify function
+ * Asynchronously runs the test within a timeout limit. Evaluates the contexts beforehand and destroys them after.
+ * @param {RunTest} options Options such as context, timeout and fn.
  */
-async function runTest({
-  name, context, fn, timeout,
-}, notify = NOTIFY) {
-  notify({
-    name,
-    type: 'test-start',
-  })
-  const res = await run({
-    fn,
-    context,
-    timeout,
-  })
-  const { error } = res
-  notify({
-    // test,
-    name,
-    error,
-    type: 'test-end',
-    result: dumpResult({ error, name }),
-  })
-  return res
+const runTest = async (options) => {
+  const { context, timeout = null, fn } = options
+  const started = new Date()
+  /** @type {Error|null} */
+  let error = null
+  let result = null, destroyResult = null
+
+  /** @type {Context[]} */
+  let evaluatedContexts = []
+  try {
+    if (context) {
+      const e = context ? _evaluateContexts(context) : Promise.resolve([])
+      evaluatedContexts = await (timeout ? promto(e, timeout, 'Evaluate context') : e)
+    }
+    const r = fn(...evaluatedContexts)
+    result = await (timeout ? promto(r, timeout, 'Test') : r)
+  } catch (err) {
+    error = err
+  }
+
+  // even if test failed, destroy context
+  try {
+    const destroy = destroyContexts(evaluatedContexts)
+    destroyResult = await (timeout ? promto(destroy, timeout, 'Destroy') : destroy)
+  } catch (err) {
+    error = err
+  }
+
+  const finished = new Date()
+  return {
+    started, finished,
+    error, result, destroyResult,
+  }
 }
 
 export default runTest
+
+
+/**
+ * @typedef {import('../../types').RunTest} RunTest Options for the runTest function.
+ */
