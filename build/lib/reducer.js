@@ -22,13 +22,12 @@ const runTest = require('./run-test');
  *   fn: Function;
  * }
  */
-const reducer = async (tests = {}, config = {}) => {
+const reducer = async (tests = [], config = {}) => {
   const {
     onlyFocused = false,
     // notify,
   } = config
-  const newState = await Object.keys(tests).reduce(async (acc, key) => {
-    const val = tests[key]
+  const newState = await tests.reduce(async (acc, val) => {
     const {
       context, name, timeout,
       // test:
@@ -48,7 +47,7 @@ const reducer = async (tests = {}, config = {}) => {
     } else if (isSelfFocused || hasFocused) { // test suite
       res = await run()
     }
-    if (res) accRes[key] = res
+    if (res) accRes[name] = res
     return accRes
   }, {})
 
