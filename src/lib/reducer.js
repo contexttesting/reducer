@@ -1,5 +1,4 @@
 process.env.ALAMODE_ENV == 'test-build' && console.log('> test %s', require('path').relative('', __filename))
-import runTest from './run-test'
 
 /**
  * Run all tests in sequence, one by one.
@@ -25,28 +24,25 @@ import runTest from './run-test'
 const reducer = async (tests = [], config = {}) => {
   const {
     onlyFocused = false,
-    // notify,
+    notify,
   } = config
-  const newState = await tests.reduce(async (acc, val) => {
+  const newState = await tests.reduce(async (acc, test) => {
     const {
-      context, name, timeout,
-      // test:
-      isTest = true, isFocused, fn,
-      // ts:
+      name,
+      isFocused, fn,
       isSelfFocused, hasFocused, tests: ts,
-    } = val
+    } = test
     const accRes = await acc
     let res
-    const t = { name, context, fn, timeout }
+    const isTest = !!fn
     const run = isTest
-      ? runTest.bind(null, t)
+      ? test.fn.bind(test, notify) // the test will have a run method
       : reducer.bind(null, ts, { onlyFocused: hasFocused })
 
-    if (!onlyFocused || isFocused) {
-      res = await run()
-    } else if (isSelfFocused || hasFocused) { // test suite
+    if (!onlyFocused || isFocused || hasFocused || isSelfFocused) {
       res = await run()
     }
+
     if (res) accRes[name] = res
     return accRes
   }, {})

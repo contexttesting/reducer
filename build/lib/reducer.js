@@ -25,28 +25,30 @@ const runTest = require('./run-test');
 const reducer = async (tests = [], config = {}) => {
   const {
     onlyFocused = false,
-    // notify,
+    notify,
   } = config
-  const newState = await tests.reduce(async (acc, val) => {
+  const newState = await tests.reduce(async (acc, test) => {
     const {
-      context, name, timeout,
+      name,
       // test:
-      isTest = true, isFocused, fn,
+      // isTest = true,
+      isFocused, fn,
       // ts:
       isSelfFocused, hasFocused, tests: ts,
-    } = val
+    } = test
     const accRes = await acc
     let res
-    const t = { name, context, fn, timeout }
+    // const t = { name, context, fn, timeout }
+    const isTest = !!fn
     const run = isTest
-      ? runTest.bind(null, t)
+      ? test.run.bind(test, notify)
       : reducer.bind(null, ts, { onlyFocused: hasFocused })
 
-    if (!onlyFocused || isFocused) {
-      res = await run()
-    } else if (isSelfFocused || hasFocused) { // test suite
+    if (!onlyFocused || isFocused || hasFocused || isSelfFocused) {
+      if (isTest) debugger
       res = await run()
     }
+
     if (res) accRes[name] = res
     return accRes
   }, {})
