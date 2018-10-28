@@ -1,4 +1,6 @@
 <types>
+  <import name="Context" from="@zoroaster/types"/>
+  <import name="ContextConstructor" from="@zoroaster/types"/>
   <type name="RunTestResult" desc="The result of the runTest function.">
     <prop type="Date" name="started">
       The date when the test started.

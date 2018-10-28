@@ -86,8 +86,6 @@ export const deleteDates = d => d.map(({ started, finished, ...rest }) => { // e
  * @typedef {Object} TestOrTestSuite The test or test suite (determined by the presence of the `fn` property).
  * @prop {string} name The name of the test or a test suite.
  * @prop {function} [fn] The test function to run.
- * @prop {ContextConstructor[]} [context] Any context constructors for the test to be evaluated.
- * @prop {number} [timeout=null] The timeout for the test, context evaluation and destruction. Default `null`.
  * @prop {boolean} [isFocused=false] If the test or test suite is focused. Default `false`.
  * @prop {boolean} [hasFocused] Whether the test suite has focused tests.
  */
