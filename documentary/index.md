@@ -2,7 +2,7 @@
 
 %NPM: @zoroaster/reducer%
 
-`@zoroaster/reducer` is the test suite reducer to run each test and see whether it passes or fails.
+`@zoroaster/reducer` is a recursive reducer of tests and tests suites that can also focus on particular ones; and a test runner that supports contexts evaluation and supports time-out.
 
 ```sh
 yarn add -E @zoroaster/reducer

@@ -2,7 +2,7 @@
 
 [![npm version](https://badge.fury.io/js/%40zoroaster%2Freducer.svg)](https://npmjs.org/package/@zoroaster/reducer)
 
-`@zoroaster/reducer` is the test suite reducer to run each test and see whether it passes or fails.
+`@zoroaster/reducer` is a recursive reducer of tests and tests suites that can also focus on particular ones; and a test runner that supports contexts evaluation and supports time-out.
 
 ```sh
 yarn add -E @zoroaster/reducer
@@ -185,11 +185,11 @@ import reducer, { runTest } from '@zoroaster/run-test'
 { name: 'test',
   context: [ { TEST: 'hello' }, [Function: Context] ],
   fn: [AsyncFunction: fn],
-  started: 2018-10-28T13:34:19.657Z,
-  finished: 2018-10-28T13:34:19.765Z,
+  started: 2018-10-28T13:42:43.884Z,
+  finished: 2018-10-28T13:42:43.996Z,
   error: null,
   result: 'hello-world: ok',
-  destroyResult: [ undefined, '107ms' ] }
+  destroyResult: [ undefined, '111ms' ] }
 ```
 
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/4.svg?sanitize=true"></a></p>

@@ -1,7 +1,7 @@
 {
   "name": "@zoroaster/reducer",
   "version": "0.0.0",
-  "description": "The test suite reducer to run each test and see whether it passes or fails.",
+  "description": "The test suite reducer to run each test and see whether it passes or fails; and the runner which adds time-outs and evaluates contexts.",
   "main": "build",
   "scripts": {
     "t": "zoroaster -a",
