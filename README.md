@@ -16,11 +16,11 @@ yarn add -E @zoroaster/reducer
   * [`Context`](#type-context)
   * [`ContextConstructor`](#type-contextconstructor)
   * [`Test`](#type-test)
-- [`reducer(tests: Test[], config?: Config)`](#reducertests-testconfig-config-void)
+- [`async reducer(tests: Test[], config?: Config): TestSuiteLite`](#async-reducertests-testconfig-config-testsuitelite)
   * [`Config`](#type-config)
   * [`TestSuite`](#type-testsuite)
   * [`TestSuiteLite`](#type-testsuitelite)
-- [`runTest(test: TestLite)`](#runtesttest-testlite-void)
+- [`async runTest(test: TestLite): RunTestResult`](#async-runtesttest-testlite-runtestresult)
   * [`TestLite`](#type-testlite)
   * [`RunTestResult`](#type-runtestresult)
 - [Copyright](#copyright)
@@ -77,7 +77,7 @@ Tests have a raw `context` property which is a context constructor. It should re
 
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/2.svg?sanitize=true"></a></p>
 
-## `reducer(`<br/>&nbsp;&nbsp;`tests: Test[],`<br/>&nbsp;&nbsp;`config?: Config,`<br/>`): void`
+## `async reducer(`<br/>&nbsp;&nbsp;`tests: Test[],`<br/>&nbsp;&nbsp;`config?: Config,`<br/>`): TestSuiteLite`
 
 Runs tests and test suites in the array with the `runTest` and `runTestSuite` methods and returns an object representing the tree structure in which tests were run. The [`runTest`](#runtestconfig-runtest-void) method can be imported from this library, and the `runTestSuite` can be implemented as a recursive reducer. Whether an object is a test is determined by the presence of the `fn` property.
 
@@ -129,7 +129,7 @@ import reducer from '@zoroaster/reducer'
   console.log(test1)
 })()
 ```
-```
+```js
 [+] test: ok
 [x] test1: fail
 { name: 'test', fn: [Function: fn], result: 'ok' }
@@ -138,9 +138,9 @@ import reducer from '@zoroaster/reducer'
 
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/3.svg?sanitize=true"></a></p>
 
-## `runTest(`<br/>&nbsp;&nbsp;`test: TestLite,`<br/>`): void`
+## `async runTest(`<br/>&nbsp;&nbsp;`test: TestLite,`<br/>`): RunTestResult`
 
-Asynchronously runs the test within a time-out limit. Evaluates the contexts beforehand and destroys them after (using the same test time-out).
+Asynchronously runs the test within a time-out limit. Evaluates the contexts beforehand and destroys them after (using the same test time-out). Returns the `started`, `finished`, `error`, `result` and `destroyResult` properties.
 
 __<a name="type-testlite">`TestLite`</a>__: The test structure expected by `runTest`.
 
@@ -159,6 +159,48 @@ __<a name="type-runtestresult">`RunTestResult`</a>__: The result of the runTest 
 | error         | _Error_ | The error which happened during the test.                    | `null`  |
 | result        | _*_     | The result which the test returned.                          | `null`  |
 | destroyResult | _*_     | The result which the destroy method on the context returned. | `null`  |
+
+```js
+import reducer, { runTest } from '@zoroaster/run-test'
+
+(async () => {
+  const { test } = await reducer([
+    {
+      name: 'test',
+      context: [
+        { TEST: 'hello' },
+        class Context {
+          async _init() {
+            this.data = 'world'
+            this._started = new Date()
+          }
+          async _destroy() {
+            const dt = new Date().getTime() - this._started.getTime()
+            return `${dt}ms`
+          }
+        },
+      ],
+      async fn({ TEST }, { data }) {
+        await new Promise(r => setTimeout(r, 100))
+        return `${TEST}-${data}: ok`
+      },
+    },
+  ], {
+    runTest,
+  })
+  console.log(test)
+})()
+```
+```js
+{ name: 'test',
+  context: [ { TEST: 'hello' }, [Function: Context] ],
+  fn: [AsyncFunction: fn],
+  started: 2018-10-28T06:09:04.930Z,
+  finished: 2018-10-28T06:09:05.043Z,
+  error: null,
+  result: 'hello-world: ok',
+  destroyResult: [ undefined, '112ms' ] }
+```
 
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/4.svg?sanitize=true"></a></p>
 
