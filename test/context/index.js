@@ -56,6 +56,11 @@ const _test = {
 
 export { _test as test }
 
+export function runTest({ fn }) {
+  const result = fn()
+  return { result }
+}
+
 export const makeFocused = (test, fn) => {
   const t = {
     ...test,
