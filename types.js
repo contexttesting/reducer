@@ -5,13 +5,9 @@ export {}
  * @typedef {Object} Config Options for the reducer.
  * @prop {boolean} [onlyFocused=false] Run only focused tests. Default `false`.
  * @prop {(test: { fn: function }) => Promise.<*>} runTest The function used to run a test.
- * @prop {(testSuite: {}, onlyFocused: boolean) => Promise.<TestSuiteLite>} runTestSuite The function used to run a test suite.
+ * @prop {(testSuite: Object, onlyFocused: boolean) => Promise.<TestSuiteLite>} runTestSuite The function used to run a test suite.
  *
- * @typedef {Object} TestSuite The structure which will be passed to the `runTestSuite` method.
- * @prop {string} name The name of the test suite.
- * @prop {Test[]} tests The tests and test suites to reduce.
- *
- * @typedef {Object.<string, Test|Object.<string, Test|Object.<string, Test>>>} TestSuiteLite An recursive tree returned by the reducer containing either nested test suites or tests updated with the outcome of the runTest method (not pure since the test methods passed are mutated).
+ * @typedef {Object.<string, Test|Object.<string, Test|Object.<string, Test>>>} TestSuiteLite An recursive tree returned by the reducer containing nested test suites with tests updated with the outcome of the `runTest` method (therefore, the reducer is not pure since the passed tests are mutated).
  */
 
 /* documentary types/run-test.xml */

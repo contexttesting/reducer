@@ -15,3 +15,8 @@ Runs tests and test suites in the array with the `runTest` and `runTestSuite` me
 %FORK-js example example/reducer%
 
 %~%
+
+<!-- <type name="TestSuite" desc="The structure which will be passed to the `runTestSuite` method.">
+  <prop string name="name">The name of the test suite.</prop>
+  <prop type="Test[]" name="tests">The tests and test suites to reduce.</prop>
+</type> -->

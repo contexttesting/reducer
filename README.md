@@ -18,7 +18,6 @@ yarn add -E @zoroaster/reducer
 - [`async reducer(tests: TestOrTestSuite[], config?: Config): TestSuiteLite`](#async-reducertests-testortestsuiteconfig-config-testsuitelite)
   * [`TestOrTestSuite`](#type-testortestsuite)
   * [`Config`](#type-config)
-  * [`TestSuite`](#type-testsuite)
   * [`TestSuiteLite`](#type-testsuitelite)
 - [`async runTest(test: TestLite): RunTestResult`](#async-runtesttest-testlite-runtestresult)
   * [`RunTestResult`](#type-runtestresult)
@@ -82,20 +81,13 @@ __<a name="type-testortestsuite">`TestOrTestSuite`</a>__: The test or test suite
 
 __<a name="type-config">`Config`</a>__: Options for the reducer.
 
-|       Name        |                                              Type                                               |              Description               | Default |
-| ----------------- | ----------------------------------------------------------------------------------------------- | -------------------------------------- | ------- |
-| onlyFocused       | _boolean_                                                                                       | Run only focused tests.                | `false` |
-| __runTest*__      | _(test: { fn: function }) =&gt; Promise.&lt;*>_                                                 | The function used to run a test.       | -       |
-| __runTestSuite*__ | _(testSuite: {}, onlyFocused: boolean) =&gt; Promise.&lt;[TestSuiteLite](#type-testsuitelite)>_ | The function used to run a test suite. | -       |
+|       Name        |                                                Type                                                 |              Description               | Default |
+| ----------------- | --------------------------------------------------------------------------------------------------- | -------------------------------------- | ------- |
+| onlyFocused       | _boolean_                                                                                           | Run only focused tests.                | `false` |
+| __runTest*__      | _(test: { fn: function }) =&gt; Promise.&lt;*>_                                                     | The function used to run a test.       | -       |
+| __runTestSuite*__ | _(testSuite: Object, onlyFocused: boolean) =&gt; Promise.&lt;[TestSuiteLite](#type-testsuitelite)>_ | The function used to run a test suite. | -       |
 
-__<a name="type-testsuite">`TestSuite`</a>__: The structure which will be passed to the `runTestSuite` method.
-
-|    Name    |   Type   |             Description              |
-| ---------- | -------- | ------------------------------------ |
-| __name*__  | _string_ | The name of the test suite.          |
-| __tests*__ | _Test[]_ | The tests and test suites to reduce. |
-
-`Object.<string, Test|Object.<string, Test|Object.<string, Test>>>` __<a name="type-testsuitelite">`TestSuiteLite`</a>__: An recursive tree returned by the reducer containing either nested test suites or tests updated with the outcome of the runTest method (not pure since the test methods passed are mutated).
+`Object.<string, Test|Object.<string, Test|Object.<string, Test>>>` __<a name="type-testsuitelite">`TestSuiteLite`</a>__: An recursive tree returned by the reducer containing nested test suites with tests updated with the outcome of the `runTest` method (therefore, the reducer is not pure since the passed tests are mutated).
 
 ```js
 import reducer from '@zoroaster/reducer'
@@ -135,6 +127,8 @@ import reducer from '@zoroaster/reducer'
 ```
 
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/3.svg?sanitize=true"></a></p>
+
+
 
 ## `async runTest(`<br/>&nbsp;&nbsp;`test: TestLite,`<br/>`): RunTestResult`
 
@@ -193,11 +187,11 @@ import reducer, { runTest } from '@zoroaster/run-test'
 { name: 'test',
   context: [ { TEST: 'hello' }, [Function: Context] ],
   fn: [AsyncFunction: fn],
-  started: 2018-10-28T12:48:22.987Z,
-  finished: 2018-10-28T12:48:23.097Z,
+  started: 2018-10-28T12:55:14.504Z,
+  finished: 2018-10-28T12:55:14.614Z,
   error: null,
   result: 'hello-world: ok',
-  destroyResult: [ undefined, '109ms' ] }
+  destroyResult: [ undefined, '108ms' ] }
 ```
 
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/4.svg?sanitize=true"></a></p>
