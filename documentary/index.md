@@ -15,3 +15,8 @@ yarn add -E @zoroaster/reducer
 %~%
 
 <!-- process.env.ALAMODE_ENV == 'test-build' && console.log('> test %s', require('path').relative('', __filename)) -->
+
+
+<!-- <prop string name="name">
+      The name of the test.
+    </prop> -->
