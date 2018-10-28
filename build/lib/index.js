@@ -1,5 +1,3 @@
-process.env.ALAMODE_ENV == 'test-build' && console.log('> test %s', require('path').relative('', __filename))
-
 /**
  * Evaluate a context or contexts in parallel.
  * @param {ContextConstructor[]} [contexts=[]] The context constructors (class, function, object).
