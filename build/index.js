@@ -22,6 +22,7 @@ const runTest = (test) => _runTest(test)
  *
  * @example
  * type TestOrTestSuite = {
+ *   context?: (new (...args: any[]) => Context)[];
  *   timeout?: number;
  *   name: number;
  *   isFocused?: boolean;
@@ -34,17 +35,11 @@ const reducer = (tests, config) => _reducer(tests, config)
 
 module.exports=reducer
 
-/* documentary node_modules/@zoroaster/types/types/context.xml */
-/**
- * @typedef {Object} Context A context made with a constructor.
- * @prop {() => void} [_init] A function to initialise the context.
- * @prop {() => void} [_destroy] A function to destroy the context.
- *
- * @typedef {{new(...args: any[]): Context}} ContextConstructor A function or class or object that makes a context
- */
-
 /* documentary types/run-test.xml */
 /**
+ * @typedef {import('@zoroaster/types').Context} Context
+ * @typedef {import('@zoroaster/types').ContextConstructor} ContextConstructor
+ *
  * @typedef {Object} RunTestResult The result of the runTest function.
  * @prop {Date} started The date when the test started.
  * @prop {Date} finished The date when the test finished.
@@ -63,8 +58,6 @@ module.exports=reducer
  * @typedef {Object} TestOrTestSuite The test or test suite (determined by the presence of the `fn` property).
  * @prop {string} name The name of the test or a test suite.
  * @prop {function} [fn] The test function to run.
- * @prop {ContextConstructor[]} [context] Any context constructors for the test to be evaluated.
- * @prop {number} [timeout=null] The timeout for the test, context evaluation and destruction. Default `null`.
  * @prop {boolean} [isFocused=false] If the test or test suite is focused. Default `false`.
  * @prop {boolean} [hasFocused] Whether the test suite has focused tests.
  */

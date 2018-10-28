@@ -49,5 +49,4 @@ module.exports=runTest
 
 /**
  * @typedef {import('../..').Test} Test
- * @typedef {import('../../types').RunTestResult} RunTestResult The result of the runTest function.
  */
