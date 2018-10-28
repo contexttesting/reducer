@@ -3,22 +3,32 @@ import _reducer from './lib/reducer'
 
 /**
  * Asynchronously runs the test within a timeout limit. Evaluates the contexts beforehand and destroys them after.
- * @param {RunTest} options Options for the runTest function.
- * @param {function} options.fn The test function to run.
- * @param {ContextConstructor[]} [options.context] Any context constructors for the test to be evaluated.
- * @param {number} [options.timeout=null] The timeout for the test, context evaluation and destruction. Default `null`.
+ * @param {Test} test The test structure used in `runTest`.
+ * @param {function} test.fn The test function to run.
+ * @param {ContextConstructor[]} [test.context] Any context constructors for the test to be evaluated.
+ * @param {number} [test.timeout=null] The timeout for the test, context evaluation and destruction. Default `null`.
  */
-const runTest = (options) => _runTest(options)
+const runTest = (test) => _runTest(test)
 
 /**
  * Run all tests in sequence, one by one.
  * This also runs only selected tests, e.g., !test and !test suite
- * @param {Test[]} tests An array with tests to reduce.
+ * @param {TestOrTestSuite[]} tests An array with tests to reduce.
  * @param {Config} config Options for the reducer.
  * @param {boolean} [config.onlyFocused=false] Run only focused tests. Default `false`.
  * @param {(test: { fn: function }) => Promise.<*>} config.runTest The function used to run a test.
  * @param {(testSuite: {}, onlyFocused: boolean) => Promise.<TestSuiteLite>} config.runTestSuite The function used to run a test suite.
- * @returns {Promise.<TestSuiteLite>}
+ * @returns {Promise.<TestSuiteLite>} A recursive map of tests (jsdoc max 3 levels).
+ *
+ * @example
+ * type TestOrTestSuite = {
+ *   context?: (new (...args: any[]) => Context)[];
+ *   timeout?: number;
+ *   name: number;
+ *   isFocused?: boolean;
+ *   hasFocused?: boolean;
+ *   fn: Function;
+ * }
  */
 const reducer = (tests, config) => _reducer(tests, config)
 

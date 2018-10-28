@@ -4,18 +4,6 @@
  * @param {TestOrTestSuite[]} tests An array with tests to reduce.
  * @param {Config} config Options for the reducer.
  * @returns {Promise.<TestSuiteLite>}
- * @example
- *
- * // The test type
- * type Test = {
- *   context?: (new (...args: any[]) => Context)[];
- *   timeout?: number;
- *   name: number;
- *   isFocused?: boolean;
- *   isTest?: boolean;
- *   hasFocused?: boolean;
- *   fn: Function;
- * }
  */
 const reducer = async (tests = [], config) => {
   const {
