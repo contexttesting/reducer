@@ -9,6 +9,8 @@ Runs tests and test suites in the array with the `runTest` and `runTestSuite` me
 
 %TYPEDEF types/reducer.xml%
 
+%TYPEDEF types/test.xml%
+
 %EXAMPLE: example/reducer.js, ../src => @zoroaster/reducer%
 %FORK-js example example/reducer%
 

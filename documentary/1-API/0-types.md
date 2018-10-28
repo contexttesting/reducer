@@ -4,8 +4,6 @@ These are the common types used in this package. They are available in the [`@zo
 
 %TYPEDEF node_modules/@zoroaster/types/types/context.xml%
 
-%TYPEDEF types/test.xml%
-
 The types can also be imported in the JS file:
 
 ```js
