@@ -1,9 +1,4 @@
 <types>
-  <type name="TestSuiteConfig">
-    <prop string name="name">The name of the test suite.</prop>
-    <prop type="Test[]" name="tests">Tests.</prop>
-    <prop boolean name="onlyFocused">Run only focused tests.</prop>
-  </type>
   <type name="Config" desc="Options for the reducer.">
     <prop boolean name="onlyFocused" default="false">
       Run only focused tests.
@@ -11,8 +6,13 @@
     <prop type="(test: Test) => Promise.<*>" name="runTest">
       The function used to run a test. It will receive `name`, `context`, `fn`, and `timeout` properties.
     </prop>
-    <prop type="(testSuite: TestSuiteConfig) => Promise.<*>" name="runTestSuite">
+    <prop type="(testSuite: TestSuite) => Promise.<*>" name="runTestSuite">
       The function used to run a test suite. It will receive `name`, `tests` and `onlyFocused` properties.
     </prop>
+  </type>
+  <type name="TestSuite">
+    <prop string name="name">The name of the test suite.</prop>
+    <prop type="Test[]" name="tests">Tests.</prop>
+    <prop boolean name="onlyFocused">Run only focused tests.</prop>
   </type>
 </types>

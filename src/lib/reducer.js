@@ -5,7 +5,7 @@
  * @param {Config} [config] Options for the reducer.
  * @param {boolean} [config.onlyFocused=false] Run only focused tests. Default `false`.
  * @param {(test: Test) => Promise.<*>} config.runTest The function used to run a test. It will receive `name`, `context`, `fn`, and `timeout` properties.
- * @param {(testSuite: TestSuiteConfig) => Promise.<*>} config.runTestSuite The function used to run a test suite. It will receive `name`, `tests` and `onlyFocused` properties.
+ * @param {(testSuite: TestSuite) => Promise.<*>} config.runTestSuite The function used to run a test suite. It will receive `name`, `tests` and `onlyFocused` properties.
  * @example
  *
  * // The test type
@@ -66,13 +66,13 @@ export default reducer
 
 /* documentary types/reducer.xml */
 /**
- * @typedef {Object} TestSuiteConfig
- * @prop {string} name The name of the test suite.
- * @prop {Test[]} tests Tests.
- * @prop {boolean} onlyFocused Run only focused tests.
- *
  * @typedef {Object} Config Options for the reducer.
  * @prop {boolean} [onlyFocused=false] Run only focused tests. Default `false`.
  * @prop {(test: Test) => Promise.<*>} runTest The function used to run a test. It will receive `name`, `context`, `fn`, and `timeout` properties.
- * @prop {(testSuite: TestSuiteConfig) => Promise.<*>} runTestSuite The function used to run a test suite. It will receive `name`, `tests` and `onlyFocused` properties.
+ * @prop {(testSuite: TestSuite) => Promise.<*>} runTestSuite The function used to run a test suite. It will receive `name`, `tests` and `onlyFocused` properties.
+ *
+ * @typedef {Object} TestSuite
+ * @prop {string} name The name of the test suite.
+ * @prop {Test[]} tests Tests.
+ * @prop {boolean} onlyFocused Run only focused tests.
  */

@@ -49,4 +49,5 @@ export default runTest
 
 /**
  * @typedef {import('../../types').RunTest} RunTest Options for the runTest function.
+ * @typedef {import('../../types').RunTestResult} RunTestResult
  */

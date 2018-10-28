@@ -21,6 +21,7 @@ yarn add -E @zoroaster/reducer
   * [`TestSuite`](#type-testsuite)
 - [`runTest(config: RunTest)`](#runtestconfig-runtest-void)
   * [`RunTest`](#type-runtest)
+  * [`RunTestResult`](#type-runtestresult)
 - [Copyright](#copyright)
 
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/0.svg?sanitize=true"></a></p>
@@ -101,17 +102,25 @@ __<a name="type-testsuite">`TestSuite`</a>__
 
 ## `runTest(`<br/>&nbsp;&nbsp;`config: RunTest,`<br/>`): void`
 
-Asynchronously runs the test within a time-out limit. Evaluates the contexts beforehand and destroys them after. The `runTest` function will mutate tests to inlcude the
-
+Asynchronously runs the test within a time-out limit. Evaluates the contexts beforehand and destroys them after (using the same test time-out).
 
 __<a name="type-runtest">`RunTest`</a>__: Options for the runTest function.
 
-|   Name    |          Type          |                          Description                          | Default |
-| --------- | ---------------------- | ------------------------------------------------------------- | ------- |
-| __name*__ | _string_               | The name of the test.                                         | -       |
-| __fn*__   | _function_             | The test function to run.                                     | -       |
-| context   | _ContextConstructor[]_ | Any context constructors for the test to be evaluated.        | -       |
-| timeout   | _number_               | The timeout for the test, context evaluation and destruction. | `null`  |
+|  Name   |          Type          |                          Description                          | Default |
+| ------- | ---------------------- | ------------------------------------------------------------- | ------- |
+| __fn*__ | _function_             | The test function to run.                                     | -       |
+| context | _ContextConstructor[]_ | Any context constructors for the test to be evaluated.        | -       |
+| timeout | _number_               | The timeout for the test, context evaluation and destruction. | `null`  |
+
+__<a name="type-runtestresult">`RunTestResult`</a>__: The result of the runTest function.
+
+|     Name      |  Type   |                         Description                          | Default |
+| ------------- | ------- | ------------------------------------------------------------ | ------- |
+| __started*__  | _Date_  | The date when the test started.                              | -       |
+| __finished*__ | _Date_  | The date when the test finished.                             | -       |
+| error         | _Error_ | The error which happened during the test.                    | `null`  |
+| result        | _*_     | The result which the test returned.                          | `null`  |
+| destroyResult | _*_     | The result which the destroy method on the context returned. | `null`  |
 
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/4.svg?sanitize=true"></a></p>
 

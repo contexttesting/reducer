@@ -15,7 +15,7 @@
     "d": "yarn-s d1 d2 d3 d4 d5 d6",
     "d1": "NODE_DEBUG=doc doc src/lib/reducer.js -g",
     "d2": "NODE_DEBUG=doc doc src/lib/index.js -g",
-    "d3": "NODE_DEBUG=doc doc src/lib/run.js -g",
+    "d3": "NODE_DEBUG=doc doc src/lib/run-test.js -g",
     "d4": "NODE_DEBUG=doc doc types.js -g",
     "d5": "NODE_DEBUG=doc doc test/context/index.js -g",
     "d6": "NODE_DEBUG=doc doc src/index.js -g",
