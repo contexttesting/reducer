@@ -18,8 +18,8 @@ yarn add -E @zoroaster/reducer
   * [`Test`](#type-test)
 - [`reducer(tests: Test[], config?: Config)`](#reducertests-testconfig-config-void)
   * [`Config`](#type-config)
-  * [`TestSuiteLite`](#type-testsuitelite)
   * [`TestSuite`](#type-testsuite)
+  * [`TestSuiteLite`](#type-testsuitelite)
 - [`runTest(test: TestLite)`](#runtesttest-testlite-void)
   * [`TestLite`](#type-testlite)
   * [`RunTestResult`](#type-runtestresult)
@@ -89,8 +89,6 @@ __<a name="type-config">`Config`</a>__: Options for the reducer.
 | __runTest*__      | _(test: Test) =&gt; Promise.&lt;*>_                                              | The function used to run a test. It will receive `name`, `context`, `fn`, and `timeout` properties.  | -       |
 | __runTestSuite*__ | _(testSuite: TestSuite) =&gt; Promise.&lt;[TestSuiteLite](#type-testsuitelite)>_ | The function used to run a test suite. It will receive `name`, `tests` and `onlyFocused` properties. | -       |
 
-`Object.<string, Test|Object.<string, Test|Object.<string, Test>>>` __<a name="type-testsuitelite">`TestSuiteLite`</a>__: An recursive tree returned by the reducer containing either nested test suites or tests updated with the outcome of the runTest method (not pure since the test methods passed are mutated).
-
 __<a name="type-testsuite">`TestSuite`</a>__: The structure which will be passed to the `runTestSuite` method.
 
 |       Name       |   Type    |         Description         |
@@ -98,6 +96,8 @@ __<a name="type-testsuite">`TestSuite`</a>__: The structure which will be passed
 | __name*__        | _string_  | The name of the test suite. |
 | __tests*__       | _Test[]_  | Tests.                      |
 | __onlyFocused*__ | _boolean_ | Run only focused tests.     |
+
+`Object.<string, Test|Object.<string, Test|Object.<string, Test>>>` __<a name="type-testsuitelite">`TestSuiteLite`</a>__: An recursive tree returned by the reducer containing either nested test suites or tests updated with the outcome of the runTest method (not pure since the test methods passed are mutated).
 
 ```js
 import reducer from '@zoroaster/reducer'
