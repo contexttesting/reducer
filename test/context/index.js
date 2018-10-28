@@ -83,13 +83,12 @@ export const deleteDates = d => d.map(({ started, finished, ...rest }) => { // e
 
 /* documentary types/test.xml */
 /**
- * @typedef {Object} Test The test type which can also be a test suite. The reducer will check for the presence of the `fn` property to decide whether to run as a test or a test suite.
- * @prop {number} name The name of the test or a test suite.
- * @prop {function} fn The test function to run.
+ * @typedef {Object} TestOrTestSuite The test or test suite (determined by the presence of the `fn` property).
+ * @prop {string} name The name of the test or a test suite.
+ * @prop {function} [fn] The test function to run.
  * @prop {ContextConstructor[]} [context] Any context constructors for the test to be evaluated.
  * @prop {number} [timeout=null] The timeout for the test, context evaluation and destruction. Default `null`.
- * @prop {boolean} [isFocused=false] If the test is focused. Default `false`.
- * @prop {boolean} [isSelfFocused] The property of the test suite such that it is focused.
+ * @prop {boolean} [isFocused=false] If the test or test suite is focused. Default `false`.
  * @prop {boolean} [hasFocused] Whether the test suite has focused tests.
  */
 

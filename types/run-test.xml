@@ -1,15 +1,4 @@
 <types>
-  <type name="TestLite" desc="The test structure expected by `runTest`.">
-    <prop type="function" name="fn">
-      The test function to run.
-    </prop>
-    <prop opt type="ContextConstructor[]" name="context">
-      Any context constructors for the test to be evaluated.
-    </prop>
-    <prop number name="timeout" default="null">
-      The timeout for the test, context evaluation and destruction.
-    </prop>
-  </type>
   <type name="RunTestResult" desc="The result of the runTest function.">
     <prop type="Date" name="started">
       The date when the test started.
@@ -25,6 +14,17 @@
     </prop>
     <prop type="*" name="destroyResult" default="null">
       The result which the destroy method on the context returned.
+    </prop>
+  </type>
+  <type name="Test" desc="The test structure used in `runTest`.">
+    <prop type="function" name="fn">
+      The test function to run.
+    </prop>
+    <prop opt type="ContextConstructor[]" name="context">
+      Any context constructors for the test to be evaluated.
+    </prop>
+    <prop number name="timeout" default="null">
+      The timeout for the test, context evaluation and destruction.
     </prop>
   </type>
 </types>

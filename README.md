@@ -15,14 +15,14 @@ yarn add -E @zoroaster/reducer
 - [The Types](#the-types)
   * [`Context`](#type-context)
   * [`ContextConstructor`](#type-contextconstructor)
-  * [`Test`](#type-test)
+  * [`TestOrTestSuite`](#type-testortestsuite)
 - [`async reducer(tests: Test[], config?: Config): TestSuiteLite`](#async-reducertests-testconfig-config-testsuitelite)
   * [`Config`](#type-config)
   * [`TestSuite`](#type-testsuite)
   * [`TestSuiteLite`](#type-testsuitelite)
 - [`async runTest(test: TestLite): RunTestResult`](#async-runtesttest-testlite-runtestresult)
-  * [`TestLite`](#type-testlite)
   * [`RunTestResult`](#type-runtestresult)
+  * [`Test`](#type-test)
 - [Copyright](#copyright)
 
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/0.svg?sanitize=true"></a></p>
@@ -52,17 +52,16 @@ __<a name="type-context">`Context`</a>__: A context made with a constructor.
 
 `{new(...args: any[]): Context}` __<a name="type-contextconstructor">`ContextConstructor`</a>__: A function or class or object that makes a context
 
-__<a name="type-test">`Test`</a>__: The test type which can also be a test suite. The reducer will check for the presence of the `fn` property to decide whether to run as a test or a test suite.
+__<a name="type-testortestsuite">`TestOrTestSuite`</a>__: The test or test suite (determined by the presence of the `fn` property).
 
-|     Name      |          Type          |                          Description                          | Default |
-| ------------- | ---------------------- | ------------------------------------------------------------- | ------- |
-| __name*__     | _number_               | The name of the test or a test suite.                         | -       |
-| __fn*__       | _function_             | The test function to run.                                     | -       |
-| context       | _ContextConstructor[]_ | Any context constructors for the test to be evaluated.        | -       |
-| timeout       | _number_               | The timeout for the test, context evaluation and destruction. | `null`  |
-| isFocused     | _boolean_              | If the test is focused.                                       | `false` |
-| isSelfFocused | _boolean_              | The property of the test suite such that it is focused.       | -       |
-| hasFocused    | _boolean_              | Whether the test suite has focused tests.                     | -       |
+|    Name    |          Type          |                          Description                          | Default |
+| ---------- | ---------------------- | ------------------------------------------------------------- | ------- |
+| __name*__  | _string_               | The name of the test or a test suite.                         | -       |
+| fn         | _function_             | The test function to run.                                     | -       |
+| context    | _ContextConstructor[]_ | Any context constructors for the test to be evaluated.        | -       |
+| timeout    | _number_               | The timeout for the test, context evaluation and destruction. | `null`  |
+| isFocused  | _boolean_              | If the test or test suite is focused.                         | `false` |
+| hasFocused | _boolean_              | Whether the test suite has focused tests.                     | -       |
 
 The types can also be imported in the JS file:
 
@@ -79,23 +78,22 @@ Tests have a raw `context` property which is a context constructor. It should re
 
 ## `async reducer(`<br/>&nbsp;&nbsp;`tests: Test[],`<br/>&nbsp;&nbsp;`config?: Config,`<br/>`): TestSuiteLite`
 
-Runs tests and test suites in the array with the `runTest` and `runTestSuite` methods and returns an object representing the tree structure in which tests were run. The [`runTest`](#runtestconfig-runtest-void) method can be imported from this library, and the `runTestSuite` can be implemented as a recursive reducer. Whether an object is a test is determined by the presence of the `fn` property.
+Runs tests and test suites in the array with the `runTest` and `runTestSuite` methods and returns an object representing the tree structure in which tests were run. The `runTest` method can be imported from this library, and the `runTestSuite` can be implemented as a recursive reducer. Whether an object is a test is determined by the presence of the `fn` property.
 
 __<a name="type-config">`Config`</a>__: Options for the reducer.
 
-|       Name        |                                       Type                                       |                                             Description                                              | Default |
-| ----------------- | -------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ------- |
-| onlyFocused       | _boolean_                                                                        | Run only focused tests.                                                                              | `false` |
-| __runTest*__      | _(test: Test) =&gt; Promise.&lt;*>_                                              | The function used to run a test. It will receive `name`, `context`, `fn`, and `timeout` properties.  | -       |
-| __runTestSuite*__ | _(testSuite: TestSuite) =&gt; Promise.&lt;[TestSuiteLite](#type-testsuitelite)>_ | The function used to run a test suite. It will receive `name`, `tests` and `onlyFocused` properties. | -       |
+|       Name        |                                              Type                                               |              Description               | Default |
+| ----------------- | ----------------------------------------------------------------------------------------------- | -------------------------------------- | ------- |
+| onlyFocused       | _boolean_                                                                                       | Run only focused tests.                | `false` |
+| __runTest*__      | _(test: { fn: function }) =&gt; Promise.&lt;*>_                                                 | The function used to run a test.       | -       |
+| __runTestSuite*__ | _(testSuite: {}, onlyFocused: boolean) =&gt; Promise.&lt;[TestSuiteLite](#type-testsuitelite)>_ | The function used to run a test suite. | -       |
 
 __<a name="type-testsuite">`TestSuite`</a>__: The structure which will be passed to the `runTestSuite` method.
 
-|       Name       |   Type    |         Description         |
-| ---------------- | --------- | --------------------------- |
-| __name*__        | _string_  | The name of the test suite. |
-| __tests*__       | _Test[]_  | Tests.                      |
-| __onlyFocused*__ | _boolean_ | Run only focused tests.     |
+|    Name    |   Type   |             Description              |
+| ---------- | -------- | ------------------------------------ |
+| __name*__  | _string_ | The name of the test suite.          |
+| __tests*__ | _Test[]_ | The tests and test suites to reduce. |
 
 `Object.<string, Test|Object.<string, Test|Object.<string, Test>>>` __<a name="type-testsuitelite">`TestSuiteLite`</a>__: An recursive tree returned by the reducer containing either nested test suites or tests updated with the outcome of the runTest method (not pure since the test methods passed are mutated).
 
@@ -142,14 +140,6 @@ import reducer from '@zoroaster/reducer'
 
 Asynchronously runs the test within a time-out limit. Evaluates the contexts beforehand and destroys them after (using the same test time-out). Returns the `started`, `finished`, `error`, `result` and `destroyResult` properties.
 
-__<a name="type-testlite">`TestLite`</a>__: The test structure expected by `runTest`.
-
-|  Name   |          Type          |                          Description                          | Default |
-| ------- | ---------------------- | ------------------------------------------------------------- | ------- |
-| __fn*__ | _function_             | The test function to run.                                     | -       |
-| context | _ContextConstructor[]_ | Any context constructors for the test to be evaluated.        | -       |
-| timeout | _number_               | The timeout for the test, context evaluation and destruction. | `null`  |
-
 __<a name="type-runtestresult">`RunTestResult`</a>__: The result of the runTest function.
 
 |     Name      |  Type   |                         Description                          | Default |
@@ -159,6 +149,14 @@ __<a name="type-runtestresult">`RunTestResult`</a>__: The result of the runTest 
 | error         | _Error_ | The error which happened during the test.                    | `null`  |
 | result        | _*_     | The result which the test returned.                          | `null`  |
 | destroyResult | _*_     | The result which the destroy method on the context returned. | `null`  |
+
+__<a name="type-test">`Test`</a>__: The test structure used in `runTest`.
+
+|  Name   |          Type          |                          Description                          | Default |
+| ------- | ---------------------- | ------------------------------------------------------------- | ------- |
+| __fn*__ | _function_             | The test function to run.                                     | -       |
+| context | _ContextConstructor[]_ | Any context constructors for the test to be evaluated.        | -       |
+| timeout | _number_               | The timeout for the test, context evaluation and destruction. | `null`  |
 
 ```js
 import reducer, { runTest } from '@zoroaster/run-test'
@@ -195,11 +193,11 @@ import reducer, { runTest } from '@zoroaster/run-test'
 { name: 'test',
   context: [ { TEST: 'hello' }, [Function: Context] ],
   fn: [AsyncFunction: fn],
-  started: 2018-10-28T06:09:04.930Z,
-  finished: 2018-10-28T06:09:05.043Z,
+  started: 2018-10-28T07:14:05.391Z,
+  finished: 2018-10-28T07:14:05.496Z,
   error: null,
   result: 'hello-world: ok',
-  destroyResult: [ undefined, '112ms' ] }
+  destroyResult: [ undefined, '104ms' ] }
 ```
 
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/4.svg?sanitize=true"></a></p>
