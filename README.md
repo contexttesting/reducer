@@ -15,11 +15,11 @@ yarn add -E @zoroaster/reducer
 - [The Types](#the-types)
   * [`Context`](#type-context)
   * [`ContextConstructor`](#type-contextconstructor)
-- [`async reducer(tests: Test[], config?: Config): TestSuiteLite`](#async-reducertests-testconfig-config-testsuitelite)
+- [`async reducer(tests: TestOrTestSuite[], config?: Config): TestSuiteLite`](#async-reducertests-testortestsuiteconfig-config-testsuitelite)
+  * [`TestOrTestSuite`](#type-testortestsuite)
   * [`Config`](#type-config)
   * [`TestSuite`](#type-testsuite)
   * [`TestSuiteLite`](#type-testsuitelite)
-  * [`TestOrTestSuite`](#type-testortestsuite)
 - [`async runTest(test: TestLite): RunTestResult`](#async-runtesttest-testlite-runtestresult)
   * [`RunTestResult`](#type-runtestresult)
   * [`Test`](#type-test)
@@ -65,9 +65,20 @@ Tests have a raw `context` property which is a context constructor. It should re
 
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/2.svg?sanitize=true"></a></p>
 
-## `async reducer(`<br/>&nbsp;&nbsp;`tests: Test[],`<br/>&nbsp;&nbsp;`config?: Config,`<br/>`): TestSuiteLite`
+## `async reducer(`<br/>&nbsp;&nbsp;`tests: TestOrTestSuite[],`<br/>&nbsp;&nbsp;`config?: Config,`<br/>`): TestSuiteLite`
 
 Runs tests and test suites in the array with the `runTest` and `runTestSuite` methods and returns an object representing the tree structure in which tests were run. The `runTest` method can be imported from this library, and the `runTestSuite` can be implemented as a recursive reducer. Whether an object is a test is determined by the presence of the `fn` property.
+
+__<a name="type-testortestsuite">`TestOrTestSuite`</a>__: The test or test suite (determined by the presence of the `fn` property).
+
+|    Name    |          Type          |                          Description                          | Default |
+| ---------- | ---------------------- | ------------------------------------------------------------- | ------- |
+| __name*__  | _string_               | The name of the test or a test suite.                         | -       |
+| fn         | _function_             | The test function to run.                                     | -       |
+| context    | _ContextConstructor[]_ | Any context constructors for the test to be evaluated.        | -       |
+| timeout    | _number_               | The timeout for the test, context evaluation and destruction. | `null`  |
+| isFocused  | _boolean_              | If the test or test suite is focused.                         | `false` |
+| hasFocused | _boolean_              | Whether the test suite has focused tests.                     | -       |
 
 __<a name="type-config">`Config`</a>__: Options for the reducer.
 
@@ -85,17 +96,6 @@ __<a name="type-testsuite">`TestSuite`</a>__: The structure which will be passed
 | __tests*__ | _Test[]_ | The tests and test suites to reduce. |
 
 `Object.<string, Test|Object.<string, Test|Object.<string, Test>>>` __<a name="type-testsuitelite">`TestSuiteLite`</a>__: An recursive tree returned by the reducer containing either nested test suites or tests updated with the outcome of the runTest method (not pure since the test methods passed are mutated).
-
-__<a name="type-testortestsuite">`TestOrTestSuite`</a>__: The test or test suite (determined by the presence of the `fn` property).
-
-|    Name    |          Type          |                          Description                          | Default |
-| ---------- | ---------------------- | ------------------------------------------------------------- | ------- |
-| __name*__  | _string_               | The name of the test or a test suite.                         | -       |
-| fn         | _function_             | The test function to run.                                     | -       |
-| context    | _ContextConstructor[]_ | Any context constructors for the test to be evaluated.        | -       |
-| timeout    | _number_               | The timeout for the test, context evaluation and destruction. | `null`  |
-| isFocused  | _boolean_              | If the test or test suite is focused.                         | `false` |
-| hasFocused | _boolean_              | Whether the test suite has focused tests.                     | -       |
 
 ```js
 import reducer from '@zoroaster/reducer'
@@ -193,11 +193,11 @@ import reducer, { runTest } from '@zoroaster/run-test'
 { name: 'test',
   context: [ { TEST: 'hello' }, [Function: Context] ],
   fn: [AsyncFunction: fn],
-  started: 2018-10-28T12:47:12.985Z,
-  finished: 2018-10-28T12:47:13.102Z,
+  started: 2018-10-28T12:48:22.987Z,
+  finished: 2018-10-28T12:48:23.097Z,
   error: null,
   result: 'hello-world: ok',
-  destroyResult: [ undefined, '115ms' ] }
+  destroyResult: [ undefined, '109ms' ] }
 ```
 
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/4.svg?sanitize=true"></a></p>
