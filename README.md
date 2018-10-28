@@ -73,18 +73,18 @@ __<a name="type-config">`Config`</a>__: Options for the reducer.
 | onlyFocused       | _boolean_                                           | Run only focused tests.                                                                              | `false` |
 | __runTest*__      | _(test: Test) =&gt; Promise.&lt;*>_                 | The function used to run a test. It will receive `name`, `context`, `fn`, and `timeout` properties.  | -       |
 | __runTestSuite*__ | _(testSuite: TestSuiteConfig) =&gt; Promise.&lt;*>_ | The function used to run a test suite. It will receive `name`, `tests` and `onlyFocused` properties. | -       |
+
 __<a name="type-test">`Test`</a>__: The test type as used by the reducer.
 
 |     Name      |          Type          |                          Description                          | Default |
 | ------------- | ---------------------- | ------------------------------------------------------------- | ------- |
+| __name*__     | _number_               | The name of the test.                                         | -       |
+| __fn*__       | _function_             | The test function to run.                                     | -       |
 | context       | _ContextConstructor[]_ | Any context constructors for the test to be evaluated.        | -       |
 | timeout       | _number_               | The timeout for the test, context evaluation and destruction. | `null`  |
-| __name*__     | _number_               | The name of the test.                                         | -       |
 | isFocused     | _boolean_              | If the test is focused.                                       | `false` |
-| isTest        | _boolean_              | If it is a test and not a test suite.                         | `true`  |
 | isSelfFocused | _boolean_              | The property of the test suite such that it is focused.       | -       |
 | hasFocused    | _boolean_              | Whether the test suite has focused tests.                     | -       |
-| __fn*__       | _function_             | The test function to run.                                     | -       |
 
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/3.svg?sanitize=true"></a></p>
 
