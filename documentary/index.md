@@ -13,3 +13,5 @@ yarn add -E @zoroaster/reducer
 %TOC%
 
 %~%
+
+<!-- process.env.ALAMODE_ENV == 'test-build' && console.log('> test %s', require('path').relative('', __filename)) -->

@@ -2,7 +2,7 @@
   "name": "@zoroaster/reducer",
   "version": "0.0.0",
   "description": "The test suite reducer to run each test and see whether it passes or fails.",
-  "main": "build",
+  "main": "src",
   "scripts": {
     "t": "zoroaster -a",
     "test": "yarn t test/spec test/mask",

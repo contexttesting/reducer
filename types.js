@@ -4,7 +4,8 @@ export {}
 /**
  * @typedef {Object} Config Options for the reducer.
  * @prop {boolean} [onlyFocused=false] Run only focused tests. Default `false`.
- * @prop {function} notify The notify function to be passed to run method.
+ * @prop {function} runTest The function used to run a test. It will receive `name`, `context`, `fn`, and `timeout` properties.
+ * @prop {function} runTestSuite The function used to run a test suite. It will receive `name`, `tests` and `onlyFocused` properties.
  */
 
 /* documentary types/run-test.xml */
