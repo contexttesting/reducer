@@ -150,6 +150,8 @@ __<a name="type-runtestresult">`RunTestResult`</a>__: The result of the runTest 
 | result        | _*_     | The result which the test returned.                          | `null`  |
 | destroyResult | _*_     | The result which the destroy method on the context returned. | `null`  |
 
+In the example below, the `reducer` is given and array of tests and the `runTest` function. The test has the `fn` property and 2 contexts: one as an object and another one as a class. They are evaluated and passed to the test. The `_destroy` method of the class context is used to calculate the time taken to run the test. Finally, the result of the `runTest` is assigned to the tests in the array.
+
 ```js
 import reducer, { runTest } from '@zoroaster/run-test'
 
@@ -181,15 +183,15 @@ import reducer, { runTest } from '@zoroaster/run-test'
   console.log(test)
 })()
 ```
-```js
+```fs
 { name: 'test',
   context: [ { TEST: 'hello' }, [Function: Context] ],
   fn: [AsyncFunction: fn],
-  started: 2018-10-28T13:42:43.884Z,
-  finished: 2018-10-28T13:42:43.996Z,
+  started: 2018-10-28T13:54:46.888Z,
+  finished: 2018-10-28T13:54:46.995Z,
   error: null,
   result: 'hello-world: ok',
-  destroyResult: [ undefined, '111ms' ] }
+  destroyResult: [ undefined, '107ms' ] }
 ```
 
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/4.svg?sanitize=true"></a></p>
