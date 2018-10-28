@@ -3,7 +3,7 @@ const { _evaluateContexts, destroyContexts } = require('.');
 
 /**
  * Asynchronously runs the test within a timeout limit. Evaluates the contexts beforehand and destroys them after.
- * @param {TestLite} test The test to run.
+ * @param {Test} test The test to run.
  */
 const runTest = async (test) => {
   const { context, timeout = null, fn } = test
@@ -48,6 +48,6 @@ module.exports=runTest
 
 
 /**
- * @typedef {import('../../types').TestLite} TestLite The test structure expected by `runTest`.
+ * @typedef {import('../..').Test} Test
  * @typedef {import('../../types').RunTestResult} RunTestResult The result of the runTest function.
  */
