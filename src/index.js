@@ -17,7 +17,8 @@ const runTest = (options) => _runTest(options)
  * @param {Config} config Options for the reducer.
  * @param {boolean} [config.onlyFocused=false] Run only focused tests. Default `false`.
  * @param {(test: Test) => Promise.<*>} config.runTest The function used to run a test. It will receive `name`, `context`, `fn`, and `timeout` properties.
- * @param {(testSuite: TestSuite) => Promise.<*>} config.runTestSuite The function used to run a test suite. It will receive `name`, `tests` and `onlyFocused` properties.
+ * @param {(testSuite: TestSuite) => Promise.<TestSuiteLite>} config.runTestSuite The function used to run a test suite. It will receive `name`, `tests` and `onlyFocused` properties.
+ * @returns {Promise.<TestSuiteLite>}
  */
 const reducer = (tests, config) => _reducer(tests, config)
 
@@ -26,7 +27,7 @@ export default reducer
 
 /* documentary types/run-test.xml */
 /**
- * @typedef {Object} RunTest Options for the runTest function.
+ * @typedef {Object} TestLite The test structure expected by `runTest`.
  * @prop {function} fn The test function to run.
  * @prop {ContextConstructor[]} [context] Any context constructors for the test to be evaluated.
  * @prop {number} [timeout=null] The timeout for the test, context evaluation and destruction. Default `null`.
@@ -41,8 +42,8 @@ export default reducer
 
 /* documentary types/test.xml */
 /**
- * @typedef {Object} Test The test type as used by the reducer.
- * @prop {number} name The name of the test.
+ * @typedef {Object} Test The test type which can also be a test suite. The reducer will check for the presence of the `fn` property to decide whether to run as a test or a test suite.
+ * @prop {number} name The name of the test or a test suite.
  * @prop {function} fn The test function to run.
  * @prop {ContextConstructor[]} [context] Any context constructors for the test to be evaluated.
  * @prop {number} [timeout=null] The timeout for the test, context evaluation and destruction. Default `null`.
@@ -56,9 +57,9 @@ export default reducer
  * @typedef {Object} Config Options for the reducer.
  * @prop {boolean} [onlyFocused=false] Run only focused tests. Default `false`.
  * @prop {(test: Test) => Promise.<*>} runTest The function used to run a test. It will receive `name`, `context`, `fn`, and `timeout` properties.
- * @prop {(testSuite: TestSuite) => Promise.<*>} runTestSuite The function used to run a test suite. It will receive `name`, `tests` and `onlyFocused` properties.
+ * @prop {(testSuite: TestSuite) => Promise.<TestSuiteLite>} runTestSuite The function used to run a test suite. It will receive `name`, `tests` and `onlyFocused` properties.
  *
- * @typedef {Object} TestSuite
+ * @typedef {Object.<string, Test|Object.<string, Test|Object.<string, Test>>>} TestSuiteLite An recursive tree returned by the reducer containing either nested test suites or tests updated with the outcome of the runTest method (not pure since the test methods passed are mutated).
  * @prop {string} name The name of the test suite.
  * @prop {Test[]} tests Tests.
  * @prop {boolean} onlyFocused Run only focused tests.

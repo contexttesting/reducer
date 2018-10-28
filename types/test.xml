@@ -1,7 +1,7 @@
 <types>
-  <type name="Test" desc="The test type as used by the reducer.">
+  <type name="Test" desc="The test type which can also be a test suite. The reducer will check for the presence of the `fn` property to decide whether to run as a test or a test suite.">
     <prop number name="name">
-      The name of the test.
+      The name of the test or a test suite.
     </prop>
     <prop type="function" name="fn">
       The test function to run.
@@ -23,9 +23,3 @@
     </prop>
   </type>
 </types>
-
-context, fn, name, timeout, isFocused,
-    // test:
-    isTest,
-    // ts:
-    isSelfFocused, hasFocused,

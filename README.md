@@ -18,9 +18,9 @@ yarn add -E @zoroaster/reducer
   * [`Test`](#type-test)
 - [`reducer(tests: Test[], config?: Config)`](#reducertests-testconfig-config-void)
   * [`Config`](#type-config)
-  * [`TestSuite`](#type-testsuite)
-- [`runTest(config: RunTest)`](#runtestconfig-runtest-void)
-  * [`RunTest`](#type-runtest)
+  * [`TestSuiteLite`](#type-testsuitelite)
+- [`runTest(test: TestLite)`](#runtesttest-testlite-void)
+  * [`TestLite`](#type-testlite)
   * [`RunTestResult`](#type-runtestresult)
 - [Copyright](#copyright)
 
@@ -38,8 +38,6 @@ import reducer, { runTest } from '@zoroaster/reducer'
 
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/1.svg?sanitize=true"></a></p>
 
-
-
 ## The Types
 
 These are the common types used in this package. They are available in the [`@zoroaster/types`](https://github.com/contexttesting/types) package.
@@ -53,11 +51,11 @@ __<a name="type-context">`Context`</a>__: A context made with a constructor.
 
 `{new(...args: any[]): Context}` __<a name="type-contextconstructor">`ContextConstructor`</a>__: A function or class or object that makes a context
 
-__<a name="type-test">`Test`</a>__: The test type as used by the reducer.
+__<a name="type-test">`Test`</a>__: The test type which can also be a test suite. The reducer will check for the presence of the `fn` property to decide whether to run as a test or a test suite.
 
 |     Name      |          Type          |                          Description                          | Default |
 | ------------- | ---------------------- | ------------------------------------------------------------- | ------- |
-| __name*__     | _number_               | The name of the test.                                         | -       |
+| __name*__     | _number_               | The name of the test or a test suite.                         | -       |
 | __fn*__       | _function_             | The test function to run.                                     | -       |
 | context       | _ContextConstructor[]_ | Any context constructors for the test to be evaluated.        | -       |
 | timeout       | _number_               | The timeout for the test, context evaluation and destruction. | `null`  |
@@ -84,13 +82,13 @@ Runs tests and test suites in the array with the `runTest` and `runTestSuite` me
 
 __<a name="type-config">`Config`</a>__: Options for the reducer.
 
-|       Name        |                     Type                      |                                             Description                                              | Default |
-| ----------------- | --------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ------- |
-| onlyFocused       | _boolean_                                     | Run only focused tests.                                                                              | `false` |
-| __runTest*__      | _(test: Test) =&gt; Promise.&lt;*>_           | The function used to run a test. It will receive `name`, `context`, `fn`, and `timeout` properties.  | -       |
-| __runTestSuite*__ | _(testSuite: TestSuite) =&gt; Promise.&lt;*>_ | The function used to run a test suite. It will receive `name`, `tests` and `onlyFocused` properties. | -       |
+|       Name        |                                       Type                                       |                                             Description                                              | Default |
+| ----------------- | -------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ------- |
+| onlyFocused       | _boolean_                                                                        | Run only focused tests.                                                                              | `false` |
+| __runTest*__      | _(test: Test) =&gt; Promise.&lt;*>_                                              | The function used to run a test. It will receive `name`, `context`, `fn`, and `timeout` properties.  | -       |
+| __runTestSuite*__ | _(testSuite: TestSuite) =&gt; Promise.&lt;[TestSuiteLite](#type-testsuitelite)>_ | The function used to run a test suite. It will receive `name`, `tests` and `onlyFocused` properties. | -       |
 
-__<a name="type-testsuite">`TestSuite`</a>__
+`Object.<string, Test|Object.<string, Test|Object.<string, Test>>>` __<a name="type-testsuitelite">`TestSuiteLite`</a>__: An recursive tree returned by the reducer containing either nested test suites or tests updated with the outcome of the runTest method (not pure since the test methods passed are mutated).
 
 |       Name       |   Type    |         Description         |
 | ---------------- | --------- | --------------------------- |
@@ -98,13 +96,50 @@ __<a name="type-testsuite">`TestSuite`</a>__
 | __tests*__       | _Test[]_  | Tests.                      |
 | __onlyFocused*__ | _boolean_ | Run only focused tests.     |
 
+```js
+import reducer from '@zoroaster/reducer'
+
+(async () => {
+  const { test, test1 } = await reducer([
+    {
+      name: 'test',
+      fn() { return 'ok' },
+    },
+    {
+      name: 'test1',
+      fn() { throw new Error('fail') },
+    },
+  ], {
+    runTest({ fn, name }) {
+      let result
+      try {
+        result = fn()
+      } catch (error) {
+        console.log('[x] %s: %s', name, error.message)
+        return { error: error.message }
+      }
+      console.log('[+] %s%s', name, result ? `: ${result}` : '')
+      return { result }
+    },
+  })
+  console.log(test)
+  console.log(test1)
+})()
+```
+```
+[+] test: ok
+[x] test1: fail
+{ name: 'test', fn: [Function: fn], result: 'ok' }
+{ name: 'test1', fn: [Function: fn], error: 'fail' }
+```
+
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/3.svg?sanitize=true"></a></p>
 
-## `runTest(`<br/>&nbsp;&nbsp;`config: RunTest,`<br/>`): void`
+## `runTest(`<br/>&nbsp;&nbsp;`test: TestLite,`<br/>`): void`
 
 Asynchronously runs the test within a time-out limit. Evaluates the contexts beforehand and destroys them after (using the same test time-out).
 
-__<a name="type-runtest">`RunTest`</a>__: Options for the runTest function.
+__<a name="type-testlite">`TestLite`</a>__: The test structure expected by `runTest`.
 
 |  Name   |          Type          |                          Description                          | Default |
 | ------- | ---------------------- | ------------------------------------------------------------- | ------- |

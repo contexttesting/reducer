@@ -1,6 +1,6 @@
 ```## runTest
 [
-  ["config", "RunTest"]
+  ["test", "TestLite"]
 ]
 ```
 

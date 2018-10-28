@@ -83,8 +83,8 @@ export const deleteDates = d => d.map(({ started, finished, ...rest }) => { // e
 
 /* documentary types/test.xml */
 /**
- * @typedef {Object} Test The test type as used by the reducer.
- * @prop {number} name The name of the test.
+ * @typedef {Object} Test The test type which can also be a test suite. The reducer will check for the presence of the `fn` property to decide whether to run as a test or a test suite.
+ * @prop {number} name The name of the test or a test suite.
  * @prop {function} fn The test function to run.
  * @prop {ContextConstructor[]} [context] Any context constructors for the test to be evaluated.
  * @prop {number} [timeout=null] The timeout for the test, context evaluation and destruction. Default `null`.

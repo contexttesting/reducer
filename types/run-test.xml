@@ -1,5 +1,5 @@
 <types>
-  <type name="RunTest" desc="Options for the runTest function.">
+  <type name="TestLite" desc="The test structure expected by `runTest`.">
     <prop type="function" name="fn">
       The test function to run.
     </prop>

@@ -7,4 +7,3 @@ import reducer, { runTest } from '@zoroaster/reducer'
 ```
 
 %~%
-

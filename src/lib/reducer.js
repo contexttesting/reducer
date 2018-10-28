@@ -2,10 +2,8 @@
  * Run all tests in sequence, one by one.
  * This also runs only selected tests, e.g., !test and !test suite
  * @param {Test[]} tests An array with tests to reduce.
- * @param {Config} [config] Options for the reducer.
- * @param {boolean} [config.onlyFocused=false] Run only focused tests. Default `false`.
- * @param {(test: Test) => Promise.<*>} config.runTest The function used to run a test. It will receive `name`, `context`, `fn`, and `timeout` properties.
- * @param {(testSuite: TestSuite) => Promise.<*>} config.runTestSuite The function used to run a test suite. It will receive `name`, `tests` and `onlyFocused` properties.
+ * @param {Config} config Options for the reducer.
+ * @returns {Promise.<TestSuiteLite>}
  * @example
  *
  * // The test type
@@ -20,7 +18,7 @@
  *   fn: Function;
  * }
  */
-const reducer = async (tests = [], config = {}) => {
+const reducer = async (tests = [], config) => {
   const {
     onlyFocused = false,
     allCanRun = !onlyFocused,
@@ -62,17 +60,7 @@ export default reducer
  * @typedef {import('@zoroaster/types').Context} Context
  * @typedef {import('@zoroaster/types').ContextConstructor} ContextConstructor
  * @typedef {import('../../types').Test} Test
- */
-
-/* documentary types/reducer.xml */
-/**
- * @typedef {Object} Config Options for the reducer.
- * @prop {boolean} [onlyFocused=false] Run only focused tests. Default `false`.
- * @prop {(test: Test) => Promise.<*>} runTest The function used to run a test. It will receive `name`, `context`, `fn`, and `timeout` properties.
- * @prop {(testSuite: TestSuite) => Promise.<*>} runTestSuite The function used to run a test suite. It will receive `name`, `tests` and `onlyFocused` properties.
- *
- * @typedef {Object} TestSuite
- * @prop {string} name The name of the test suite.
- * @prop {Test[]} tests Tests.
- * @prop {boolean} onlyFocused Run only focused tests.
+ * @typedef {import('../..').Config} Config Options for the reducer.
+ * @typedef {import('../..').TestSuite} TestSuite The structure which will be passed to the `runTestSuite` method.
+ * @typedef {import('../..').TestSuiteLite} TestSuiteLite The structure which will be passed to the `runTestSuite` method.
  */
