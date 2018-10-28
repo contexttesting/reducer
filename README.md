@@ -19,9 +19,9 @@ yarn add -E @zoroaster/reducer
   * [`TestOrTestSuite`](#type-testortestsuite)
   * [`Config`](#type-config)
   * [`TestSuiteLite`](#type-testsuitelite)
-- [`async runTest(test: TestLite): RunTestResult`](#async-runtesttest-testlite-runtestresult)
-  * [`RunTestResult`](#type-runtestresult)
+- [`async runTest(test: Test): RunTestResult`](#async-runtesttest-test-runtestresult)
   * [`Test`](#type-test)
+  * [`RunTestResult`](#type-runtestresult)
 - [Copyright](#copyright)
 
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/0.svg?sanitize=true"></a></p>
@@ -128,13 +128,17 @@ import reducer from '@zoroaster/reducer'
 
 
 
-## `async runTest(`<br/>&nbsp;&nbsp;`test: TestLite,`<br/>`): RunTestResult`
+## `async runTest(`<br/>&nbsp;&nbsp;`test: Test,`<br/>`): RunTestResult`
 
 Asynchronously runs the test within a time-out limit. Evaluates the contexts beforehand and destroys them after (using the same test time-out). Returns the `started`, `finished`, `error`, `result` and `destroyResult` properties.
 
-`import('@zoroaster/types').Context` __<a name="type-context">`Context`</a>__
+__<a name="type-test">`Test`</a>__: The test structure used in `runTest`.
 
-`import('@zoroaster/types').ContextConstructor` __<a name="type-contextconstructor">`ContextConstructor`</a>__
+|  Name   |          Type          |                          Description                          | Default |
+| ------- | ---------------------- | ------------------------------------------------------------- | ------- |
+| __fn*__ | _function_             | The test function to run.                                     | -       |
+| context | _ContextConstructor[]_ | Any context constructors for the test to be evaluated.        | -       |
+| timeout | _number_               | The timeout for the test, context evaluation and destruction. | `null`  |
 
 __<a name="type-runtestresult">`RunTestResult`</a>__: The result of the runTest function.
 
@@ -145,14 +149,6 @@ __<a name="type-runtestresult">`RunTestResult`</a>__: The result of the runTest 
 | error         | _Error_ | The error which happened during the test.                    | `null`  |
 | result        | _*_     | The result which the test returned.                          | `null`  |
 | destroyResult | _*_     | The result which the destroy method on the context returned. | `null`  |
-
-__<a name="type-test">`Test`</a>__: The test structure used in `runTest`.
-
-|  Name   |          Type          |                          Description                          | Default |
-| ------- | ---------------------- | ------------------------------------------------------------- | ------- |
-| __fn*__ | _function_             | The test function to run.                                     | -       |
-| context | _ContextConstructor[]_ | Any context constructors for the test to be evaluated.        | -       |
-| timeout | _number_               | The timeout for the test, context evaluation and destruction. | `null`  |
 
 ```js
 import reducer, { runTest } from '@zoroaster/run-test'
@@ -189,11 +185,11 @@ import reducer, { runTest } from '@zoroaster/run-test'
 { name: 'test',
   context: [ { TEST: 'hello' }, [Function: Context] ],
   fn: [AsyncFunction: fn],
-  started: 2018-10-28T13:25:33.476Z,
-  finished: 2018-10-28T13:25:33.591Z,
+  started: 2018-10-28T13:34:19.657Z,
+  finished: 2018-10-28T13:34:19.765Z,
   error: null,
   result: 'hello-world: ok',
-  destroyResult: [ undefined, '113ms' ] }
+  destroyResult: [ undefined, '107ms' ] }
 ```
 
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/4.svg?sanitize=true"></a></p>
