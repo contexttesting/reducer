@@ -1,5 +1,5 @@
 import { equal } from 'zoroaster/assert'
-import reducer, * as api from '../../src' // THIS IS A BUG IT'S NOT TESTING THE BUILD API
+import reducer, * as api from '../../src' // IT'S NOT TESTING THE BUILD API
 
 const API = { ...api }
 

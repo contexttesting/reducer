@@ -193,11 +193,11 @@ import reducer, { runTest } from '@zoroaster/run-test'
 { name: 'test',
   context: [ { TEST: 'hello' }, [Function: Context] ],
   fn: [AsyncFunction: fn],
-  started: 2018-10-28T07:27:55.565Z,
-  finished: 2018-10-28T07:27:55.674Z,
+  started: 2018-10-28T07:42:50.733Z,
+  finished: 2018-10-28T07:42:50.842Z,
   error: null,
   result: 'hello-world: ok',
-  destroyResult: [ undefined, '108ms' ] }
+  destroyResult: [ undefined, '109ms' ] }
 ```
 
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/4.svg?sanitize=true"></a></p>

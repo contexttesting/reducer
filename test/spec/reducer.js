@@ -38,7 +38,7 @@ const TestSuite = {
   context: CONTEXT,
   async 'reduces test suite'({ reducer }, { test, runTest }) {
     const ts = [{ tests: [test], name: 'test-suite' }]
-    function runTestSuite({ tests, onlyFocused }) {
+    function runTestSuite({ tests }, onlyFocused) {
       return reducer(tests, {
         onlyFocused, runTest, runTestSuite,
       })
@@ -50,6 +50,27 @@ const TestSuite = {
     })
     deepEqual(res, {
       'test-suite': {
+        test,
+      },
+    })
+  },
+  async 'reduces focused test suite'({ reducer }, { test, runTest }) {
+    const ts = [
+      { tests: [test], name: '!test-suite', isFocused: true },
+      { tests: [test], name: 'test-suite2' },
+    ]
+    function runTestSuite({ tests }, onlyFocused) {
+      return reducer(tests, {
+        onlyFocused, runTest, runTestSuite,
+      })
+    }
+    const res = await reducer(ts, {
+      onlyFocused: true,
+      runTest,
+      runTestSuite,
+    })
+    deepEqual(res, {
+      '!test-suite': {
         test,
       },
     })
