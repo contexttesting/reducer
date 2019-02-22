@@ -2,7 +2,7 @@
 
 [![npm version](https://badge.fury.io/js/%40zoroaster%2Freducer.svg)](https://npmjs.org/package/@zoroaster/reducer)
 
-`@zoroaster/reducer` is a recursive reducer of tests and tests suites that can also focus on particular ones; and a test runner that supports contexts evaluation and supports time-out.
+`@zoroaster/reducer` is a recursive reducer of tests and tests suites that can also focus on particular ones; and a test runner that supports contexts evaluation and timeouts.
 
 ```sh
 yarn add -E @zoroaster/reducer
@@ -187,19 +187,17 @@ import reducer, { runTest } from '@zoroaster/run-test'
 { name: 'test',
   context: [ { TEST: 'hello' }, [Function: Context] ],
   fn: [AsyncFunction: fn],
-  started: 2018-10-28T13:54:46.888Z,
-  finished: 2018-10-28T13:54:46.995Z,
+  started: 2019-02-22T17:04:12.582Z,
+  finished: 2019-02-22T17:04:12.692Z,
   error: null,
   result: 'hello-world: ok',
-  destroyResult: [ undefined, '107ms' ] }
+  destroyResult: [ undefined, '110ms' ] }
 ```
 
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/4.svg?sanitize=true"></a></p>
 
 ## Copyright
 
-(c) [Context Testing][1] 2018
-
-[1]: https://contexttesting.com
+(c) [Context Testing](https://contexttesting.com) 2019
 
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/-1.svg?sanitize=true"></a></p>
