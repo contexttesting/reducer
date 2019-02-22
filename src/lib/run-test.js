@@ -14,9 +14,14 @@ const runTest = async (test) => {
 
   /** @type {Context[]} */
   let evaluatedContexts = []
+  let e
+  let eEvaluated
   try {
     if (context) {
-      const e = context ? _evaluateContexts(context) : Promise.resolve([])
+      e = context ? _evaluateContexts(context) : Promise.resolve([])
+      e.then(() => {
+        eEvaluated = true
+      })
       evaluatedContexts = await (timeout ? promto(e, timeout, 'Evaluate context') : e)
     }
     const r = fn(...evaluatedContexts)
@@ -36,6 +41,7 @@ const runTest = async (test) => {
   } catch (err) {
     error = err
   }
+  if (!eEvaluated) awaitEvaluations(e)
 
   const finished = new Date()
   return {
