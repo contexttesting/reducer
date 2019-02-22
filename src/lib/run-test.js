@@ -41,13 +41,18 @@ const runTest = async (test) => {
   } catch (err) {
     error = err
   }
-  if (!eEvaluated) awaitEvaluations(e)
+  if (!eEvaluated && e) awaitEvaluations(e)
 
   const finished = new Date()
   return {
     started, finished,
     error, result, destroyResult,
   }
+}
+
+const awaitEvaluations = async (e) => {
+  const ee = await e
+  await destroyContexts(ee)
 }
 
 export default runTest
