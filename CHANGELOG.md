@@ -1,3 +1,9 @@
+## 22 February 2018
+
+### 1.0.1
+
+- [fix] Attempt to destroy context timedout during evaluation.
+
 ## 28 October 2018
 
 ### 1.0.0
