@@ -22,8 +22,11 @@
     <prop type="function" name="fn">
       The test function to run.
     </prop>
-    <prop opt type="ContextConstructor[]" name="context">
+    <prop opt type="Array<ContextConstructor>" name="context">
       Any context constructors for the test to be evaluated.
+    </prop>
+    <prop opt type="Array<ContextConstructor>" name="persistentContext">
+      Any context constructors for the test that are managed by the test suite.
     </prop>
     <prop number name="timeout" default="null">
       The timeout for the test, context evaluation and destruction.

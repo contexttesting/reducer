@@ -42,6 +42,10 @@ export const NAME = 'test'
  */
 export const c2 = 456
 /**
+ * A constant 3.
+ */
+export const c3 = 'celebrate life'
+/**
  * A constant.
  */
 export const c1 = 123

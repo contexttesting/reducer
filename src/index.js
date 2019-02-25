@@ -5,7 +5,8 @@ import _reducer from './lib/reducer'
  * Asynchronously runs the test within a timeout limit. Evaluates the contexts beforehand and destroys them after.
  * @param {Test} test The test structure used in `runTest`.
  * @param {function} test.fn The test function to run.
- * @param {ContextConstructor[]} [test.context] Any context constructors for the test to be evaluated.
+ * @param {Array<ContextConstructor>} [test.context] Any context constructors for the test to be evaluated.
+ * @param {Array<ContextConstructor>} [test.persistentContext] Any context constructors for the test that are managed by the test suite.
  * @param {number} [test.timeout=null] The timeout for the test, context evaluation and destruction. Default `null`.
  */
 const runTest = (test) => _runTest(test)
@@ -49,7 +50,8 @@ export default reducer
  *
  * @typedef {Object} Test The test structure used in `runTest`.
  * @prop {function} fn The test function to run.
- * @prop {ContextConstructor[]} [context] Any context constructors for the test to be evaluated.
+ * @prop {Array<ContextConstructor>} [context] Any context constructors for the test to be evaluated.
+ * @prop {Array<ContextConstructor>} [persistentContext] Any context constructors for the test that are managed by the test suite.
  * @prop {number} [timeout=null] The timeout for the test, context evaluation and destruction. Default `null`.
  */
 

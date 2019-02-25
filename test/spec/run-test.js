@@ -20,6 +20,36 @@ const T = {
     })
     equal(result, '123-test-456')
   },
+  async 'runs a test with persistent context'({ runTest }, { c1, c2, NAME }) {
+    const r = await runTest({
+      /**
+       * @param {c1} _c1
+       * @param {c2} _c2
+       */
+      fn(_c1, _c2) {
+        return `${_c1}-${NAME}-${_c2}`
+      },
+      context: c2,
+      persistentContext: c1,
+    })
+    const { result } = r
+    equal(result, '123-test-456')
+  },
+  async 'runs a test with persistent contexts'({ runTest }, { c1, c2, c3, NAME }) {
+    const r = await runTest({
+      /**
+       * @param {c1} _c1
+       * @param {c2} _c2
+       */
+      fn(_c1, _c3, _c2) {
+        return `${_c1}-${NAME}-${_c2} :: ${_c3}`
+      },
+      context: c2,
+      persistentContext: [c1, c3],
+    })
+    const { result } = r
+    equal(result, '123-test-456 :: celebrate life')
+  },
   async 'fails test after specified timeout'({ runTest }) {
     const timeout = 100
     const fn = async () => {
