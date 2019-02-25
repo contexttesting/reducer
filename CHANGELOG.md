@@ -1,3 +1,9 @@
+## 25 February 2018
+
+### 1.1.0
+
+- [feature] Pass evaluated persistent contexts to tests before other contexts.
+
 ## 22 February 2018
 
 ### 1.0.1
