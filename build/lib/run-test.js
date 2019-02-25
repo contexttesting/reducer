@@ -6,7 +6,7 @@ const { _evaluateContexts, destroyContexts } = require('.');
  * @param {Test} test The test to run.
  */
 const runTest = async (test) => {
-  const { context, timeout = null, fn } = test
+  const { context, timeout = null, fn, persistentContext } = test
   const started = new Date()
   /** @type {Error|null} */
   let error = null
@@ -24,7 +24,11 @@ const runTest = async (test) => {
       })
       evaluatedContexts = await (timeout ? promto(e, timeout, 'Evaluate context') : e)
     }
-    const r = fn(...evaluatedContexts)
+    const c = persistentContext ? [
+      ...(Array.isArray(persistentContext) ? persistentContext : [persistentContext]),
+      ...evaluatedContexts,
+    ] : evaluatedContexts
+    const r = fn(...c)
     if (r instanceof Promise) {
       result = await (timeout ? promto(r, timeout, 'Test') : r)
     } else {
@@ -59,5 +63,5 @@ module.exports=runTest
 
 
 /**
- * @typedef {import('../..').Test} Test
+ * @typedef {import('..').Test} Test
  */
