@@ -159,6 +159,7 @@ In the example below, the `reducer` is given and array of tests and the `runTest
 import reducer, { runTest } from '@zoroaster/run-test'
 
 (async () => {
+  const persistentContext = await Promise.resolve('EXAMPLE')
   const { test } = await reducer([
     {
       name: 'test',
@@ -175,9 +176,10 @@ import reducer, { runTest } from '@zoroaster/run-test'
           }
         },
       ],
-      async fn({ TEST }, { data }) {
+      persistentContext,
+      async fn(pc, { TEST }, { data }) {
         await new Promise(r => setTimeout(r, 100))
-        return `${TEST}-${data}: ok`
+        return `[${pc}] ${TEST}-${data}: ok`
       },
     },
   ], {
@@ -189,12 +191,13 @@ import reducer, { runTest } from '@zoroaster/run-test'
 ```fs
 { name: 'test',
   context: [ { TEST: 'hello' }, [Function: Context] ],
+  persistentContext: 'EXAMPLE',
   fn: [AsyncFunction: fn],
-  started: 2019-02-25T10:35:06.666Z,
-  finished: 2019-02-25T10:35:06.772Z,
+  started: 2019-02-25T10:45:23.292Z,
+  finished: 2019-02-25T10:45:23.402Z,
   error: null,
-  result: 'hello-world: ok',
-  destroyResult: [ undefined, '105ms' ] }
+  result: '[EXAMPLE] hello-world: ok',
+  destroyResult: [ undefined, '109ms' ] }
 ```
 
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/4.svg?sanitize=true"></a></p>

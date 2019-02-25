@@ -1,6 +1,7 @@
 import reducer, { runTest } from '../src'
 
 (async () => {
+  const persistentContext = await Promise.resolve('EXAMPLE')
   const { test } = await reducer([
     {
       name: 'test',
@@ -17,9 +18,10 @@ import reducer, { runTest } from '../src'
           }
         },
       ],
-      async fn({ TEST }, { data }) {
+      persistentContext,
+      async fn(pc, { TEST }, { data }) {
         await new Promise(r => setTimeout(r, 100))
-        return `${TEST}-${data}: ok`
+        return `[${pc}] ${TEST}-${data}: ok`
       },
     },
   ], {
