@@ -6,6 +6,8 @@
 
 Asynchronously runs the test within a time-out limit. Evaluates the contexts beforehand and destroys them after (using the same test time-out). Returns the `started`, `finished`, `error`, `result` and `destroyResult` properties.
 
+The `persistentContext` property can contain either an array or a single evaluated context instance. They are the passed to tests in the argument list before any of the non-persistent test contexts.
+
 %TYPEDEF types/run-test.xml Test%
 
 %TYPEDEF types/run-test.xml RunTestResult%

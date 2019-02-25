@@ -132,13 +132,16 @@ import reducer from '@zoroaster/reducer'
 
 Asynchronously runs the test within a time-out limit. Evaluates the contexts beforehand and destroys them after (using the same test time-out). Returns the `started`, `finished`, `error`, `result` and `destroyResult` properties.
 
+The `persistentContext` property can contain either an array or a single evaluated context instance. They are the passed to tests in the argument list before any of the non-persistent test contexts.
+
 __<a name="type-test">`Test`</a>__: The test structure used in `runTest`.
 
-|  Name   |          Type          |                          Description                          | Default |
-| ------- | ---------------------- | ------------------------------------------------------------- | ------- |
-| __fn*__ | _function_             | The test function to run.                                     | -       |
-| context | _ContextConstructor[]_ | Any context constructors for the test to be evaluated.        | -       |
-| timeout | _number_               | The timeout for the test, context evaluation and destruction. | `null`  |
+|       Name        |               Type                |                                Description                                | Default |
+| ----------------- | --------------------------------- | ------------------------------------------------------------------------- | ------- |
+| __fn*__           | _function_                        | The test function to run.                                                 | -       |
+| context           | _Array&lt;ContextConstructor&gt;_ | Any context constructors for the test to be evaluated.                    | -       |
+| persistentContext | _Array&lt;ContextConstructor&gt;_ | Any context constructors for the test that are managed by the test suite. | -       |
+| timeout           | _number_                          | The timeout for the test, context evaluation and destruction.             | `null`  |
 
 __<a name="type-runtestresult">`RunTestResult`</a>__: The result of the runTest function.
 
@@ -187,11 +190,11 @@ import reducer, { runTest } from '@zoroaster/run-test'
 { name: 'test',
   context: [ { TEST: 'hello' }, [Function: Context] ],
   fn: [AsyncFunction: fn],
-  started: 2019-02-22T17:04:12.582Z,
-  finished: 2019-02-22T17:04:12.692Z,
+  started: 2019-02-25T10:35:06.666Z,
+  finished: 2019-02-25T10:35:06.772Z,
   error: null,
   result: 'hello-world: ok',
-  destroyResult: [ undefined, '110ms' ] }
+  destroyResult: [ undefined, '105ms' ] }
 ```
 
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/4.svg?sanitize=true"></a></p>
