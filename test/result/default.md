@@ -17,5 +17,5 @@ test
 /**/
 
 /* expected */
-test
+t-test
 /**/

@@ -14,10 +14,11 @@ export default makeTestSuite('test/result/default.md', {
           destroyed = true
         }
       }],
+      persistentContext: { t: 't' },
       timeout,
       name: input,
-      fn() {
-        return input
+      fn({ t }) {
+        return `${t}-${input}`
       },
     }], {
       runTest,
