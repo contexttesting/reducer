@@ -44,10 +44,10 @@ These are the common types used in this package. They are available in the [`@zo
 
 __<a name="type-context">`Context`</a>__: A context made with a constructor.
 
-|   Name   |      Type       |              Description              |
-| -------- | --------------- | ------------------------------------- |
-| _init    | _() =&gt; void_ | A function to initialise the context. |
-| _destroy | _() =&gt; void_ | A function to destroy the context.    |
+|   Name   |        Type         |              Description              |
+| -------- | ------------------- | ------------------------------------- |
+| _init    | <em>() => void</em> | A function to initialise the context. |
+| _destroy | <em>() => void</em> | A function to destroy the context.    |
 
 `{new(...args: any[]): Context}` __<a name="type-contextconstructor">`ContextConstructor`</a>__: A function or class or object that makes a context
 
@@ -70,20 +70,20 @@ Runs tests and test suites in the array with the `runTest` and `runTestSuite` me
 
 __<a name="type-testortestsuite">`TestOrTestSuite`</a>__: The test or test suite (determined by the presence of the `fn` property).
 
-|    Name    |    Type    |                Description                | Default |
-| ---------- | ---------- | ----------------------------------------- | ------- |
-| __name*__  | _string_   | The name of the test or a test suite.     | -       |
-| fn         | _function_ | The test function to run.                 | -       |
-| isFocused  | _boolean_  | If the test or test suite is focused.     | `false` |
-| hasFocused | _boolean_  | Whether the test suite has focused tests. | -       |
+|    Name    |       Type        |                Description                | Default |
+| ---------- | ----------------- | ----------------------------------------- | ------- |
+| __name*__  | <em>string</em>   | The name of the test or a test suite.     | -       |
+| fn         | <em>function</em> | The test function to run.                 | -       |
+| isFocused  | <em>boolean</em>  | If the test or test suite is focused.     | `false` |
+| hasFocused | <em>boolean</em>  | Whether the test suite has focused tests. | -       |
 
 __<a name="type-config">`Config`</a>__: Options for the reducer.
 
-|       Name        |                                                Type                                                 |              Description               | Default |
-| ----------------- | --------------------------------------------------------------------------------------------------- | -------------------------------------- | ------- |
-| onlyFocused       | _boolean_                                                                                           | Run only focused tests.                | `false` |
-| __runTest*__      | _(test: { fn: function }) =&gt; Promise.&lt;*>_                                                     | The function used to run a test.       | -       |
-| __runTestSuite*__ | _(testSuite: Object, onlyFocused: boolean) =&gt; Promise.&lt;[TestSuiteLite](#type-testsuitelite)>_ | The function used to run a test suite. | -       |
+|       Name        |                                     Type                                      |              Description               | Default |
+| ----------------- | ----------------------------------------------------------------------------- | -------------------------------------- | ------- |
+| onlyFocused       | <em>boolean</em>                                                              | Run only focused tests.                | `false` |
+| __runTest*__      | <em>(test: { fn: function }) => Promise.<*></em>                              | The function used to run a test.       | -       |
+| __runTestSuite*__ | <em>(testSuite: Object, onlyFocused: boolean) => Promise.<TestSuiteLite></em> | The function used to run a test suite. | -       |
 
 `Object.<string, Test|Object.<string, Test|Object.<string, Test>>>` __<a name="type-testsuitelite">`TestSuiteLite`</a>__: An recursive tree returned by the reducer containing nested test suites with tests updated with the outcome of the `runTest` method (therefore, the reducer is not pure since the passed tests are mutated).
 
@@ -136,22 +136,22 @@ The `persistentContext` property can contain either an array or a single evaluat
 
 __<a name="type-test">`Test`</a>__: The test structure used in `runTest`.
 
-|       Name        |               Type                |                                Description                                | Default |
-| ----------------- | --------------------------------- | ------------------------------------------------------------------------- | ------- |
-| __fn*__           | _function_                        | The test function to run.                                                 | -       |
-| context           | _Array&lt;ContextConstructor&gt;_ | Any context constructors for the test to be evaluated.                    | -       |
-| persistentContext | _Array&lt;ContextConstructor&gt;_ | Any context constructors for the test that are managed by the test suite. | -       |
-| timeout           | _number_                          | The timeout for the test, context evaluation and destruction.             | `null`  |
+|       Name        |                                                                    Type                                                                    |                                Description                                | Default |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------- | ------- |
+| __fn*__           | <em>function</em>                                                                                                                          | The test function to run.                                                 | -       |
+| context           | <em>Array&lt;<a href="#type-contextconstructor" title="A function or class or object that makes a context">ContextConstructor</a>&gt;</em> | Any context constructors for the test to be evaluated.                    | -       |
+| persistentContext | <em>Array&lt;<a href="#type-contextconstructor" title="A function or class or object that makes a context">ContextConstructor</a>&gt;</em> | Any context constructors for the test that are managed by the test suite. | -       |
+| timeout           | <em>number</em>                                                                                                                            | The timeout for the test, context evaluation and destruction.             | `null`  |
 
 __<a name="type-runtestresult">`RunTestResult`</a>__: The result of the runTest function.
 
-|     Name      |  Type   |                         Description                          | Default |
-| ------------- | ------- | ------------------------------------------------------------ | ------- |
-| __started*__  | _Date_  | The date when the test started.                              | -       |
-| __finished*__ | _Date_  | The date when the test finished.                             | -       |
-| error         | _Error_ | The error which happened during the test.                    | `null`  |
-| result        | _*_     | The result which the test returned.                          | `null`  |
-| destroyResult | _*_     | The result which the destroy method on the context returned. | `null`  |
+|     Name      |      Type      |                         Description                          | Default |
+| ------------- | -------------- | ------------------------------------------------------------ | ------- |
+| __started*__  | <em>Date</em>  | The date when the test started.                              | -       |
+| __finished*__ | <em>Date</em>  | The date when the test finished.                             | -       |
+| error         | <em>Error</em> | The error which happened during the test.                    | `null`  |
+| result        | <em>*</em>     | The result which the test returned.                          | `null`  |
+| destroyResult | <em>*</em>     | The result which the destroy method on the context returned. | `null`  |
 
 In the example below, the `reducer` is given and array of tests and the `runTest` function. The test has the `fn` property and 2 contexts: one as an object and another one as a class. They are evaluated and passed to the test. The `_destroy` method of the class context is used to calculate the time taken to run the test. Finally, the result of the `runTest` is assigned to the tests in the array.
 
@@ -193,17 +193,19 @@ import reducer, { runTest } from '@zoroaster/run-test'
   context: [ { TEST: 'hello' }, [Function: Context] ],
   persistentContext: 'EXAMPLE',
   fn: [AsyncFunction: fn],
-  started: 2019-02-25T10:45:23.292Z,
-  finished: 2019-02-25T10:45:23.402Z,
+  started: 2019-04-30T22:41:37.012Z,
+  finished: 2019-04-30T22:41:37.131Z,
   error: null,
   result: '[EXAMPLE] hello-world: ok',
-  destroyResult: [ undefined, '109ms' ] }
+  destroyResult: [ undefined, '114ms' ] }
 ```
 
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/4.svg?sanitize=true"></a></p>
 
 ## Copyright
 
-(c) [Context Testing](https://contexttesting.com) 2019
+
+  (c) [Context Testing](https://contexttesting.com) 2019
+
 
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/-1.svg?sanitize=true"></a></p>

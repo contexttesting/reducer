@@ -11,8 +11,8 @@ Runs tests and test suites in the array with the `runTest` and `runTestSuite` me
 
 %TYPEDEF types/reducer.xml%
 
-%EXAMPLE: example/reducer.js, ../src => @zoroaster/reducer%
-%FORK-js example example/reducer%
+%EXAMPLE: example/reducer, ../src => @zoroaster/reducer%
+%FORK-js example/reducer%
 
 %~%
 
