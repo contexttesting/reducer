@@ -27,7 +27,7 @@ There are common __contextTesting_ types used in this package. They are availabl
 
 %TYPEDEF types/reducer.xml%
 
-The reducer iterates through the array of provided tests and pass them one-by-one to the given `runTest` method which in turn must call `@zoroaster/reducer.runTest` method. Tests can have a raw `context` property which is either a context constructor or a context object. If it is a constructor, it should return an object or an instance that stores a state. The package can evaluate the context of the class, function and object types. Tests then receive evaluated context to access the testing API and the state.
+The reducer iterates through the array of provided tests (which can either be test cases or test suites) and passes them one-by-one to the given `runTest` and `runTestSuite` methods which in turn must call `@zoroaster/reducer.runTest` method. All additional operations such as logging of results must be done by those methods, therefore this library provides the means of iterating through items and running them serially, while also evaluating the contexts. Tests can have a raw `context` property which is either a context constructor or a context object. If it is a constructor, it should return an object or an instance that stores a state. The package can evaluate the context of the class, function and object types. Tests then receive evaluated context to access the testing API and the state.
 
 A recursive tree is returned by the reducer containing nested test suites with tests updated with the outcome of the `runTest` method (therefore, the reducer is not pure since the passed tests are mutated).
 
