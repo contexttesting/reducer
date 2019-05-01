@@ -98,13 +98,13 @@ const runInSequence = async (testSuite, level = 0) => {
  test-suite
   [+] test1: [object Object]
 ```
-```js
+```jsx
 { test: 
    { name: 'test',
      fn: [Function: fn],
      result: 
-      { started: 2019-05-01T17:49:11.383Z,
-        finished: 2019-05-01T17:49:11.384Z,
+      { started: 2019-05-01T17:50:36.368Z,
+        finished: 2019-05-01T17:50:36.368Z,
         error: null,
         result: 'ok',
         destroyResult: [] } },
@@ -113,8 +113,8 @@ const runInSequence = async (testSuite, level = 0) => {
      context: [Function: Context],
      fn: [Function: fn],
      result: 
-      { started: 2019-05-01T17:49:11.387Z,
-        finished: 2019-05-01T17:49:11.401Z,
+      { started: 2019-05-01T17:50:36.372Z,
+        finished: 2019-05-01T17:50:36.389Z,
         error: null,
         result: 'ok - world',
         destroyResult: [Array] } },
@@ -194,11 +194,11 @@ import reducer, { runTest } from '@zoroaster/run-test'
   context: [ { TEST: 'hello' }, [Function: Context] ],
   persistentContext: 'EXAMPLE',
   fn: [AsyncFunction: fn],
-  started: 2019-05-01T17:32:13.889Z,
-  finished: 2019-05-01T17:32:13.998Z,
+  started: 2019-05-01T17:50:37.089Z,
+  finished: 2019-05-01T17:50:37.203Z,
   error: null,
   result: '[EXAMPLE] hello-world: ok',
-  destroyResult: [ undefined, '109ms' ] }
+  destroyResult: [ undefined, '114ms' ] }
 ```
 
 __<a name="type-_contexttestingruntestresult">`_contextTesting.RunTestResult`</a>__: The result of the runTest function.

@@ -9,7 +9,7 @@ Runs tests and test suites in the array with the `runTest` and `runTestSuite` me
 
 %EXAMPLE: example/reducer, ../src => @zoroaster/reducer%
 %FORK example/reducer%
-%FORKERR-js example/reducer%
+%FORKERR-jsx example/reducer%
 
 %~%
 
