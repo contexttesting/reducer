@@ -1,4 +1,4 @@
-// destroys after timeout
+## destroys after timeout
 test
 
 /* timeout */
@@ -9,7 +9,7 @@ test
 null
 /**/
 
-// returns result before timeout
+## returns result before timeout
 test
 
 /* timeout */

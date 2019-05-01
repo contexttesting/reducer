@@ -1,9 +1,22 @@
 /**
  * Run all tests in sequence, one by one.
  * This also runs only selected tests, e.g., !test and !test suite
- * @param {TestOrTestSuite[]} tests An array with tests to reduce.
- * @param {Config} config Options for the reducer.
- * @returns {Promise.<TestSuiteLite>}
+ * @param {!Array<!(_contextTesting.Test|_contextTesting.TestSuite)>} tests An array with tests to reduce.
+ * @param {_contextTesting.ReducerConfig} config The options for the reducer.
+ * @param {boolean} [config.onlyFocused=false] Run only focused tests. Default `false`.
+ * @param {function(_contextTesting.Test): !Promise} config.runTest The function that wraps around `@zoroaster/reducer.runTest` method.
+ * @param {function(_contextTesting.TestSuite, boolean): !Promise<!_contextTesting.TestSuite>} config.runTestSuite The function used to run a test suite. The second argument receives whether the test suite has focused.
+ * @example
+```ts
+type TestOrTestSuite = {
+  context?: function(new: Context)
+  timeout?: number;
+  name: number;
+  isFocused?: boolean;
+  hasFocused?: boolean;
+  fn: Function;
+}
+```
  */
 const reducer = async (tests = [], config) => {
   const {
@@ -43,8 +56,14 @@ const reducer = async (tests = [], config) => {
 export default reducer
 
 /**
- * @typedef {import('../..').TestOrTestSuite} TestOrTestSuite
- * @typedef {import('../..').Config} Config Options for the reducer.
- * @typedef {import('../..').TestSuite} TestSuite The structure which will be passed to the `runTestSuite` method.
- * @typedef {import('../..').TestSuiteLite} TestSuiteLite The structure which will be passed to the `runTestSuite` method.
+ * @suppress {nonStandardJsDocs}
+ * @typedef {import('@zoroaster/types').Test} _contextTesting.Test
+ */
+/**
+ * @suppress {nonStandardJsDocs}
+ * @typedef {import('@zoroaster/types').TestSuite} _contextTesting.TestSuite
+ */
+/**
+ * @suppress {nonStandardJsDocs}
+ * @typedef {import('../../types').ReducerConfig} _contextTesting.ReducerConfig
  */

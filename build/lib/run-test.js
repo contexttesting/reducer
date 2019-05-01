@@ -3,16 +3,20 @@ const { _evaluateContexts, destroyContexts } = require('.');
 
 /**
  * Asynchronously runs the test within a timeout limit. Evaluates the contexts beforehand and destroys them after.
- * @param {Test} test The test to run.
+ * @param {_contextTesting.Test} test The test structure used in `runTest`.
+ * @param {!Function} test.fn The test function to run.
+ * @param {!Array<_contextTesting.ContextConstructor>} [test.context] Any context constructors for the test to be evaluated.
+ * @param {!Array<_contextTesting.Context>} [test.persistentContext] Any evaluated context constructors for the test that are managed by the test suite.
+ * @param {?number} [test.timeout="null"] The timeout for the test, context evaluation and destruction. Default `null`.
  */
 const runTest = async (test) => {
   const { context, timeout = null, fn, persistentContext } = test
   const started = new Date()
-  /** @type {Error|null} */
+  /** @type {Error} */
   let error = null
   let result = null, destroyResult = null
 
-  /** @type {Context[]} */
+  /** @type {!Array<_contextTesting.Context>} */
   let evaluatedContexts = []
   let e
   let eEvaluated
@@ -63,5 +67,10 @@ module.exports=runTest
 
 
 /**
- * @typedef {import('..').Test} Test
+ * @typedef {import('../../types').Test} _contextTesting.Test
+ */
+
+/**
+ * @typedef {import('@zoroaster/types').Context} _contextTesting.Context
+ * @typedef {import('@zoroaster/types').ContextConstructor} _contextTesting.ContextConstructor
  */

@@ -1,18 +1,22 @@
 import promto from 'promto'
-import { _evaluateContexts, destroyContexts } from '.'
+import { _evaluateContexts, destroyContexts } from './'
 
 /**
  * Asynchronously runs the test within a timeout limit. Evaluates the contexts beforehand and destroys them after.
- * @param {Test} test The test to run.
+ * @param {Object} test The test to run.
+ * @param {Array<*>} test.context Any contexts to evaluate.
+ * @param {!Function} test.fn The function to execute.
+ * @param {!Object} test.persistentContext Contexts already evaluated by the test suite.
+ * @param {?number} test.timeout
  */
 const runTest = async (test) => {
   const { context, timeout = null, fn, persistentContext } = test
   const started = new Date()
-  /** @type {Error|null} */
+  /** @type {Error} */
   let error = null
   let result = null, destroyResult = null
 
-  /** @type {Context[]} */
+  /** @type {!Array<!_contextTesting.Context>} */
   let evaluatedContexts = []
   let e
   let eEvaluated
@@ -63,5 +67,10 @@ export default runTest
 
 
 /**
- * @typedef {import('..').Test} Test
+ * @typedef {import('@zoroaster/types').Test} _contextTesting.Test
+ */
+
+/**
+ * @typedef {import('@zoroaster/types').Context} _contextTesting.Context
+ * @typedef {import('@zoroaster/types').ContextConstructor} _contextTesting.ContextConstructor
  */

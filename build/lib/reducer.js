@@ -1,9 +1,11 @@
 /**
  * Run all tests in sequence, one by one.
  * This also runs only selected tests, e.g., !test and !test suite
- * @param {TestOrTestSuite[]} tests An array with tests to reduce.
- * @param {Config} config Options for the reducer.
- * @returns {Promise.<TestSuiteLite>}
+ * @param {!Array<_contextTesting.TestOrTestSuite>} tests An array with tests to reduce.
+ * @param {_contextTesting.ReducerConfig} config The options for the reducer.
+ * @param {boolean} [config.onlyFocused=false] Run only focused tests. Default `false`.
+ * @param {function({ fn: !Function }): !Promise} config.runTest The function used to run a test.
+ * @param {function(!Object, boolean): !Promise<!TestSuite>} config.runTestSuite The function used to run a test suite.
  */
 const reducer = async (tests = [], config) => {
   const {
@@ -43,8 +45,14 @@ const reducer = async (tests = [], config) => {
 module.exports=reducer
 
 /**
- * @typedef {import('../..').TestOrTestSuite} TestOrTestSuite
- * @typedef {import('../..').Config} Config Options for the reducer.
- * @typedef {import('../..').TestSuite} TestSuite The structure which will be passed to the `runTestSuite` method.
- * @typedef {import('../..').TestSuiteLite} TestSuiteLite The structure which will be passed to the `runTestSuite` method.
+ * @suppress {nonStandardJsDocs}
+ * @typedef {import('../../types').TestOrTestSuite} _contextTesting.TestOrTestSuite
+ */
+/**
+ * @suppress {nonStandardJsDocs}
+ * @typedef {import('../../types').ReducerConfig} _contextTesting.ReducerConfig
+ */
+/**
+ * @suppress {nonStandardJsDocs}
+ * @typedef {import('../../types').TestSuite} _contextTesting.TestSuite
  */

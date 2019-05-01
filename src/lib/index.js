@@ -1,6 +1,6 @@
 /**
  * Evaluate a context or contexts in parallel.
- * @param {ContextConstructor[]} [contexts=[]] The context constructors (class, function, object).
+ * @param {!Array<_contextTesting.ContextConstructor>} [contexts] The context constructors (class, function, object).
  */
 export async function _evaluateContexts(contexts = []) {
   const c = Array.isArray(contexts) ? contexts : [contexts]
@@ -10,14 +10,14 @@ export async function _evaluateContexts(contexts = []) {
 }
 
 /**
- * @param {ContextConstructor|function} context The context to evaluate.
- * @return {Context}
+ * @param {*} context The context to evaluate.
  */
 export const evaluateContext = async (context) => {
   const fn = isFunction(context)
-  if (!fn) return context
+  if (!fn) return /** @type {_contextTesting.Context} */ (context)
 
   try {
+    /** @type {_contextTesting.Context} */
     const c = {}
     await context.call(c)
     return c
@@ -31,6 +31,7 @@ export const evaluateContext = async (context) => {
       await c._init()
     }
 
+    /** @type {_contextTesting.Context} */
     const p = new Proxy(c, {
       get(target, key) {
         if (key == 'then') return target
@@ -46,8 +47,7 @@ export const evaluateContext = async (context) => {
 }
 
 /**
- * @param {Context[]} contexts The contexts to destroy with _destroy method
- * @return {*[]} The result of the destroy call on each context.
+ * @param {!Array<_contextTesting.Context>} contexts The contexts to destroy with _destroy method.
  */
 export const destroyContexts = async (contexts) => {
   const dc = contexts.map(async (c) => {
@@ -64,8 +64,7 @@ export function isFunction(fn) {
   return (typeof fn).toLowerCase() == 'function'
 }
 
-
 /**
- * @typedef {import('@zoroaster/types').Context} Context
- * @typedef {import('@zoroaster/types').ContextConstructor} ContextConstructor
+ * @typedef {import('@zoroaster/types').Context} _contextTesting.Context
+ * @typedef {import('@zoroaster/types').ContextConstructor} _contextTesting.ContextConstructor
  */

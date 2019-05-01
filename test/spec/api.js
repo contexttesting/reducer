@@ -1,15 +1,13 @@
 import { equal } from 'zoroaster/assert'
-import reducer, * as api from '../../src' // IT'S NOT TESTING THE BUILD API
-
-const API = { ...api }
+// IT'S NOT TESTING THE BUILD API
+import reducer, { runTest } from '../../src'
 
 /** @type {Object.<string, (api: API)>} */
 const TS = {
-  context: API,
   'reducer is a function'() {
     equal(typeof reducer, 'function')
   },
-  'runTest is a function'({ runTest }) {
+  'runTest is a function'() {
     equal(typeof runTest, 'function')
   },
 }

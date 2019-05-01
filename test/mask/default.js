@@ -1,4 +1,5 @@
-import { makeTestSuite, ok } from 'zoroaster'
+import { ok } from 'zoroaster'
+import makeTestSuite from '@zoroaster/mask'
 import reducer, { runTest } from '../../src'
 
 export default makeTestSuite('test/result/default.md', {

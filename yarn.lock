@@ -134,6 +134,11 @@
   dependencies:
     promto "1.0.1"
 
+"@zoroaster/types@^0.0.0":
+  version "0.0.0"
+  resolved "https://registry.yarnpkg.com/@zoroaster/types/-/types-0.0.0.tgz#c4b22ab6f23e9d42454e094d039dfa2be75f6b16"
+  integrity sha512-CjkgOisMwIvigrSSHZgjCtXLV3KqUDIF0Uk1YOzdZfelv71bgCpSHzz9gwlTeMo4FZiAex7q+Ra3CyqL025fsQ==
+
 alamode@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/alamode/-/alamode-2.0.0.tgz#5dcbc8fdb7fe52b7e23ee9daddd61660adcd33c0"

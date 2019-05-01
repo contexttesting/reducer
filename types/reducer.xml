@@ -1,15 +1,36 @@
-<types>
-  <type name="Config" desc="Options for the reducer.">
+<types namespace="_contextTesting">
+  <import name="Context" ns="_contextTesting" from="@zoroaster/types" />
+  <import name="ContextConstructor" ns="_contextTesting" from="@zoroaster/types" />
+  <import name="Test" ns="_contextTesting" from="@zoroaster/types" desc="The test interface." />
+  <import name="TestSuite" ns="_contextTesting" from="@zoroaster/types" desc="The test sutie interface."/>
+
+  <type record name="ReducerConfig" desc="The options for the reducer.">
     <prop boolean name="onlyFocused" default="false">
       Run only focused tests.
     </prop>
-    <prop type="(test: { fn: function }) => Promise.<*>" name="runTest">
-      The function used to run a test.
+    <prop type="function(_contextTesting.Test): !Promise" name="runTest">
+      The function that wraps around `@zoroaster/reducer.runTest` method.
     </prop>
-    <prop type="(testSuite: Object, onlyFocused: boolean) => Promise.<TestSuiteLite>" name="runTestSuite">
-      The function used to run a test suite.
+    <prop type="function(_contextTesting.TestSuite, boolean): !Promise<!_contextTesting.TestSuite>" name="runTestSuite">
+      The function used to run a test suite. The second argument receives whether the test suite has focused.
     </prop>
   </type>
 
-  <type type="Object.<string, Test|Object.<string, Test|Object.<string, Test>>>" name="TestSuiteLite" desc="An recursive tree returned by the reducer containing nested test suites with tests updated with the outcome of the `runTest` method (therefore, the reducer is not pure since the passed tests are mutated)." />
+  <type name="RunTestResult" desc="The result of the runTest function.">
+    <prop type="Date" name="started">
+      The date when the test started.
+    </prop>
+    <prop type="Date" name="finished">
+      The date when the test finished.
+    </prop>
+    <prop type="Error" name="error" default="null">
+      The error which happened during the test.
+    </prop>
+    <prop type="*" name="result" default="null">
+      The result which the test returned.
+    </prop>
+    <prop type="*" name="destroyResult" default="null">
+      The result which the destroy method on the context returned.
+    </prop>
+  </type>
 </types>
