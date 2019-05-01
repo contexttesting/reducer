@@ -1,6 +1,4 @@
 <types namespace="_contextTesting">
-  <import name="Context" ns="_contextTesting" from="@zoroaster/types" />
-  <import name="ContextConstructor" ns="_contextTesting" from="@zoroaster/types" />
   <import name="Test" ns="_contextTesting" from="@zoroaster/types" desc="The test interface." />
   <import name="TestSuite" ns="_contextTesting" from="@zoroaster/types" desc="The test sutie interface."/>
 

@@ -82,10 +82,6 @@ import reducer from '@zoroaster/reducer'
 
 There are common __contextTesting_ types used in this package. They are available in the [`@zoroaster/types`](https://github.com/contexttesting/types) package.
 
-`import('@zoroaster/types').Context` __<a name="type-_contexttestingcontext">`_contextTesting.Context`</a>__
-
-`import('@zoroaster/types').ContextConstructor` __<a name="type-_contexttestingcontextconstructor">`_contextTesting.ContextConstructor`</a>__
-
 `import('@zoroaster/types').Test` __<a name="type-_contexttestingtest">`_contextTesting.Test`</a>__: The test interface.
 
 `import('@zoroaster/types').TestSuite` __<a name="type-_contexttestingtestsuite">`_contextTesting.TestSuite`</a>__: The test sutie interface.
