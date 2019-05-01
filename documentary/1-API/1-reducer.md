@@ -1,4 +1,4 @@
-```## async reducer => TestSuite
+```## async reducer => Tree
 [
   ["tests", "Array<Test|TestSuite>"],
   ["config?", "ReducerConfig"]
@@ -27,7 +27,7 @@ There are common __contextTesting_ types used in this package. They are availabl
 
 %TYPEDEF types/reducer.xml%
 
-Tests have a raw `context` property which is a context constructor. It should return an object or an instance that can store a state. It is then passed by the reducer to the `runTest` method which evaluates it. The package can evaluate the context of the class, function and object types. Tests receive evaluated context to access the testing API and the state.
+The reducer iterates through the array of provided tests and pass them one-by-one to the given `runTest` method which in turn must call `@zoroaster/reducer.runTest` method. Tests can have a raw `context` property which is either a context constructor or a context object. If it is a constructor, it should return an object or an instance that stores a state. The package can evaluate the context of the class, function and object types. Tests then receive evaluated context to access the testing API and the state.
 
 A recursive tree is returned by the reducer containing nested test suites with tests updated with the outcome of the `runTest` method (therefore, the reducer is not pure since the passed tests are mutated).
 
