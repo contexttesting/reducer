@@ -82,9 +82,9 @@ import reducer from '@zoroaster/reducer'
 
 There are common __contextTesting_ types used in this package. They are available in the [`@zoroaster/types`](https://github.com/contexttesting/types) package.
 
-`import('@zoroaster/types').Test` __<a name="type-_contexttestingtest">`_contextTesting.Test`</a>__: The test interface.
+[`import('@zoroaster/types').Test`](https://github.com/contexttesting/types#type-_contexttestingtest) __<a name="type-_contexttestingtest">`_contextTesting.Test`</a>__: The test interface.
 
-`import('@zoroaster/types').TestSuite` __<a name="type-_contexttestingtestsuite">`_contextTesting.TestSuite`</a>__: The test sutie interface.
+[`import('@zoroaster/types').TestSuite`](https://github.com/contexttesting/types#type-_contexttestingtestsuite) __<a name="type-_contexttestingtestsuite">`_contextTesting.TestSuite`</a>__: The test sutie interface.
 
 __<a name="type-_contexttestingreducerconfig">`_contextTesting.ReducerConfig`</a>__: The options for the reducer.
 
@@ -158,11 +158,11 @@ import reducer, { runTest } from '@zoroaster/run-test'
   context: [ { TEST: 'hello' }, [Function: Context] ],
   persistentContext: 'EXAMPLE',
   fn: [AsyncFunction: fn],
-  started: 2019-05-01T17:06:11.950Z,
-  finished: 2019-05-01T17:06:12.062Z,
+  started: 2019-05-01T17:28:43.385Z,
+  finished: 2019-05-01T17:28:43.492Z,
   error: null,
   result: '[EXAMPLE] hello-world: ok',
-  destroyResult: [ undefined, '109ms' ] }
+  destroyResult: [ undefined, '106ms' ] }
 ```
 
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/4.svg?sanitize=true"></a></p>

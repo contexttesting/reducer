@@ -1,6 +1,6 @@
 <types namespace="_contextTesting">
-  <import name="Test" ns="_contextTesting" from="@zoroaster/types" desc="The test interface." />
-  <import name="TestSuite" ns="_contextTesting" from="@zoroaster/types" desc="The test sutie interface."/>
+  <import name="Test" ns="_contextTesting" from="@zoroaster/types" desc="The test interface." link="https://github.com/contexttesting/types#type-_contexttestingtest" />
+  <import name="TestSuite" ns="_contextTesting" from="@zoroaster/types" desc="The test sutie interface." link="https://github.com/contexttesting/types#type-_contexttestingtestsuite" />
 
   <type record name="ReducerConfig" desc="The options for the reducer.">
     <prop boolean name="onlyFocused" default="false">
