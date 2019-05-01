@@ -8,8 +8,16 @@ export {}
  * @typedef {Object} _contextTesting.ReducerConfig `@record` The options for the reducer.
  * @prop {boolean} [onlyFocused=false] Run only focused tests. Default `false`.
  * @prop {function(!_contextTesting.Test): !Promise} runTest The function that wraps around `@zoroaster/reducer.runTest` method.
- * @prop {function(!_contextTesting.TestSuite, boolean): !Promise<!_contextTesting.TestSuite>} runTestSuite The function used to run a test suite. The second argument receives whether the test suite has focused.
+ * @prop {function(!_contextTesting.TestSuite, boolean): !Promise<!_contextTesting.TestSuite>} runTestSuite The function used to run a test suite. The second argument receives whether only focused tests should be run within this test suite.
  */
+/**
+ * @typedef {import('@zoroaster/types').Test} _contextTesting.Test
+ */
+/**
+ * @typedef {import('@zoroaster/types').TestSuite} _contextTesting.TestSuite
+ */
+
+/* typal types/result.xml closure noSuppress */
 /**
  * @typedef {_contextTesting.RunTestResult} RunTestResult The result of the runTest function.
  */
@@ -21,10 +29,3 @@ export {}
  * @prop {*} [result="null"] The result which the test returned. Default `null`.
  * @prop {*} [destroyResult="null"] The result which the destroy method on the context returned. Default `null`.
  */
-/**
- * @typedef {import('@zoroaster/types').Test} _contextTesting.Test
- */
-/**
- * @typedef {import('@zoroaster/types').TestSuite} _contextTesting.TestSuite
- */
-

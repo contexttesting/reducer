@@ -13,4 +13,7 @@ In the example below, the `reducer` is given and array of tests and the `runTest
 %EXAMPLE: example/run-test, ../src => @zoroaster/run-test%
 %FORK-fs example/run-test%
 
+%TYPEDEF types/result.xml%
+
+
 %~%

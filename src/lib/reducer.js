@@ -5,7 +5,7 @@
  * @param {!_contextTesting.ReducerConfig} config The options for the reducer.
  * @param {boolean} [config.onlyFocused=false] Run only focused tests. Default `false`.
  * @param {function(!_contextTesting.Test): !Promise} config.runTest The function that wraps around `@zoroaster/reducer.runTest` method.
- * @param {function(!_contextTesting.TestSuite, boolean): !Promise<!_contextTesting.TestSuite>} config.runTestSuite The function used to run a test suite. The second argument receives whether the test suite has focused.
+ * @param {function(!_contextTesting.TestSuite, boolean): !Promise<!_contextTesting.TestSuite>} config.runTestSuite The function used to run a test suite. The second argument receives whether only focused tests should be run within this test suite.
  */
 const reducer = async (tests, config) => {
   const {
