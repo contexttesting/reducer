@@ -46,15 +46,14 @@ const runInSequence = async (testSuite, level = 0) => {
   const indent = '  '.repeat(level)
   return await reducer(testSuite, {
     async runTest(test) {
-      let result
-      try {
-        result = await runTest(test)
-      } catch (error) {
-        console.log('%s[x] %s: %s', indent, test.name, error.message)
-        return { error: error.message }
+      const result = await runTest(test)
+      if (result.error) {
+        console.log('%s[x] %s: %s', indent, test.name, result.error.message)
+      } else {
+        console.log('%s[+] %s: %s', indent, test.name, result.result)
       }
-      console.log('%s[+] %s%s', indent, test.name, result ? `: ${result}` : '')
-      return { result }
+      if (result.error) result.error = result.error.message // for display
+      return result
     },
     async runTestSuite(ts) {
       console.log('%s %s', indent, ts.name)
@@ -93,33 +92,38 @@ const runInSequence = async (testSuite, level = 0) => {
 })()
 ```
 ```
-[+] test: [object Object]
-[+] test with context: [object Object]
+[+] test: ok
+[+] test with context: ok - world
  test-suite
-  [+] test1: [object Object]
+  [x] test1: fail
 ```
 ```jsx
 { test: 
    { name: 'test',
      fn: [Function: fn],
-     result: 
-      { started: 2019-05-01T17:50:36.368Z,
-        finished: 2019-05-01T17:50:36.368Z,
-        error: null,
-        result: 'ok',
-        destroyResult: [] } },
+     started: 2019-05-01T17:54:10.209Z,
+     finished: 2019-05-01T17:54:10.210Z,
+     error: null,
+     result: 'ok',
+     destroyResult: [] },
   'test with context': 
    { name: 'test with context',
      context: [Function: Context],
      fn: [Function: fn],
-     result: 
-      { started: 2019-05-01T17:50:36.372Z,
-        finished: 2019-05-01T17:50:36.389Z,
-        error: null,
-        result: 'ok - world',
-        destroyResult: [Array] } },
+     started: 2019-05-01T17:54:10.214Z,
+     finished: 2019-05-01T17:54:10.230Z,
+     error: null,
+     result: 'ok - world',
+     destroyResult: [ undefined ] },
   'test-suite': 
-   { test1: { name: 'test1', fn: [Function: fn], result: [Object] } } }
+   { test1: 
+      { name: 'test1',
+        fn: [Function: fn],
+        started: 2019-05-01T17:54:10.231Z,
+        finished: 2019-05-01T17:54:10.231Z,
+        error: 'fail',
+        result: null,
+        destroyResult: [] } } }
 ```
 
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/2.svg?sanitize=true"></a></p>

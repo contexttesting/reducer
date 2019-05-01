@@ -4,15 +4,14 @@ const runInSequence = async (testSuite, level = 0) => {
   const indent = '  '.repeat(level)
   return await reducer(testSuite, {
     async runTest(test) {
-      let result
-      try {
-        result = await runTest(test)
-      } catch (error) {
-        console.log('%s[x] %s: %s', indent, test.name, error.message)
-        return { error: error.message }
+      const result = await runTest(test)
+      if (result.error) {
+        console.log('%s[x] %s: %s', indent, test.name, result.error.message)
+      } else {
+        console.log('%s[+] %s: %s', indent, test.name, result.result)
       }
-      console.log('%s[+] %s%s', indent, test.name, result ? `: ${result}` : '')
-      return { result }
+      if (result.error) result.error = result.error.message // for display
+      return result
     },
     async runTestSuite(ts) {
       console.log('%s %s', indent, ts.name)
