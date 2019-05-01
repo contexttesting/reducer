@@ -127,7 +127,7 @@ const runInSequence = async (testSuite, level = 0) => {
 
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/2.svg?sanitize=true"></a></p>
 
-The main interfaces that the _@Zoroaster/Reducer_ uses are the Test and TestSuite, which contain the minimal properties required to decide whether to run a test, or reduce a test suite further.
+The main interfaces that the _@Zoroaster/Reducer_ uses are the Test and TestSuite, which contain the minimal properties required to decide whether to run a test, or reduce a test suite further. They are shared with `zoroaster` binary and come from the [`@zoroaster/types`](https://github.com/contexttesting/types) package.
 
 [`import('@zoroaster/types').Test`](https://github.com/contexttesting/types#type-_contexttestingtest) __<a name="type-_contexttestingtest">`_contextTesting.Test`</a>__: The test interface.
 
