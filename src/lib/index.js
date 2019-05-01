@@ -26,7 +26,7 @@ export const evaluateContext = async (context) => {
       throw err
     }
     // constructor context
-    const c = new context()
+    const c = new /** @type {!_contextTesting.ContextConstructor} */ (context)()
     if (c._init) {
       await c._init()
     }
@@ -65,6 +65,10 @@ export function isFunction(fn) {
 }
 
 /**
+ * @suppress {nonStandardJsDocs}
  * @typedef {import('@zoroaster/types').Context} _contextTesting.Context
+ */
+/**
+ * @suppress {nonStandardJsDocs}
  * @typedef {import('@zoroaster/types').ContextConstructor} _contextTesting.ContextConstructor
  */

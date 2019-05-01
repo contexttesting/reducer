@@ -1,42 +1,38 @@
 /**
  * Run all tests in sequence, one by one.
  * This also runs only selected tests, e.g., !test and !test suite
- * @param {!Array<_contextTesting.TestOrTestSuite>} tests An array with tests to reduce.
- * @param {_contextTesting.ReducerConfig} config The options for the reducer.
+ * @param {!Array<!(_contextTesting.Test|_contextTesting.TestSuite)>} tests An array with tests to reduce.
+ * @param {!_contextTesting.ReducerConfig} config The options for the reducer.
  * @param {boolean} [config.onlyFocused=false] Run only focused tests. Default `false`.
- * @param {function({ fn: !Function }): !Promise} config.runTest The function used to run a test.
- * @param {function(!Object, boolean): !Promise<!TestSuite>} config.runTestSuite The function used to run a test suite.
+ * @param {function(!_contextTesting.Test): !Promise} config.runTest The function that wraps around `@zoroaster/reducer.runTest` method.
+ * @param {function(!_contextTesting.TestSuite, boolean): !Promise<!_contextTesting.TestSuite>} config.runTestSuite The function used to run a test suite. The second argument receives whether the test suite has focused.
  */
-const reducer = async (tests = [], config) => {
+const reducer = async (tests, config) => {
   const {
     onlyFocused = false,
-    allCanRun = !onlyFocused,
     runTest,
     runTestSuite,
   } = config
+  const allCanRun = !onlyFocused
   const newState = await tests.reduce(async (acc, test) => {
     const {
-      name, isFocused, fn, isTest = !!fn,
-      // ts
-      hasFocused,
+      name, isFocused, fn, hasFocused,
     } = test
+    const isTest = !!fn
     if (allCanRun || isFocused || hasFocused) {
       const accRes = acc instanceof Promise ? await acc : acc // :o
-      let res
-      const exec = isTest
-        ? () => runTest(test)
-        : () => runTestSuite(test, hasFocused)
-      res = await exec()
+      // let res
       if (isTest) {
+        const res = await runTest(test)
         Object.assign(test, res)
         accRes[name] = test
       } else {
+        const res = await runTestSuite(/** @type {!_contextTesting.TestSuite} */ (test), hasFocused)
         accRes[name] = res
       }
       return accRes
-    } else {
-      return acc
     }
+    return acc
   }, {})
 
   return newState
@@ -46,13 +42,13 @@ module.exports=reducer
 
 /**
  * @suppress {nonStandardJsDocs}
- * @typedef {import('../../types').TestOrTestSuite} _contextTesting.TestOrTestSuite
+ * @typedef {import('@zoroaster/types').Test} _contextTesting.Test
+ */
+/**
+ * @suppress {nonStandardJsDocs}
+ * @typedef {import('@zoroaster/types').TestSuite} _contextTesting.TestSuite
  */
 /**
  * @suppress {nonStandardJsDocs}
  * @typedef {import('../../types').ReducerConfig} _contextTesting.ReducerConfig
- */
-/**
- * @suppress {nonStandardJsDocs}
- * @typedef {import('../../types').TestSuite} _contextTesting.TestSuite
  */

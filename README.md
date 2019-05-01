@@ -88,11 +88,11 @@ There are common __contextTesting_ types used in this package. They are availabl
 
 __<a name="type-_contexttestingreducerconfig">`_contextTesting.ReducerConfig`</a>__: The options for the reducer.
 
-|       Name        |                                                                                                                              Type                                                                                                                               |                                               Description                                               | Default |
-| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | ------- |
-| onlyFocused       | <em>boolean</em>                                                                                                                                                                                                                                                | Run only focused tests.                                                                                 | `false` |
-| __runTest*__      | <em>function(<a href="#type-_contexttestingtest" title="The test interface.">_contextTesting.Test</a>): !Promise</em>                                                                                                                                           | The function that wraps around `@zoroaster/reducer.runTest` method.                                     | -       |
-| __runTestSuite*__ | <em>function(<a href="#type-_contexttestingtestsuite" title="The test sutie interface.">_contextTesting.TestSuite</a>, boolean): !Promise&lt;<a href="#type-_contexttestingtestsuite" title="The test sutie interface.">!_contextTesting.TestSuite</a>&gt;</em> | The function used to run a test suite. The second argument receives whether the test suite has focused. | -       |
+|       Name        |                                                                                                                               Type                                                                                                                               |                                               Description                                               | Default |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | ------- |
+| onlyFocused       | <em>boolean</em>                                                                                                                                                                                                                                                 | Run only focused tests.                                                                                 | `false` |
+| __runTest*__      | <em>function(<a href="#type-_contexttestingtest" title="The test interface.">!_contextTesting.Test</a>): !Promise</em>                                                                                                                                           | The function that wraps around `@zoroaster/reducer.runTest` method.                                     | -       |
+| __runTestSuite*__ | <em>function(<a href="#type-_contexttestingtestsuite" title="The test sutie interface.">!_contextTesting.TestSuite</a>, boolean): !Promise&lt;<a href="#type-_contexttestingtestsuite" title="The test sutie interface.">!_contextTesting.TestSuite</a>&gt;</em> | The function used to run a test suite. The second argument receives whether the test suite has focused. | -       |
 
 __<a name="type-_contexttestingruntestresult">`_contextTesting.RunTestResult`</a>__: The result of the runTest function.
 
@@ -158,11 +158,11 @@ import reducer, { runTest } from '@zoroaster/run-test'
   context: [ { TEST: 'hello' }, [Function: Context] ],
   persistentContext: 'EXAMPLE',
   fn: [AsyncFunction: fn],
-  started: 2019-05-01T12:08:47.234Z,
-  finished: 2019-05-01T12:08:47.348Z,
+  started: 2019-05-01T17:06:11.950Z,
+  finished: 2019-05-01T17:06:12.062Z,
   error: null,
   result: '[EXAMPLE] hello-world: ok',
-  destroyResult: [ undefined, '113ms' ] }
+  destroyResult: [ undefined, '109ms' ] }
 ```
 
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/4.svg?sanitize=true"></a></p>

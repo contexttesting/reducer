@@ -67,10 +67,10 @@ export default runTest
 
 
 /**
- * @typedef {import('@zoroaster/types').Test} _contextTesting.Test
- */
-
-/**
+ * @suppress {nonStandardJsDocs}
  * @typedef {import('@zoroaster/types').Context} _contextTesting.Context
+ */
+/**
+ * @suppress {nonStandardJsDocs}
  * @typedef {import('@zoroaster/types').ContextConstructor} _contextTesting.ContextConstructor
  */

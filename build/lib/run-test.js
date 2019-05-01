@@ -1,13 +1,13 @@
 let promto = require('promto'); if (promto && promto.__esModule) promto = promto.default;
-const { _evaluateContexts, destroyContexts } = require('.');
+const { _evaluateContexts, destroyContexts } = require('./');
 
 /**
  * Asynchronously runs the test within a timeout limit. Evaluates the contexts beforehand and destroys them after.
- * @param {_contextTesting.Test} test The test structure used in `runTest`.
- * @param {!Function} test.fn The test function to run.
- * @param {!Array<_contextTesting.ContextConstructor>} [test.context] Any context constructors for the test to be evaluated.
- * @param {!Array<_contextTesting.Context>} [test.persistentContext] Any evaluated context constructors for the test that are managed by the test suite.
- * @param {?number} [test.timeout="null"] The timeout for the test, context evaluation and destruction. Default `null`.
+ * @param {Object} test The test to run.
+ * @param {Array<*>} test.context Any contexts to evaluate.
+ * @param {!Function} test.fn The function to execute.
+ * @param {!Object} test.persistentContext Contexts already evaluated by the test suite.
+ * @param {?number} test.timeout
  */
 const runTest = async (test) => {
   const { context, timeout = null, fn, persistentContext } = test
@@ -16,7 +16,7 @@ const runTest = async (test) => {
   let error = null
   let result = null, destroyResult = null
 
-  /** @type {!Array<_contextTesting.Context>} */
+  /** @type {!Array<!_contextTesting.Context>} */
   let evaluatedContexts = []
   let e
   let eEvaluated
@@ -67,10 +67,10 @@ module.exports=runTest
 
 
 /**
- * @typedef {import('../../types').Test} _contextTesting.Test
- */
-
-/**
+ * @suppress {nonStandardJsDocs}
  * @typedef {import('@zoroaster/types').Context} _contextTesting.Context
+ */
+/**
+ * @suppress {nonStandardJsDocs}
  * @typedef {import('@zoroaster/types').ContextConstructor} _contextTesting.ContextConstructor
  */
