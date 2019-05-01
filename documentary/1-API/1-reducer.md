@@ -10,10 +10,26 @@ Runs tests and test suites in the array with the `runTest` and `runTestSuite` me
 %EXAMPLE: example/reducer, ../src => @zoroaster/reducer%
 %FORK-js example/reducer%
 
-%TYPEDEF types/reducer.xml ReducerConfig RunTestResult%
+%~%
+
+## The Types
+
+There are common __contextTesting_ types used in this package. They are available in the [`@zoroaster/types`](https://github.com/contexttesting/types) package.
+
+<!-- The types can also be imported in the JS file:
+
+```js
+/**
+ * @typedef {import('@zoroaster/types').Context} Context
+ * @typedef {import('@zoroaster/types').ContextConstructor} ContextConstructor
+ */
+``` -->
+
+%TYPEDEF types/reducer.xml%
+
+Tests have a raw `context` property which is a context constructor. It should return an object or an instance that can store a state. It is then passed by the reducer to the `runTest` method which evaluates it. The package can evaluate the context of the class, function and object types. Tests receive evaluated context to access the testing API and the state.
 
 A recursive tree is returned by the reducer containing nested test suites with tests updated with the outcome of the `runTest` method (therefore, the reducer is not pure since the passed tests are mutated).
-
 
 %~%
 

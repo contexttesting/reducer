@@ -12,10 +12,11 @@ yarn add -E @zoroaster/reducer
 
 - [Table Of Contents](#table-of-contents)
 - [API](#api)
-- [The Types](#the-types)
 - [`async reducer(tests: Array<Test|TestSuite>, config?: ReducerConfig): TestSuite`](#async-reducertests-arraytesttestsuiteconfig-reducerconfig-testsuite)
-- [`async runTest(test: Test): RunTestResult`](#async-runtesttest-test-runtestresult)
+- [The Types](#the-types)
+  * [`_contextTesting.ReducerConfig`](#type-_contexttestingreducerconfig)
   * [`_contextTesting.RunTestResult`](#type-_contexttestingruntestresult)
+- [`async runTest(test: Test): RunTestResult`](#async-runtesttest-test-runtestresult)
 - [Copyright](#copyright)
 
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/0.svg?sanitize=true"></a></p>
@@ -32,13 +33,7 @@ import reducer, { runTest } from '@zoroaster/reducer'
 
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/1.svg?sanitize=true"></a></p>
 
-## The Types
 
-These are the common types used in this package. They are available in the [`@zoroaster/types`](https://github.com/contexttesting/types) package.
-
-Tests have a raw `context` property which is a context constructor. It should return an object or an instance that can store a state. It is then passed by the reducer to the `runTest` method which evaluates it. The package can evaluate the context of the class, function and object types. Tests receive evaluated context to access the testing API and the state.
-
-<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/2.svg?sanitize=true"></a></p>
 
 ## `async reducer(`<br/>&nbsp;&nbsp;`tests: Array<Test|TestSuite>,`<br/>&nbsp;&nbsp;`config?: ReducerConfig,`<br/>`): TestSuite`
 
@@ -81,20 +76,27 @@ import reducer from '@zoroaster/reducer'
 { name: 'test1', fn: [Function: fn], error: 'fail' }
 ```
 
+<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/2.svg?sanitize=true"></a></p>
 
+## The Types
 
-A recursive tree is returned by the reducer containing nested test suites with tests updated with the outcome of the `runTest` method (therefore, the reducer is not pure since the passed tests are mutated).
+There are common __contextTesting_ types used in this package. They are available in the [`@zoroaster/types`](https://github.com/contexttesting/types) package.
 
+`import('@zoroaster/types').Context` __<a name="type-_contexttestingcontext">`_contextTesting.Context`</a>__
 
-<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/3.svg?sanitize=true"></a></p>
+`import('@zoroaster/types').ContextConstructor` __<a name="type-_contexttestingcontextconstructor">`_contextTesting.ContextConstructor`</a>__
 
+`import('@zoroaster/types').Test` __<a name="type-_contexttestingtest">`_contextTesting.Test`</a>__: The test interface.
 
+`import('@zoroaster/types').TestSuite` __<a name="type-_contexttestingtestsuite">`_contextTesting.TestSuite`</a>__: The test sutie interface.
 
-## `async runTest(`<br/>&nbsp;&nbsp;`test: Test,`<br/>`): RunTestResult`
+__<a name="type-_contexttestingreducerconfig">`_contextTesting.ReducerConfig`</a>__: The options for the reducer.
 
-Asynchronously runs the test within a time-out limit. Evaluates the contexts beforehand and destroys them after (using the same test time-out). Returns the `started`, `finished`, `error`, `result` and `destroyResult` properties.
-
-The `persistentContext` property can contain either an array or a single evaluated context instance. They are the passed to tests in the argument list before any of the non-persistent test contexts.
+|       Name        |                                                                                                                              Type                                                                                                                               |                                               Description                                               | Default |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | ------- |
+| onlyFocused       | <em>boolean</em>                                                                                                                                                                                                                                                | Run only focused tests.                                                                                 | `false` |
+| __runTest*__      | <em>function(<a href="#type-_contexttestingtest" title="The test interface.">_contextTesting.Test</a>): !Promise</em>                                                                                                                                           | The function that wraps around `@zoroaster/reducer.runTest` method.                                     | -       |
+| __runTestSuite*__ | <em>function(<a href="#type-_contexttestingtestsuite" title="The test sutie interface.">_contextTesting.TestSuite</a>, boolean): !Promise&lt;<a href="#type-_contexttestingtestsuite" title="The test sutie interface.">!_contextTesting.TestSuite</a>&gt;</em> | The function used to run a test suite. The second argument receives whether the test suite has focused. | -       |
 
 __<a name="type-_contexttestingruntestresult">`_contextTesting.RunTestResult`</a>__: The result of the runTest function.
 
@@ -105,6 +107,20 @@ __<a name="type-_contexttestingruntestresult">`_contextTesting.RunTestResult`</a
 | error         | <em>Error</em> | The error which happened during the test.                    | `null`  |
 | result        | <em>*</em>     | The result which the test returned.                          | `null`  |
 | destroyResult | <em>*</em>     | The result which the destroy method on the context returned. | `null`  |
+
+Tests have a raw `context` property which is a context constructor. It should return an object or an instance that can store a state. It is then passed by the reducer to the `runTest` method which evaluates it. The package can evaluate the context of the class, function and object types. Tests receive evaluated context to access the testing API and the state.
+
+A recursive tree is returned by the reducer containing nested test suites with tests updated with the outcome of the `runTest` method (therefore, the reducer is not pure since the passed tests are mutated).
+
+<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/3.svg?sanitize=true"></a></p>
+
+
+
+## `async runTest(`<br/>&nbsp;&nbsp;`test: Test,`<br/>`): RunTestResult`
+
+Asynchronously runs the test within a time-out limit. Evaluates the contexts beforehand and destroys them after (using the same test time-out). Returns the `started`, `finished`, `error`, `result` and `destroyResult` properties.
+
+The `persistentContext` property can contain either an array or a single evaluated context instance. They are the passed to tests in the argument list before any of the non-persistent test contexts.
 
 In the example below, the `reducer` is given and array of tests and the `runTest` function. The test has the `fn` property and 2 contexts: one as an object and another one as a class. They are evaluated and passed to the test. The `_destroy` method of the class context is used to calculate the time taken to run the test. Finally, the result of the `runTest` is assigned to the tests in the array.
 
