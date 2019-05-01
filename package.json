@@ -24,6 +24,7 @@
   },
   "files": [
     "build",
+    "src",
     "types",
     "externs.js"
   ],

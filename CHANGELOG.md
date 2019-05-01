@@ -1,5 +1,9 @@
 ## 1 May 2019
 
+### [1.2.1](https://github.com/contexttesting/reducer/compare/v1.2.0...v1.2.1)
+
+- [package] Publish `src` via the `files` field in _package.json_.
+
 ### [1.2.0](https://github.com/contexttesting/reducer/compare/v1.1.0...v1.2.0)
 
 - [externs,types] Provide `externs` and types, make sure there are no warnings for _GCC_ via _Depack_.
