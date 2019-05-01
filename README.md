@@ -40,40 +40,86 @@ import reducer, { runTest } from '@zoroaster/reducer'
 Runs tests and test suites in the array with the `runTest` and `runTestSuite` methods and returns an object representing the tree structure in which tests were run. The `runTest` method can be imported from this library, and the `runTestSuite` can be implemented as a recursive reducer. Whether an object is a test is determined by the presence of the `fn` property.
 
 ```js
-import reducer from '@zoroaster/reducer'
+import reducer, { runTest } from '@zoroaster/reducer'
+
+const runInSequence = async (testSuite, level = 0) => {
+  const indent = '  '.repeat(level)
+  return await reducer(testSuite, {
+    async runTest(test) {
+      let result
+      try {
+        result = await runTest(test)
+      } catch (error) {
+        console.log('%s[x] %s: %s', indent, test.name, error.message)
+        return { error: error.message }
+      }
+      console.log('%s[+] %s%s', indent, test.name, result ? `: ${result}` : '')
+      return { result }
+    },
+    async runTestSuite(ts) {
+      console.log('%s %s', indent, ts.name)
+      return await runInSequence(ts.tests, level + 1)
+    },
+  })
+}
 
 (async () => {
-  const { test, test1 } = await reducer([
+  const tree = await runInSequence([
     {
       name: 'test',
       fn() { return 'ok' },
     },
     {
-      name: 'test1',
-      fn() { throw new Error('fail') },
+      name: 'test with context',
+      context: class Context {
+        async _init() {
+          await new Promise(r => setTimeout(r, 10))
+          this.hello = 'world'
+        }
+      },
+      fn({ hello }) { return `ok - ${hello}` },
     },
-  ], {
-    runTest({ fn, name }) {
-      let result
-      try {
-        result = fn()
-      } catch (error) {
-        console.log('[x] %s: %s', name, error.message)
-        return { error: error.message }
-      }
-      console.log('[+] %s%s', name, result ? `: ${result}` : '')
-      return { result }
+    {
+      name: 'test-suite',
+      tests: [
+        {
+          name: 'test1',
+          fn() { throw new Error('fail') },
+        },
+      ],
     },
-  })
-  console.log(test)
-  console.log(test1)
+  ])
+  console.error(tree)
 })()
 ```
+```
+[+] test: [object Object]
+[+] test with context: [object Object]
+ test-suite
+  [+] test1: [object Object]
+```
 ```js
-[+] test: ok
-[x] test1: fail
-{ name: 'test', fn: [Function: fn], result: 'ok' }
-{ name: 'test1', fn: [Function: fn], error: 'fail' }
+{ test: 
+   { name: 'test',
+     fn: [Function: fn],
+     result: 
+      { started: 2019-05-01T17:49:11.383Z,
+        finished: 2019-05-01T17:49:11.384Z,
+        error: null,
+        result: 'ok',
+        destroyResult: [] } },
+  'test with context': 
+   { name: 'test with context',
+     context: [Function: Context],
+     fn: [Function: fn],
+     result: 
+      { started: 2019-05-01T17:49:11.387Z,
+        finished: 2019-05-01T17:49:11.401Z,
+        error: null,
+        result: 'ok - world',
+        destroyResult: [Array] } },
+  'test-suite': 
+   { test1: { name: 'test1', fn: [Function: fn], result: [Object] } } }
 ```
 
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/2.svg?sanitize=true"></a></p>
