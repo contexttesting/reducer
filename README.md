@@ -13,7 +13,6 @@ yarn add -E @zoroaster/reducer
 - [Table Of Contents](#table-of-contents)
 - [API](#api)
 - [`async reducer(tests: Array<Test|TestSuite>, config?: ReducerConfig): Tree`](#async-reducertests-arraytesttestsuiteconfig-reducerconfig-tree)
-- [The Types](#the-types)
   * [`_contextTesting.ReducerConfig`](#type-_contexttestingreducerconfig)
 - [`async runTest(test: { context, ?timeout, fn, persistentContext }): RunTestResult`](#async-runtesttest--context-timeout-fn-persistentcontext--runtestresult)
   * [`_contextTesting.RunTestResult`](#type-_contexttestingruntestresult)
@@ -128,9 +127,7 @@ const runInSequence = async (testSuite, level = 0) => {
 
 <p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/2.svg?sanitize=true"></a></p>
 
-## The Types
-
-There are common __contextTesting_ types used in this package. They are available in the [`@zoroaster/types`](https://github.com/contexttesting/types) package.
+The main interfaces that the _@Zoroaster/Reducer_ uses are the Test and TestSuite, which contain the minimal properties required to decide whether to run a test, or reduce a test suite further.
 
 [`import('@zoroaster/types').Test`](https://github.com/contexttesting/types#type-_contexttestingtest) __<a name="type-_contexttestingtest">`_contextTesting.Test`</a>__: The test interface.
 

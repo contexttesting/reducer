@@ -13,9 +13,9 @@ Runs tests and test suites in the array with the `runTest` and `runTestSuite` me
 
 %~%
 
-## The Types
+The main interfaces that the _@Zoroaster/Reducer_ uses are the Test and TestSuite, which contain the minimal properties required to decide whether to run a test, or reduce a test suite further.
 
-There are common __contextTesting_ types used in this package. They are available in the [`@zoroaster/types`](https://github.com/contexttesting/types) package.
+<!-- There are common __contextTesting_ types used in this package. They are available in the [`@zoroaster/types`](https://github.com/contexttesting/types) package. -->
 
 <!-- The types can also be imported in the JS file:
 
