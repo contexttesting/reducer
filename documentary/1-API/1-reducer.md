@@ -11,9 +11,9 @@ Runs tests and test suites in the array with the `runTest` and `runTestSuite` me
 %FORK example/reducer%
 %FORKERR-jsx example/reducer%
 
-%~%
+<!-- %~% -->
 
-The main interfaces that the _@Zoroaster/Reducer_ uses are the Test and TestSuite, which contain the minimal properties required to decide whether to run a test, or reduce a test suite further. They are shared with `zoroaster` binary and come from the [`@zoroaster/types`](https://github.com/contexttesting/types) package.
+The main interfaces that _@Zoroaster/Reducer_ uses are the _Test_ and _TestSuite_, which contain the minimal properties required to decide whether to run a test using its `fn` function, or to reduce a test suite further using its `tests` property. These types are shared with `zoroaster` binary and come from the [`@zoroaster/types`](https://github.com/contexttesting/types) package, and are provided via externs to be able to compile the project with _Google Closure Compiler_ via [Depack](https://artdecocode.com/depack/).
 
 <!-- There are common __contextTesting_ types used in this package.  -->
 

@@ -125,9 +125,7 @@ const runInSequence = async (testSuite, level = 0) => {
         destroyResult: [] } } }
 ```
 
-<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/2.svg?sanitize=true"></a></p>
-
-The main interfaces that the _@Zoroaster/Reducer_ uses are the Test and TestSuite, which contain the minimal properties required to decide whether to run a test, or reduce a test suite further. They are shared with `zoroaster` binary and come from the [`@zoroaster/types`](https://github.com/contexttesting/types) package.
+The main interfaces that _@Zoroaster/Reducer_ uses are the _Test_ and _TestSuite_, which contain the minimal properties required to decide whether to run a test using its `fn` function, or to reduce a test suite further using its `tests` property. These types are shared with `zoroaster` binary and come from the [`@zoroaster/types`](https://github.com/contexttesting/types) package, and are provided via externs to be able to compile the project with _Google Closure Compiler_ via [Depack](https://artdecocode.com/depack/).
 
 [`import('@zoroaster/types').Test`](https://github.com/contexttesting/types#type-_contexttestingtest) __<a name="type-_contexttestingtest">`_contextTesting.Test`</a>__: The test interface.
 
@@ -145,7 +143,7 @@ The reducer iterates through the array of provided tests (which can either be te
 
 A recursive tree is returned by the reducer containing nested test suites with tests updated with the outcome of the `runTest` method (therefore, the reducer is not pure since the passed tests are mutated).
 
-<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/3.svg?sanitize=true"></a></p>
+<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/2.svg?sanitize=true"></a></p>
 
 
 
@@ -213,7 +211,7 @@ __<a name="type-_contexttestingruntestresult">`_contextTesting.RunTestResult`</a
 | destroyResult | <em>*</em>     | The result which the destroy method on the context returned. | `null`  |
 
 
-<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/4.svg?sanitize=true"></a></p>
+<p align="center"><a href="#table-of-contents"><img src=".documentary/section-breaks/3.svg?sanitize=true"></a></p>
 
 ## Copyright
 
