@@ -1,0 +1,37 @@
+<types namespace="_contextTesting">
+  <import from="stream" name="Writable" />
+  <type name="RunTestOptions" desc="Options for the `runTest` method.">
+    <prop opt type="!Array<*>" name="context">
+      The contexts to evaluate.
+    </prop>
+    <prop type="!Function" name="fn">
+      The function to execute.
+    </prop>
+    <prop opt type="!Array<*>" name="persistentContext">
+      Evaluated persistent contexts that will come before other contexts.
+    </prop>
+    <prop type="?number" name="timeout" default="null">
+      The timeout to run the test and evaluate/destroy contexts within.
+    </prop>
+    <prop opt type="function(!stream.Writable)" name="onCatchment">
+      The callback that will be called with the _Catchment_ stream if the test returned a stream. The stream's data will be collected into the catchment to create the result as a string. The callback can be used to emit errors on the _Catchment_ stream.
+    </prop>
+  </type>
+  <type name="RunTestResult" desc="The result of the runTest function.">
+    <prop type="Date" name="started">
+      The date when the test started.
+    </prop>
+    <prop type="Date" name="finished">
+      The date when the test finished.
+    </prop>
+    <prop type="Error" name="error" default="null">
+      The error which happened during the test.
+    </prop>
+    <prop type="*" name="result" default="null">
+      The result which the test returned.
+    </prop>
+    <prop type="*" name="destroyResult" default="null">
+      The result which the destroy method on the context returned.
+    </prop>
+  </type>
+</types>

@@ -1,16 +1,21 @@
+import Catchment from 'catchment'
+import Stream from 'stream'
 import promto from 'promto'
 import { _evaluateContexts, destroyContexts } from './'
 
 /**
  * Asynchronously runs the test within a timeout limit. Evaluates the contexts beforehand and destroys them after.
- * @param {Object} test The test to run.
- * @param {Array<*>} test.context Any contexts to evaluate.
- * @param {!Function} test.fn The function to execute.
- * @param {!Object} test.persistentContext Contexts already evaluated by the test suite.
- * @param {?number} test.timeout
+ * @param {_contextTesting.RunTestOptions} options Options for the `runTest` method.
+ * @param {!Array<*>} [options.context] The contexts to evaluate.
+ * @param {!Function} options.fn The function to execute.
+ * @param {!Array<*>} [options.persistentContext] Evaluated persistent contexts that will come before other contexts.
+ * @param {?number} [options.timeout="null"] The timeout to run the test and evaluate/destroy contexts within. Default `null`.
+ * @param {function(!stream.Writable)} [options.onCatchment] The callback that will be called with the _Catchment_ stream if the test returned a stream. The stream's data will be collected into the catchment to create the result as a string. The callback can be used to emit errors on the _Catchment_ stream.
  */
-const runTest = async (test) => {
-  const { context, timeout = null, fn, persistentContext } = test
+const runTest = async (options) => {
+  const {
+    context, timeout = null, fn, persistentContext, onCatchment,
+  } = options
   const started = new Date()
   /** @type {Error} */
   let error = null
@@ -42,6 +47,16 @@ const runTest = async (test) => {
     error = err
   }
 
+  if (result instanceof Stream) {
+    try {
+      const catchment = new Catchment({ rs: result })
+      if (onCatchment) onCatchment(catchment)
+      result = await catchment.promise
+    } catch (err) {
+      error = err
+    }
+  }
+
   // even if test failed, destroy context
   try {
     const destroy = destroyContexts(evaluatedContexts)
@@ -65,7 +80,14 @@ const awaitEvaluations = async (e) => {
 
 export default runTest
 
-
+/**
+ * @suppress {nonStandardJsDocs}
+ * @typedef {import('../../types').RunTestOptions} _contextTesting.RunTestOptions
+ */
+/**
+ * @suppress {nonStandardJsDocs}
+ * @typedef {import('stream').Writable} stream.Writable
+ */
 /**
  * @suppress {nonStandardJsDocs}
  * @typedef {import('@zoroaster/types').Context} _contextTesting.Context

@@ -52,6 +52,7 @@
     "zoroaster": "^3.13.0"
   },
   "dependencies": {
+    "catchment": "^3.3.0",
     "promto": "^1.1.2"
   }
 }

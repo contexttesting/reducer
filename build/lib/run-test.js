@@ -1,3 +1,5 @@
+const { collect } = require('catchment');
+let Stream = require('stream'); if (Stream && Stream.__esModule) Stream = Stream.default;
 let promto = require('promto'); if (promto && promto.__esModule) promto = promto.default;
 const { _evaluateContexts, destroyContexts } = require('./');
 
@@ -40,6 +42,14 @@ const runTest = async (test) => {
     }
   } catch (err) {
     error = err
+  }
+
+  if (result instanceof Stream) {
+    try {
+      result = await collect(result)
+    } catch (err) {
+      error = err
+    }
   }
 
   // even if test failed, destroy context

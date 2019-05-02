@@ -22,7 +22,12 @@ _contextTesting.ReducerConfig.prototype.runTest
  */
 _contextTesting.ReducerConfig.prototype.runTestSuite
 
-/* typal types/result.xml externs */
+/* typal types/run-test.xml externs */
+/**
+ * Options for the `runTest` method.
+ * @typedef {{ context: ((!Array<*>)|undefined), fn: !Function, persistentContext: ((!Array<*>)|undefined), timeout: ((?number)|undefined), onCatchment: ((function(!stream.Writable))|undefined) }}
+ */
+_contextTesting.RunTestOptions
 /**
  * The result of the runTest function.
  * @typedef {{ started: Date, finished: Date, error: (Error|undefined), result: ((*)|undefined), destroyResult: ((*)|undefined) }}

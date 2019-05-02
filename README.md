@@ -14,7 +14,8 @@ yarn add -E @zoroaster/reducer
 - [API](#api)
 - [`async reducer(tests: Array<Test|TestSuite>, config?: ReducerConfig): Tree`](#async-reducertests-arraytesttestsuiteconfig-reducerconfig-tree)
   * [`_contextTesting.ReducerConfig`](#type-_contexttestingreducerconfig)
-- [`async runTest(test: { context, ?timeout, fn, persistentContext }): RunTestResult`](#async-runtesttest--context-timeout-fn-persistentcontext--runtestresult)
+- [`async runTest(options: RunTestOptions): RunTestResult`](#async-runtestoptions-runtestoptions-runtestresult)
+  * [`_contextTesting.RunTestOptions`](#type-_contexttestingruntestoptions)
   * [`_contextTesting.RunTestResult`](#type-_contexttestingruntestresult)
 - [Copyright](#copyright)
 
@@ -100,8 +101,8 @@ const runInSequence = async (testSuite, level = 0) => {
 { test: 
    { name: 'test',
      fn: [Function: fn],
-     started: 2019-05-01T17:54:10.209Z,
-     finished: 2019-05-01T17:54:10.210Z,
+     started: 2019-05-02T14:26:32.101Z,
+     finished: 2019-05-02T14:26:32.103Z,
      error: null,
      result: 'ok',
      destroyResult: [] },
@@ -109,8 +110,8 @@ const runInSequence = async (testSuite, level = 0) => {
    { name: 'test with context',
      context: [Function: Context],
      fn: [Function: fn],
-     started: 2019-05-01T17:54:10.214Z,
-     finished: 2019-05-01T17:54:10.230Z,
+     started: 2019-05-02T14:26:32.106Z,
+     finished: 2019-05-02T14:26:32.121Z,
      error: null,
      result: 'ok - world',
      destroyResult: [ undefined ] },
@@ -118,8 +119,8 @@ const runInSequence = async (testSuite, level = 0) => {
    { test1: 
       { name: 'test1',
         fn: [Function: fn],
-        started: 2019-05-01T17:54:10.231Z,
-        finished: 2019-05-01T17:54:10.231Z,
+        started: 2019-05-02T14:26:32.122Z,
+        finished: 2019-05-02T14:26:32.122Z,
         error: 'fail',
         result: null,
         destroyResult: [] } } }
@@ -147,7 +148,7 @@ A recursive tree is returned by the reducer containing nested test suites with t
 
 
 
-## `async runTest(`<br/>&nbsp;&nbsp;`test: { context, ?timeout, fn, persistentContext },`<br/>`): RunTestResult`
+## `async runTest(`<br/>&nbsp;&nbsp;`options: RunTestOptions,`<br/>`): RunTestResult`
 
 Asynchronously runs the test within a time-out limit. Evaluates the contexts beforehand and destroys them after (using the same time-out). Returns the `started`, `finished`, `error`, `result` and `destroyResult` properties.
 
@@ -193,12 +194,24 @@ import reducer, { runTest } from '@zoroaster/run-test'
   context: [ { TEST: 'hello' }, [Function: Context] ],
   persistentContext: 'EXAMPLE',
   fn: [AsyncFunction: fn],
-  started: 2019-05-01T17:50:37.089Z,
-  finished: 2019-05-01T17:50:37.203Z,
+  started: 2019-05-02T14:26:32.490Z,
+  finished: 2019-05-02T14:26:32.600Z,
   error: null,
   result: '[EXAMPLE] hello-world: ok',
-  destroyResult: [ undefined, '114ms' ] }
+  destroyResult: [ undefined, '109ms' ] }
 ```
+
+`import('stream').Writable` __<a name="type-streamwritable">`stream.Writable`</a>__
+
+__<a name="type-_contexttestingruntestoptions">`_contextTesting.RunTestOptions`</a>__: Options for the `runTest` method.
+
+|       Name        |                            Type                             |                                                                                                                       Description                                                                                                                       | Default |
+| ----------------- | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| context           | <em>!Array&lt;*&gt;</em>                                    | The contexts to evaluate.                                                                                                                                                                                                                               | -       |
+| __fn*__           | <em>!Function</em>                                          | The function to execute.                                                                                                                                                                                                                                | -       |
+| persistentContext | <em>!Array&lt;*&gt;</em>                                    | Evaluated persistent contexts that will come before other contexts.                                                                                                                                                                                     | -       |
+| timeout           | <em>?number</em>                                            | The timeout to run the test and evaluate/destroy contexts within.                                                                                                                                                                                       | `null`  |
+| onCatchment       | <em>function([!stream.Writable](#type-streamwritable))</em> | The callback that will be called with the _Catchment_ stream if the test returned a stream. The stream's data will be collected into the catchment to create the result as a string. The callback can be used to emit errors on the _Catchment_ stream. | -       |
 
 __<a name="type-_contexttestingruntestresult">`_contextTesting.RunTestResult`</a>__: The result of the runTest function.
 

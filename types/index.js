@@ -17,7 +17,18 @@ export {}
  * @typedef {import('@zoroaster/types').TestSuite} _contextTesting.TestSuite
  */
 
-/* typal types/result.xml closure noSuppress */
+/* typal types/run-test.xml closure noSuppress */
+/**
+ * @typedef {_contextTesting.RunTestOptions} RunTestOptions Options for the `runTest` method.
+ */
+/**
+ * @typedef {Object} _contextTesting.RunTestOptions Options for the `runTest` method.
+ * @prop {!Array<*>} [context] The contexts to evaluate.
+ * @prop {!Function} fn The function to execute.
+ * @prop {!Array<*>} [persistentContext] Evaluated persistent contexts that will come before other contexts.
+ * @prop {?number} [timeout="null"] The timeout to run the test and evaluate/destroy contexts within. Default `null`.
+ * @prop {function(!stream.Writable)} [onCatchment] The callback that will be called with the _Catchment_ stream if the test returned a stream. The stream's data will be collected into the catchment to create the result as a string. The callback can be used to emit errors on the _Catchment_ stream.
+ */
 /**
  * @typedef {_contextTesting.RunTestResult} RunTestResult The result of the runTest function.
  */
@@ -28,4 +39,7 @@ export {}
  * @prop {Error} [error="null"] The error which happened during the test. Default `null`.
  * @prop {*} [result="null"] The result which the test returned. Default `null`.
  * @prop {*} [destroyResult="null"] The result which the destroy method on the context returned. Default `null`.
+ */
+/**
+ * @typedef {import('stream').Writable} stream.Writable
  */

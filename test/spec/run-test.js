@@ -1,13 +1,13 @@
 import { equal, ok } from 'zoroaster/assert'
 import * as C from '../context'
-import Private from '../context/Private'
+import { Readable } from 'stream'
+import runTest from '../../src/lib/run-test'
+import { strictEqual } from 'assert'
 
-const CONTEXT = [Private, { ...C }]
-
-/** @type {Object.<string, (api: Private, r0: C)>} */
+/** @type {Object.<string, (c: C)>} */
 const T = {
-  context: CONTEXT,
-  async 'runs a test function with contexts'({ runTest }, { c1, c2, NAME }) {
+  context: { ...C },
+  async 'runs a test function with contexts'({ c1, c2, NAME }) {
     const { result } = await runTest({
       /**
        * @param {c1} _c1
@@ -20,7 +20,7 @@ const T = {
     })
     equal(result, '123-test-456')
   },
-  async 'runs a test with persistent context'({ runTest }, { c1, c2, NAME }) {
+  async 'runs a test with persistent context'({ c1, c2, NAME }) {
     const r = await runTest({
       /**
        * @param {c1} _c1
@@ -35,7 +35,7 @@ const T = {
     const { result } = r
     equal(result, '123-test-456')
   },
-  async 'runs a test with persistent contexts'({ runTest }, { c1, c2, c3, NAME }) {
+  async 'runs a test with persistent contexts'({ c1, c2, c3, NAME }) {
     const r = await runTest({
       /**
        * @param {c1} _c1
@@ -50,7 +50,7 @@ const T = {
     const { result } = r
     equal(result, '123-test-456 :: celebrate life')
   },
-  async 'fails test after specified timeout'({ runTest }) {
+  async 'fails test after specified timeout'() {
     const timeout = 100
     const fn = async () => {
       await new Promise(r => setTimeout(r, timeout + 100))
@@ -61,7 +61,7 @@ const T = {
     const msg = `Test has timed out after ${timeout}ms`
     equal(message, msg)
   },
-  async 'runs sync test with a timeout'({ runTest }) {
+  async 'runs sync test with a timeout'() {
     const timeout = 100
     const OK = 'ok'
     const fn = () => OK
@@ -71,30 +71,74 @@ const T = {
     if (error) throw error
     equal(result, OK)
   },
-  async 'runs a test'({ runTest }, { test }) {
+  async 'runs a test'({ test }) {
     const { error, result, finished, started } = await runTest(test)
     ok(error === null)
     ok(result === undefined)
     ok(finished)
     ok(started)
   },
-  async 'saves result of a test'({ runTest }, { test }) {
+  async 'saves result of a test'({ test }) {
     const F = 'F'
     const { result } = await runTest({ ...test, fn: () => F })
     equal(result, F)
   },
-  async 'runs a test with an error'({ runTest }, { test }) {
+  async 'runs a test with an error'({ test }) {
     const E = new Error('Test')
     const { result, error } = await runTest({ ...test, fn: () => { throw E } })
     equal(result, null)
     equal(error, E)
   },
-  // async 'gets a link to the fixture'({ FIXTURE }) {
-  //   const res = await reducer({
-  //     text: FIXTURE,
-  //   })
-  //   ok(res, FIXTURE)
-  // },
+}
+
+export const streams = {
+  async 'handles streams with result'() {
+    let catchmentRes
+    const { result } = await runTest({
+      fn() {
+        return new Readable({
+          read() {
+            this.push('data')
+            this.push(null)
+          },
+        })
+      },
+      async onCatchment(catchment) {
+        catchmentRes = await catchment.promise
+      },
+    })
+    equal(result, 'data')
+    equal(catchmentRes, 'data')
+  },
+  async 'handles streams with error'() {
+    const err = new Error()
+    const { error } = await runTest({
+      fn() {
+        return new Readable({
+          read() {
+            this.emit('error', err)
+            this.push(null)
+          },
+        })
+      },
+    })
+    strictEqual(error, err)
+  },
+  async 'can emit error via catchment'() {
+    const err = new Error()
+    const { error } = await runTest({
+      fn() {
+        return new Readable({
+          read() {
+          },
+        })
+      },
+      onCatchment(catchment) {
+        catchment.emit('error', err)
+      },
+    })
+    strictEqual(error, err)
+  },
 }
 
 export default T
