@@ -101,8 +101,8 @@ const runInSequence = async (testSuite, level = 0) => {
 { test: 
    { name: 'test',
      fn: [Function: fn],
-     started: 2019-05-02T14:26:32.101Z,
-     finished: 2019-05-02T14:26:32.103Z,
+     started: 2019-05-02T14:37:00.789Z,
+     finished: 2019-05-02T14:37:00.789Z,
      error: null,
      result: 'ok',
      destroyResult: [] },
@@ -110,8 +110,8 @@ const runInSequence = async (testSuite, level = 0) => {
    { name: 'test with context',
      context: [Function: Context],
      fn: [Function: fn],
-     started: 2019-05-02T14:26:32.106Z,
-     finished: 2019-05-02T14:26:32.121Z,
+     started: 2019-05-02T14:37:00.796Z,
+     finished: 2019-05-02T14:37:00.810Z,
      error: null,
      result: 'ok - world',
      destroyResult: [ undefined ] },
@@ -119,8 +119,8 @@ const runInSequence = async (testSuite, level = 0) => {
    { test1: 
       { name: 'test1',
         fn: [Function: fn],
-        started: 2019-05-02T14:26:32.122Z,
-        finished: 2019-05-02T14:26:32.122Z,
+        started: 2019-05-02T14:37:00.811Z,
+        finished: 2019-05-02T14:37:00.811Z,
         error: 'fail',
         result: null,
         destroyResult: [] } } }
@@ -207,32 +207,32 @@ import { Readable } from 'stream'
      context: [ [Object], [Function: Context] ],
      persistentContext: 'EXAMPLE',
      fn: [AsyncFunction: fn],
-     started: 2019-05-02T14:33:08.246Z,
-     finished: 2019-05-02T14:33:08.351Z,
+     started: 2019-05-02T14:37:01.235Z,
+     finished: 2019-05-02T14:37:01.366Z,
      error: null,
      result: '[EXAMPLE] hello-world: ok',
-     destroyResult: [ undefined, '104ms' ] },
+     destroyResult: [ undefined, '129ms' ] },
   'test with stream': 
    { name: 'test with stream',
      fn: [Function: fn],
-     started: 2019-05-02T14:33:08.352Z,
-     finished: 2019-05-02T14:33:08.360Z,
+     started: 2019-05-02T14:37:01.382Z,
+     finished: 2019-05-02T14:37:01.493Z,
      error: null,
      result: 'data',
      destroyResult: [] } }
 ```
 
-`import('stream').Writable` __<a name="type-streamwritable">`stream.Writable`</a>__
+[`import('stream').Writable`](https://github.com/artdecocode/catchment#catchment-class) __<a name="type-streamwritable">`stream.Writable`</a>__: An interface to the Catchment class. Has an additional `promise` property resolved on stream finish.
 
 __<a name="type-_contexttestingruntestoptions">`_contextTesting.RunTestOptions`</a>__: Options for the `runTest` method.
 
-|       Name        |                            Type                             |                                                                                                                       Description                                                                                                                       | Default |
-| ----------------- | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
-| context           | <em>!Array&lt;*&gt;</em>                                    | The contexts to evaluate.                                                                                                                                                                                                                               | -       |
-| __fn*__           | <em>!Function</em>                                          | The function to execute.                                                                                                                                                                                                                                | -       |
-| persistentContext | <em>!Array&lt;*&gt;</em>                                    | Evaluated persistent contexts that will come before other contexts.                                                                                                                                                                                     | -       |
-| timeout           | <em>?number</em>                                            | The timeout to run the test and evaluate/destroy contexts within.                                                                                                                                                                                       | `null`  |
-| onCatchment       | <em>function([!stream.Writable](#type-streamwritable))</em> | The callback that will be called with the _Catchment_ stream if the test returned a stream. The stream's data will be collected into the catchment to create the result as a string. The callback can be used to emit errors on the _Catchment_ stream. | -       |
+|       Name        |                                                                                        Type                                                                                         |                                                                                                                       Description                                                                                                                       | Default |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| context           | <em>!Array&lt;*&gt;</em>                                                                                                                                                            | The contexts to evaluate.                                                                                                                                                                                                                               | -       |
+| __fn*__           | <em>!Function</em>                                                                                                                                                                  | The function to execute.                                                                                                                                                                                                                                | -       |
+| persistentContext | <em>!Array&lt;*&gt;</em>                                                                                                                                                            | Evaluated persistent contexts that will come before other contexts.                                                                                                                                                                                     | -       |
+| timeout           | <em>?number</em>                                                                                                                                                                    | The timeout to run the test and evaluate/destroy contexts within.                                                                                                                                                                                       | `null`  |
+| onCatchment       | <em>function(<a href="#type-streamwritable" title="An interface to the Catchment class. Has an additional `promise` property resolved on stream finish.">!stream.Writable</a>)</em> | The callback that will be called with the _Catchment_ stream if the test returned a stream. The stream's data will be collected into the catchment to create the result as a string. The callback can be used to emit errors on the _Catchment_ stream. | -       |
 
 __<a name="type-_contexttestingruntestresult">`_contextTesting.RunTestResult`</a>__: The result of the runTest function.
 

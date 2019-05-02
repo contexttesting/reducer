@@ -1,5 +1,5 @@
 <types namespace="_contextTesting">
-  <import from="stream" name="Writable" />
+  <import from="stream" name="Writable" desc="An interface to the Catchment class. Has an additional `promise` property resolved on stream finish." link="https://github.com/artdecocode/catchment#catchment-class" />
   <type name="RunTestOptions" desc="Options for the `runTest` method.">
     <prop opt type="!Array<*>" name="context">
       The contexts to evaluate.
