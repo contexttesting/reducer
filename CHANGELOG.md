@@ -1,3 +1,10 @@
+## 2 May 2019
+
+### [1.3.0](https://github.com/contexttesting/reducer/compare/v1.2.1...v1.3.0)
+
+- [feature] Allow to collect stream data from tests via `catchment`; add `onCatchment` API.
+- [doc] Write better types for `runTest` method by renaming `test:Object` into `options:RunTestOptions`.
+
 ## 1 May 2019
 
 ### [1.2.1](https://github.com/contexttesting/reducer/compare/v1.2.0...v1.2.1)
