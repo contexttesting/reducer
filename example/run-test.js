@@ -1,8 +1,9 @@
 import reducer, { runTest } from '../src'
+import { Readable } from 'stream'
 
 (async () => {
   const persistentContext = await Promise.resolve('EXAMPLE')
-  const { test } = await reducer([
+  const tree = await reducer([
     {
       name: 'test',
       context: [
@@ -24,8 +25,19 @@ import reducer, { runTest } from '../src'
         return `[${pc}] ${TEST}-${data}: ok`
       },
     },
+    {
+      name: 'test with stream',
+      fn() {
+        return new Readable({
+          read() {
+            this.push('data')
+            this.push(null)
+          },
+        })
+      },
+    },
   ], {
     runTest,
   })
-  console.log(test)
+  console.log(tree)
 })()

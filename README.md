@@ -158,10 +158,11 @@ In the example below, the `reducer` is given and array of tests and the `runTest
 
 ```js
 import reducer, { runTest } from '@zoroaster/run-test'
+import { Readable } from 'stream'
 
 (async () => {
   const persistentContext = await Promise.resolve('EXAMPLE')
-  const { test } = await reducer([
+  const tree = await reducer([
     {
       name: 'test',
       context: [
@@ -183,22 +184,42 @@ import reducer, { runTest } from '@zoroaster/run-test'
         return `[${pc}] ${TEST}-${data}: ok`
       },
     },
+    {
+      name: 'test with stream',
+      fn() {
+        return new Readable({
+          read() {
+            this.push('data')
+            this.push(null)
+          },
+        })
+      },
+    },
   ], {
     runTest,
   })
-  console.log(test)
+  console.log(tree)
 })()
 ```
-```fs
-{ name: 'test',
-  context: [ { TEST: 'hello' }, [Function: Context] ],
-  persistentContext: 'EXAMPLE',
-  fn: [AsyncFunction: fn],
-  started: 2019-05-02T14:26:32.490Z,
-  finished: 2019-05-02T14:26:32.600Z,
-  error: null,
-  result: '[EXAMPLE] hello-world: ok',
-  destroyResult: [ undefined, '109ms' ] }
+```jsx
+{ test: 
+   { name: 'test',
+     context: [ [Object], [Function: Context] ],
+     persistentContext: 'EXAMPLE',
+     fn: [AsyncFunction: fn],
+     started: 2019-05-02T14:33:08.246Z,
+     finished: 2019-05-02T14:33:08.351Z,
+     error: null,
+     result: '[EXAMPLE] hello-world: ok',
+     destroyResult: [ undefined, '104ms' ] },
+  'test with stream': 
+   { name: 'test with stream',
+     fn: [Function: fn],
+     started: 2019-05-02T14:33:08.352Z,
+     finished: 2019-05-02T14:33:08.360Z,
+     error: null,
+     result: 'data',
+     destroyResult: [] } }
 ```
 
 `import('stream').Writable` __<a name="type-streamwritable">`stream.Writable`</a>__
