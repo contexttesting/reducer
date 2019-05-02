@@ -49,7 +49,8 @@ const runTest = async (options) => {
 
   if (result instanceof Stream) {
     try {
-      const catchment = new Catchment({ rs: result })
+      const catchment = new Catchment({ rs:
+      /** @type {!stream.Readable} */ (result) })
       if (onCatchment) onCatchment(catchment)
       result = await catchment.promise
     } catch (err) {
